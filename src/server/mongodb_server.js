@@ -3,6 +3,7 @@
 import express from "express";
 import cors from "cors";
 import { connectToDatabase } from "../database/database.js";
+import { ObjectId } from "mongodb";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -48,6 +49,38 @@ app.post("/api/todos", async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to create todo", error: error.message });
+  }
+});
+
+//Route to update todo
+app.put("/api/todos/:id", async (req, res) => {
+  const { id } = req.params;
+  const updatedTodo = req.body;
+
+  try {
+    const client = await connectToDatabase();
+    const db = client.db("arise");
+    const collection = db.collection("todoList");
+
+    //Filter the todo id
+    const filter = { _id: new ObjectId(id) };
+
+    //Update the document
+    const updateDoc = {
+      $set: updatedTodo,
+    };
+
+    const result = await collection.updateOne(filter, updateDoc);
+    console.log("Result", result);
+
+if (result.modifiedCount === 1) {
+      return res.status(200).json({ message: "Todo updated successfully" });
+    } else {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+  } catch (error) {
+    console.error("Error updating todo:", error);
+    return res.status(500).json({ message: "Failed to update todo", error: error.message });
   }
 });
 

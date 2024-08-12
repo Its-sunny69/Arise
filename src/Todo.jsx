@@ -1,60 +1,130 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Todo = () => {
-  const [todo, setTodo] = useState([]);
-  const [task, setTask] = useState({ id: "", newTask: "" });
-  const [edit, setEdit] = useState(false);
-  const handleTask = (e) => {
-    setTask({ ...task, newTask: e.target.value });
-    console.log(task);
+  const [todos, setTodos] = useState([]);
+  const [error, setError] = useState(null);
+  const [newTodo, setNewTodo] = useState("");
+  const [editId, setEditId] = useState(null);
+  const [editValue, setEditValue] = useState("");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    fetch("http://localhost:3001/api/todos")
+      .then((response) => response.json())
+      .then((data) => setTodos(data))
+      .catch((error) => setError(error));
   };
 
-  const addTask = () => {
-    setTodo([...todo, { id: Date.now(), newTask: task.newTask }]);
-    setTask({ id: "", newTask: "" });
+  const handleAddTodo = (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    const todoData = { name: newTodo }; // Create a new todo object
+
+    fetch("http://localhost:3001/api/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todoData), // Convert the object to JSON
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Response JSON:", data);
+        setTodos([...todos, data]); // Update the todos state with the new todo
+        setNewTodo(""); // Clear the input field
+      })
+      .catch((error) => setError(error));
   };
 
-  const handleDelete = (id) => {
-    let deleteTask = todo.filter((item) => item.id !== id);
-    setTodo(deleteTask);
+  const handleUpdateTodo = (id) => {
+    fetch(`http://localhost:3001/api/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: editValue }), // Send the updated title
+    })
+      .then((response) => {
+        console.log("Response Status:", response.status); // Log the response status
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Response: ", data);
+        handleCancelEdit();
+        fetchData();
+      })
+      .catch((error) => {
+        console.error("Error updating todo:", error);
+      });
   };
 
-  const handleEdit = (id) => {
-    let taskEdit = todo.find((item) => item.id === id);
-    setTask({ id: taskEdit.id, newTask: taskEdit.newTask });
-    setEdit(true);
+  const handleUpdateClick = (todoId, todoName) => {
+    setEditId(todoId);
+    setEditValue(todoName);
   };
 
-  const updateTask = () => {
-    setTodo(
-      todo.map((item) =>
-        item.id == task.id ? { ...item, newTask: task.newTask } : item
-      )
-    );
-    setTask({ id: "", newTask: "" });
-    setEdit(false);
+  const handleCancelEdit = () => {
+    setEditId(null);
+    setEditValue("");
   };
+
   return (
     <>
-      <input
-        type="text"
-        name="newTask"
-        onChange={handleTask}
-        value={task.newTask}
-      />
-      <button onClick={edit ? updateTask : addTask}>
-        {edit ? "Update" : "Add"}
-      </button>
+      <div className="App border-2 border-black m-2">
+        <h1>Todo List</h1>
+        {error && <p>Error fetching todos: {error.message}</p>}
+        <ul>
+          {todos.map((todo, index) => (
+            <li key={todo._id}>
+              {editId == todo._id ? (
+                <>
+                  <input
+                    type="text"
+                    value={editValue}
+                    onChange={(e) => setEditValue(e.target.value)}
+                  />
+                  <button
+                    className="m-2"
+                    onClick={() => handleUpdateTodo(todo._id)}
+                  >
+                    Save
+                  </button>
+                  <button onClick={handleCancelEdit}>Cancel</button>
+                </>
+              ) : (
+                <>
+                  {todo.name}{" "}
+                  <button
+                    className="m-2"
+                    onClick={() => handleUpdateClick(todo._id, todo.name)}
+                  >
+                    Edit
+                  </button>
+                  <button onClick={() => handleDelete(todo._id)}>Delete</button>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
 
-      <ul>
-        {todo.map((item) => (
-          <li key={item.id}>
-            {item.newTask}
-            <button onClick={() => handleEdit(item.id)}>Edit</button>
-            <button onClick={() => handleDelete(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+        <div>
+          <input
+            type="text"
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+            placeholder="Add a new todo"
+            required
+          />
+          <button type="submit" onClick={handleAddTodo}>
+            Add Todo
+          </button>
+        </div>
+      </div>
     </>
   );
 };
