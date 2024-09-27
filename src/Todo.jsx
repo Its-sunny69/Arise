@@ -1,66 +1,84 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchTodos,
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  checkBoxUpdate,
+  AuthUser,
+} from "./features/todosSlice";
+import ProgressBar from "./ProgressBar";
+import Navbar from "./components/Navbar";
 
 const Todo = () => {
-  const [todos, setTodos] = useState([]);
-  const [error, setError] = useState(null);
   const [newTodo, setNewTodo] = useState("");
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
+  const [checkedCount, setCheckedCount] = useState(0);
+  const [username, setUsername] = useState("");
+
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todos.todos);
+  const error = useSelector((state) => state.todos.error);
+  const currentToken = useSelector((state) => state.todos.token);
+
+  console.log(todos);
+  console.log(currentToken);
+
+  const isLoggedin = !!currentToken;
+  console.log(isLoggedin);
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = () => {
-    fetch("http://localhost:3001/api/todos")
-      .then((response) => response.json())
-      .then((data) => setTodos(data))
-      .catch((error) => setError(error));
-  };
+    dispatch(fetchTodos());
+  }, [dispatch]);
 
   const handleAddTodo = (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-    const todoData = { name: newTodo }; // Create a new todo object
+    const todoData = { name: newTodo, checked: false }; // Create a new todo object
 
-    fetch("http://localhost:3001/api/todos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(todoData), // Convert the object to JSON
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response JSON:", data);
-        setTodos([...todos, data]); // Update the todos state with the new todo
+    dispatch(addTodo(todoData))
+      .then((response) => {
+        console.log("Todo Added", response.payload);
         setNewTodo(""); // Clear the input field
       })
       .catch((error) => setError(error));
   };
 
   const handleUpdateTodo = (id) => {
-    fetch(`http://localhost:3001/api/todos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: editValue }), // Send the updated title
-    })
+    const updatedTodo = { name: editValue, checked: false };
+    dispatch(updateTodo({ id, updatedTodo }))
       .then((response) => {
-        console.log("Response Status:", response.status); // Log the response status
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Response: ", data);
+        console.log("Response: ", response.payload.message);
         handleCancelEdit();
-        fetchData();
       })
       .catch((error) => {
         console.error("Error updating todo:", error);
       });
+  };
+
+  const handleCheckboxChanges = (id, todo) => {
+    const currentChecked = todo.checked;
+
+    dispatch(checkBoxUpdate({ id, currentChecked }))
+      .then((response) => {
+        console.log("Response: ", response.payload.message);
+      })
+      .catch((error) => {
+        console.error("Error checked status of todo:", error);
+      });
+  };
+
+  const handleDeleteTodo = (id) => {
+    dispatch(deleteTodo(id))
+      .then((response) => {
+        console.log(
+          response.payload.data.message,
+          ", id:",
+          response.payload.id
+        );
+      })
+      .catch((error) => console.error("Error deleting todo:", error));
   };
 
   const handleUpdateClick = (todoId, todoName) => {
@@ -73,10 +91,46 @@ const Todo = () => {
     setEditValue("");
   };
 
+  const progressCalculator = () => {
+    // console.log(todos.map((todo) => todo.checked));
+    const count = todos.reduce((accumulator, todo) => {
+      return todo.checked ? accumulator + 1 : accumulator;
+    }, 0);
+
+    setCheckedCount(count);
+  };
+
+  useEffect(() => {
+    progressCalculator();
+  }, [todos]);
+
+  // console.log(checkedCount);
+
+  const userAuth = async () => {
+    console.log("currentToken", currentToken);
+
+    dispatch(AuthUser(currentToken)).then((response) => {
+      if (response.payload) {
+        setUsername(response.payload.username);
+      }
+    });
+  };
+
+  useEffect(() => {
+    userAuth();
+  }, []);
+
   return (
     <>
       <div className="App border-2 border-black m-2">
+        <div className="w-full flex justify-end">{<Navbar />}</div>
         <h1>Todo List</h1>
+        <div>User: {username}</div>
+        <ProgressBar
+          label={"Progress"}
+          currentValue={checkedCount}
+          maxValue={todos.length}
+        />
         {error && <p>Error fetching todos: {error.message}</p>}
         <ul>
           {todos.map((todo, index) => (
@@ -85,6 +139,7 @@ const Todo = () => {
                 <>
                   <input
                     type="text"
+                    className="border border-black"
                     value={editValue}
                     onChange={(e) => setEditValue(e.target.value)}
                   />
@@ -98,6 +153,11 @@ const Todo = () => {
                 </>
               ) : (
                 <>
+                  <input
+                    type="checkbox"
+                    checked={todo.checked}
+                    onChange={() => handleCheckboxChanges(todo._id, todo)}
+                  />
                   {todo.name}{" "}
                   <button
                     className="m-2"
@@ -105,7 +165,9 @@ const Todo = () => {
                   >
                     Edit
                   </button>
-                  <button onClick={() => handleDelete(todo._id)}>Delete</button>
+                  <button onClick={() => handleDeleteTodo(todo._id)}>
+                    Delete
+                  </button>
                 </>
               )}
             </li>
