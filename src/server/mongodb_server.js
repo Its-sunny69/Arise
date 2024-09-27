@@ -6,8 +6,10 @@ import cors from "cors";
 import { connectToDatabase } from "../database/database.js";
 
 const port = process.env.PORT;
-
+import { createServer } from "http";
+import { Server } from "socket.io";
 const app = express();
+const server = createServer(app);
 app.use(cors());
 app.use(express.json());
 
@@ -119,8 +121,34 @@ app.get("/api/todos", async (req, res) => {
 //   }
 // });
 
+
+//Route to get room data
+
+app.get("/api/rooms/:roomId", async (req, res) => {
+  const { roomId } = req.params;
+
+  try {
+    const client = await connectToDatabase();
+    const db = client.db("arise");
+    const roomsCollection = db.collection("rooms");
+
+    const rooms = await roomsCollection.findOne({ roomId: roomId });
+
+    if (rooms) {
+      res.status(200).json(rooms);
+    } else {
+      res.status(404).json({ message: "room not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching room data:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch room data", error: error.message });
+  }
+});
+
 // Start the server
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
@@ -136,3 +164,55 @@ app.listen(port, () => {
 //   }
 //   console.log('Connected to MongoDB');
 // });
+
+
+app.get("/", (req, res) => {
+  res.send("Hii");
+});
+
+// Websocket server creation
+const io = new Server(server, {
+  cors: {
+    origin: " http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  socket.on("create-room", async (user) => {
+    const roomId = Math.random().toString(36).substring(2, 8);
+    const client = await connectToDatabase();
+    const db = client.db("arise");
+    const collection = db.collection("todoList");
+
+//     //Filter the todo id
+//     const filter = { _id: new ObjectId(id) };
+
+//     //Insert the documnet of no match found
+//     const options = { upsert: true };
+
+//     //Update the document
+//     const updateDoc = {
+//       $set: updatedTodo,
+//     };
+
+//     const result = await collection.updateOne(filter, updateDoc, options);
+//     console.log("Result", result);
+
+if (result.modifiedCount === 1) {
+      return res.status(200).json({ message: "Todo updated successfully" });
+    } else {
+      socket.emit("join-msg", { error: "Room does not exist" });
+      console.log("room not found");
+    }
+  } catch (error) {
+    console.error("Error updating todo:", error);
+    return res.status(500).json({ message: "Failed to update todo", error: error.message });
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});

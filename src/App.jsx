@@ -1,7 +1,10 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 import "./App.css";
 import Todo from "./Todo";
-import { Route, BrowserRouter, Routes } from "react-router-dom";
+import CreateJoinRoom from "./CreateJoinRoom";
+import ChatRoom from "./ChatRoom";
+import { SocketProvider } from "./context/Socket";import { Route, BrowserRouter, Routes } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Logout from "./Pages/Logout";
@@ -17,8 +20,23 @@ function App() {
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>
+{/*       
+import CreateJoinRoom from "./CreateJoinRoom";
+import ChatRoom from "./ChatRoom";
+import { SocketProvider } from "./context/Socket";
+function App() {
+  return (
+    <>
+      <SocketProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<CreateJoinRoom />} />
+            <Route path="/chat/:roomId" element={<ChatRoom />} />
+          </Routes>
+        </Router>
+      </SocketProvider> */}
     </>
   );
-}
+} 
 
 export default App;
