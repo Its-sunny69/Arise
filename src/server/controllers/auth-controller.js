@@ -23,14 +23,16 @@ const register = async (req, res) => {
 
     const userCreated = await User.create({ username, email, password });
 
-    res.status(201).send({
+    return res.status(201).send({
+      msg: "Registerd Successfully",
       data: userCreated,
       token: await userCreated.generateToken(),
       userId: userCreated._id.toString(),
     });
   } catch (error) {
-    res.status(500).json("internal server error");
-    console.error(error);
+    
+    console.error("error in registration logic", error);
+    return res.status(500).json({msg: "internal server error"});
   }
 };
 
@@ -57,7 +59,8 @@ const login = async (req, res) => {
       res.status(401).json({ msg: "Invalid email or password" });
     }
   } catch (error) {
-    console.error(error);
+    console.error("Login error", error);
+    return res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 

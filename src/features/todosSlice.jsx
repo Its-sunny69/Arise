@@ -1,42 +1,56 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const register = createAsyncThunk("auth/register", async (userData) => {
-  const response = await fetch("http://localhost:5000/api/auth/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
 
-  if (response.ok) {
-    const data = await response.json();
-    console.log("user registered successfully", data);
-    return data;
-  } else {
-    console.error("Registered failed");
+    if (response.ok) {
+      const data = await response.json();
+      // console.log("user registered successfully", data);
+      return data;
+    } else {
+      const errorData = await response.json();
+      // console.error("registration error", errorData); // log backend error to console
+      throw new Error(errorData.msg || "Registration failed");
+    }
+  } catch (error) {
+    console.error("Registered failed", error);
+    throw error;
   }
 });
 
 export const login = createAsyncThunk("auth/login", async (userData) => {
-  const response = await fetch("http://localhost:5000/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
 
-  if (response.ok) {
-    const data = await response.json();
-    console.log("login", data);
-    return data;
-  } else {
-    console.error("Login Failed");
+    if (response.ok) {
+      const data = await response.json();
+      console.log("login", data);
+      return data;
+    } else {
+      const errorData = await response.json();
+      // console.error("login error", errorData); // log backend error to console
+      throw new Error(errorData.msg || "Login failed");
+    }
+  } catch (error) {
+    // console.error("Login request failed", error); // Catch and log fetch errors
+    throw error;
   }
 });
 
-export const AuthUser = createAsyncThunk("auth/login", async (currentToken) => {
+export const AuthUser = createAsyncThunk("auth/user", async (currentToken) => {
   try {
     const response = await fetch("http://localhost:5000/api/auth/user", {
       method: "GET",
@@ -57,7 +71,7 @@ export const AuthUser = createAsyncThunk("auth/login", async (currentToken) => {
 });
 
 export const fetchTodos = createAsyncThunk("todos/fetchTodos", async () => {
-  const response = await fetch("http://localhost:3001/api/todos");
+  // const response = await fetch("http://localhost:3001/api/todos");
   return response.json();
 });
 

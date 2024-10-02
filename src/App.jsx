@@ -1,26 +1,32 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
 import React from "react";
 import "./App.css";
 import Todo from "./Todo";
+import { useSelector } from "react-redux";
 import CreateJoinRoom from "./CreateJoinRoom";
 import ChatRoom from "./ChatRoom";
-import { SocketProvider } from "./context/Socket";import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { SocketProvider } from "./context/Socket";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Logout from "./Pages/Logout";
+import { Toaster } from "react-hot-toast";
 
 function App() {
+  const currentToken = useSelector((state) => state.todos.token);
+  const isLoggedin = !!currentToken;
+
   return (
     <>
+      <Toaster />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Todo />} />
+          <Route path="/" element={isLoggedin ? <Todo /> : <Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>
-{/*       
+      {/*       
 import CreateJoinRoom from "./CreateJoinRoom";
 import ChatRoom from "./ChatRoom";
 import { SocketProvider } from "./context/Socket";
@@ -37,6 +43,6 @@ function App() {
       </SocketProvider> */}
     </>
   );
-} 
+}
 
 export default App;
