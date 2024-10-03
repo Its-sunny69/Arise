@@ -11,9 +11,9 @@ import {
 import ProgressBar from "./ProgressBar";
 import Navbar from "./components/Navbar";
 
-const Todo = () => {
+const Todo = () => { 
   const [newTodo, setNewTodo] = useState("");
-  const [editId, setEditId] = useState(null);
+  // const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [checkedCount, setCheckedCount] = useState(0);
   const [username, setUsername] = useState("");
