@@ -13,7 +13,7 @@ function SignUp() {
     password: "",
   });
 
-  const [error, setError] = useState([])
+  // const [error, setError] = useState([])
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,9 +37,9 @@ function SignUp() {
         dispatch(setToken(response.payload.token));
         navigate("/");
       } else {
-        const err = response.error;
+        const err = response.error.message;
         console.log("err", err)
-        setError(err)
+        // setError(err)
 
         toast.error(err, {
           position: 'top-center',
