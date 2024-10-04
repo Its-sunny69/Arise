@@ -17,11 +17,11 @@ export const register = createAsyncThunk("auth/register", async (userData) => {
     } else {
       const errorData = await response.json();
       // console.error("registration error", errorData); // log backend error to console
-      throw new Error(errorData.msg || "Registration failed");
+      return errorData;
     }
   } catch (error) {
     console.error("Registered failed", error);
-    throw error;
+    return error
   }
 });
 
@@ -42,11 +42,11 @@ export const login = createAsyncThunk("auth/login", async (userData) => {
     } else {
       const errorData = await response.json();
       // console.error("login error", errorData); // log backend error to console
-      throw new Error(errorData.msg || "Login failed");
+      return errorData;
     }
   } catch (error) {
     // console.error("Login request failed", error); // Catch and log fetch errors
-    throw error;
+    return error;
   }
 });
 

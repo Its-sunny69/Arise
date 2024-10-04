@@ -13,7 +13,7 @@ function SignUp() {
     password: "",
   });
 
-  // const [error, setError] = useState([])
+  const [error, setError] = useState();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,25 +30,34 @@ function SignUp() {
     e.preventDefault();
 
     console.log("final", userData);
-    dispatch(register(userData)).then( async (response) => {
+    dispatch(register(userData)).then(async (response) => {
       console.log(response);
 
-      if (response.payload) {
+      if (response.payload.token) {
         dispatch(setToken(response.payload.token));
+
+        toast.success(`Registered Successfully`, {
+          position: "top-center",
+          duration: 3000,
+        });
+
         navigate("/");
       } else {
-        const err = response.error.message;
-        console.log("err", err)
-        // setError(err)
+        const err = response.payload.msg;
+        // console.log("err", err);
+        // console.log("errrr", Array.isArray(err))
 
-        toast.error(err, {
-          position: 'top-center',
-          duration: 5000,
-        });
+        if (Array.isArray(err)) {
+          setError(err);
+        } else {
+          toast.error(err, {
+            position: "top-center",
+            duration: 3000,
+          });
+        }
       }
     });
   };
-
 
   // const handleError = () => {
   //   error.forEach((value) => {
@@ -56,13 +65,9 @@ function SignUp() {
   //   })
   // }
 
-  // useEffect(() => {
-  //   if (error) {
-  //     console.log(error)
-  //     handleError();
-  //   }
-   
-  // }, [error])
+  useEffect(() => {
+    console.log("state", error);
+  }, [error]);
 
   return (
     <>
@@ -79,6 +84,22 @@ function SignUp() {
                 id="username"
                 onChange={handleInput}
               />
+              {error
+                ? error.map((element) =>
+                    element.username ? (
+                      <>
+                        <div
+                          className="text-[0.8rem] text-red-500"
+                          key={element.username}
+                        >
+                          {element.username}
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )
+                  )
+                : ""}
             </div>
             <div className="my-4 flex flex-col">
               <label htmlFor="email">Email</label>
@@ -90,6 +111,22 @@ function SignUp() {
                 id="email"
                 onChange={handleInput}
               />
+              {error
+                ? error.map((element) =>
+                    element.email ? (
+                      <>
+                        <div
+                          className="text-[0.8rem] text-red-500"
+                          key={element.username}
+                        >
+                          {element.email}
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )
+                  )
+                : ""}
             </div>
             <div className="my-4 flex flex-col">
               <label htmlFor="password">Password</label>
@@ -101,6 +138,24 @@ function SignUp() {
                 id="password"
                 onChange={handleInput}
               />
+              {error
+                ? error.map((element) =>
+                    element.password ? (
+                      <>
+                        <div
+                          className="text-[0.8rem] text-red-500"
+                          key={element.username}
+                        >
+                          {element.password.split("\n").map((item) => (
+                            <div key={item}>{item}</div>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )
+                  )
+                : ""}
             </div>
 
             {/* <button type="submit">Submit</button> */}

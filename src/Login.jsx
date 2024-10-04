@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, setToken } from "./features/todosSlice";
 import "@material/web/textfield/filled-text-field";
@@ -10,6 +10,8 @@ function Login() {
     email: "",
     password: "",
   });
+
+  const [error, setError] = useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,21 +25,32 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("final", userData);
+    // console.log("final", userData);
 
     dispatch(login(userData)).then((response) => {
-      console.log("frontend", response);
+      // console.log("frontend", response);
 
-      if (response.payload) {
+      if (response.payload.token) {
         dispatch(setToken(response.payload.token));
+
+        toast.success(`Login Successfully`, {
+          position: "top-center",
+          duration: 3000,
+        });
+
         navigate("/");
       } else {
-        const err = response.error.message;
+        const err = response.payload.msg;
+        // console.log("err", err);
 
-        toast.error(err, {
-          position: "top-center",
-          duration: 5000,
-        });
+        if (Array.isArray(err)) {
+          setError(err);
+        } else {
+          toast.error(err, {
+            position: "top-center",
+            duration: 3000,
+          });
+        }
       }
     });
   };
@@ -51,12 +64,28 @@ function Login() {
               <label htmlFor="email">Email</label>
               <input
                 className="border border-black"
-                type="email"
+                type="text"
                 name="email"
                 value={userData.email}
                 id="email"
                 onChange={handleInput}
               />
+              {error
+                ? error.map((element) =>
+                    element.email ? (
+                      <>
+                        <div
+                          className="text-[0.8rem] text-red-500"
+                          key={element.username}
+                        >
+                          {element.email}
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )
+                  )
+                : ""}
             </div>
             <div className="my-4 flex flex-col">
               <label htmlFor="password">Password</label>

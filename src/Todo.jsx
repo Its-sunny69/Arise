@@ -26,8 +26,8 @@ const Todo = () => {
   // console.log(todos);
   // console.log(currentToken);
 
-  const isLoggedin = !!currentToken;
-  console.log("isLoggedin", isLoggedin);
+  // const isLoggedin = !!currentToken;
+  // console.log("isLoggedin", isLoggedin);
 
   useEffect(() => {
     dispatch(fetchTodos());
@@ -107,7 +107,7 @@ const Todo = () => {
   // console.log(checkedCount);
 
   const userAuth = async () => {
-    console.log("currentToken", currentToken);
+    // console.log("currentToken", currentToken);
 
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
