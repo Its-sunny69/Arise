@@ -74,6 +74,10 @@ const user = async (req, res) => {
   }
 };
 
+const todo = async (req, res) => {
+  
+}
+
 const authControllers = { home, register, login, user };
 
 export default authControllers;
