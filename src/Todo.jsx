@@ -25,11 +25,11 @@ const Todo = () => {
   const error = useSelector((state) => state.todos.error);
   const currentToken = useSelector((state) => state.todos.token);
 
-  console.log(todos);
-  console.log(currentToken);
+  // console.log(todos);
+  // console.log(currentToken);
 
-  const isLoggedin = !!currentToken;
-  console.log(isLoggedin);
+  // const isLoggedin = !!currentToken;
+  // console.log("isLoggedin", isLoggedin);
 
   useEffect(() => {
     dispatch(fetchTodos());
@@ -109,7 +109,7 @@ const Todo = () => {
   // console.log(checkedCount);
 
   const userAuth = async () => {
-    console.log("currentToken", currentToken);
+    // console.log("currentToken", currentToken);
 
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
@@ -126,6 +126,15 @@ const Todo = () => {
     navigate("/join-room");
   };
 
+  const capitalizeString = (str) => {
+    const firstLetter = str.charAt(0).toUpperCase();
+    const remainingLetters = str.slice(1);
+
+    const finalStr = firstLetter + remainingLetters;
+
+    return finalStr;
+  };
+
   return (
     <>
       <div>
@@ -136,11 +145,17 @@ const Todo = () => {
           Room
         </button>
       </div>
-      <div className="App border-2 border-black m-2">
-        <div className="w-full flex justify-end">{<Navbar />}</div>
+      <div className="App border-2 border-black m-2 p-2">
+        <div className="flex justify-center">
+          <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
+            <div className="mx-4 font-semibold tracking-wider">
+              Username: {capitalizeString(username)}
+            </div>
+            {<Navbar />}
+          </div>
+        </div>
         <h1>Todo List</h1>
-        <div>User: {username}</div>
-        <ProgressBar
+        {/* <ProgressBar
           label={"Progress"}
           currentValue={checkedCount}
           maxValue={todos.length}
@@ -186,7 +201,7 @@ const Todo = () => {
               )}
             </li>
           ))}
-        </ul>
+        </ul> */}
 
         <div>
           <input

@@ -18,19 +18,21 @@ const register = async (req, res) => {
     const userExist = await User.findOne({ email });
 
     if (userExist) {
-      return res.status(400).json({ msg: "email already registerd" });
+      return res.status(400).json({ msg: "Email is Already Registerd" });
     }
 
     const userCreated = await User.create({ username, email, password });
 
-    res.status(201).send({
+    return res.status(201).send({
+      msg: "Registerd Successfully",
       data: userCreated,
       token: await userCreated.generateToken(),
       userId: userCreated._id.toString(),
     });
   } catch (error) {
-    res.status(500).json("internal server error");
-    console.error(error);
+    
+    console.error("Error in Registration Logic", error);
+    return res.status(500).json({msg: "Internal Server Error"});
   }
 };
 
@@ -54,10 +56,11 @@ const login = async (req, res) => {
         userId: userExist._id.toString(),
       });
     } else {
-      res.status(401).json({ msg: "Invalid email or password" });
+      res.status(401).json({ msg: "Invalid Email or Password" });
     }
   } catch (error) {
-    console.error(error);
+    console.error("Login error", error);
+    return res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 
@@ -70,6 +73,10 @@ const user = async (req, res) => {
     console.error(error);
   }
 };
+
+const todo = async (req, res) => {
+  
+}
 
 const authControllers = { home, register, login, user };
 

@@ -12,6 +12,8 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", router);
 
+app.use("/api/todos", router);
+
 const port = 5000;
 
 connectDb().then(() => {

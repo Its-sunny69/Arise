@@ -5,9 +5,9 @@ const validation = (Schema) => async (req, res, next) => {
     req.body = parseBody;
     next();
   } catch (err) {
-    console.log("valid error", err);
     const message = err.errors.map((error) => error.message);
-    res.status(400).json({ msg: message });
+    console.log("msg err", message);
+    return res.status(400).json({ msg: message });
   }
 };
 
