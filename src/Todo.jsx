@@ -10,6 +10,7 @@ import {
 } from "./features/todosSlice";
 import ProgressBar from "./ProgressBar";
 import Navbar from "./components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const Todo = () => {
   const [newTodo, setNewTodo] = useState("");
@@ -17,6 +18,7 @@ const Todo = () => {
   const [editValue, setEditValue] = useState("");
   const [checkedCount, setCheckedCount] = useState(0);
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.todos);
@@ -120,8 +122,20 @@ const Todo = () => {
     userAuth();
   }, []);
 
+  const handleRoomClick = () => {
+    navigate("/join-room");
+  };
+
   return (
     <>
+      <div>
+        <button
+          className="bg-blue-600 rounded-md px-4 py-2"
+          onClick={handleRoomClick}
+        >
+          Room
+        </button>
+      </div>
       <div className="App border-2 border-black m-2">
         <div className="w-full flex justify-end">{<Navbar />}</div>
         <h1>Todo List</h1>

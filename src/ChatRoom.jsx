@@ -1,99 +1,106 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { io } from "socket.io-client";
+import { useParams } from "react-router-dom";
 import { useSocket } from "./context/Socket";
+import { useSelector, useDispatch } from "react-redux";
+import { AuthUser } from "./features/todosSlice";
 const ChatRoom = () => {
   const socket = useSocket();
   const { roomId } = useParams();
-
   const [roomData, setRoomData] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [users, setUsers] = useState();
   const [message, setMessage] = useState("");
-  // const [roomUser, setRoomUser] = useState(null);
-  const location = useLocation();
-
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState();
+  const dispatch = useDispatch();
+  const currentToken = useSelector((state) => state.todos.token);
 
   useEffect(() => {
-    const userName = location.state?.userName;
-    if (userName) {
-      socket.emit("rejoin-room", userName, roomId);
-    }
-
     socket.on("room-update", (updatedRoom) => {
       setRoomData(updatedRoom);
     });
 
-    socket.on("update-users", (updatedUsers) => {
-      console.log("Received update-users event with users:", updatedUsers);
-      setRoomData((prevRoomData) => ({
-        ...prevRoomData,
-        users: updatedUsers,
-      }));
+    socket.on("update-users", (users) => {
+      setUsers(users);
     });
 
-    socket.on("join-msg", (data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        console.log(`${data.userName} joined room: ${data.roomId}`);
+    dispatch(AuthUser(currentToken)).then((response) => {
+      if (response.payload) {
+        setProfile(response.payload.username);
       }
     });
 
-    socket.on("message-all", (msg) => {
-      setRoomData((prevRoomData) => ({
-        ...prevRoomData,
-        message: msg,
-      }));
+    socket.on("updated-msg", (data) => {
+      setMessages(data);
     });
 
+    socket.emit("rejoin-room", profile, roomId);
     return () => {
+      socket.off("room-update");
       socket.off("update-users");
-      socket.off("join-msg");
-      socket.off("message-all");
+      socket.off("rejoin-room");
+      socket.off("updated-msg");
     };
-  }, [roomId, socket, location.state]);
+  }, [socket, roomId]);
 
-  if (!roomData) {
-    return <div>Loading...</div>;
-  }
+  const handleMessages = () => {
+    if (message.trim() === "") return;
+    socket.emit("send-msg", {
+      profileName: profile,
+      msg: message,
+      timeStamp: new Date().toLocaleTimeString(),
+      roomId: roomData.roomId,
+    });
 
-  const handleMessage = (e) => {
-    setMessage(e.target.value);
-  };
-
-  const handleMessages = (e) => {
-    e.preventDefault();
-    socket.emit("message", message, roomId);
     setMessage("");
+    console.log(message);
   };
 
-  console.log(roomData);
-  console.log(message);
+  const handleKeyDown = (e) => {
+    const key = e.key;
+    if (key === "Enter") {
+      handleMessages();
+    }
+  };
 
   return (
-    <div className="chat-container">
-      <div className="chat-header">Room:{roomData.createdBy}</div>
-      <div className="users">
-        {roomData.users.map((user) => (
-          <li key={user}>{user}</li>
-        ))}
-      </div>
+    <>
+      {roomData ? (
+        <div>
+          Room:{roomData.createdBy}
+          {users
+            ? users.map((user) => <li key={user}>{user}</li>)
+            : "Loading Users"}
+          <div>
+            <p>Chat</p>
+          </div>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
 
-      <div className="send">
+      <div>
         <input
           type="text"
-          name="sendMessage"
+          className="border-2 border-black"
+          onChange={(e) => setMessage(e.target.value)}
           value={message}
-          onChange={handleMessage}
+          onKeyDown={handleKeyDown}
         />
         <button onClick={handleMessages}>Send</button>
       </div>
-      <h1>Chat</h1>
-      <div className="messages">
-        {roomData.message &&
-          roomData.message.map((msg) => <li key={msg}>{msg}</li>)}
-      </div>
-    </div>
+
+      {messages ? (
+        messages.map((item) => (
+          <div key={item.timeStamp} className="bg-red-700 w-20 my-3">
+            <p className="text-xs">{item.profileName}</p>
+            <p>{item.msg}</p>
+            <p className="text-xs pl-10">{item.timeStamp.substring(0, 5)}</p>
+          </div>
+        ))
+      ) : (
+        <p>Loading Messages...</p>
+      )}
+    </>
   );
 };
 
