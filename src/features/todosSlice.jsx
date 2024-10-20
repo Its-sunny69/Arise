@@ -70,13 +70,14 @@ export const AuthUser = createAsyncThunk("auth/user", async (currentToken) => {
   }
 });
 
-export const fetchTodos = createAsyncThunk("todos/fetchTodos", async () => {
-  // const response = await fetch("http://localhost:3001/api/todos");
+export const getTodos = createAsyncThunk("todos/todo/get", async (userId) => {
+  console.log("slice", userId)
+  const response = await fetch(`http://localhost:5000/api/todos/todo/get/${userId}`);
   return response.json();
 });
 
-export const addTodo = createAsyncThunk("todos/addTodo", async (todoData) => {
-  const response = await fetch("http://localhost:3001/api/todos", {
+export const addTodo = createAsyncThunk("todos/todo/post", async (todoData) => {
+  const response = await fetch("http://localhost:5000/api/todos/todo/post", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -159,14 +160,14 @@ const todosSlice = createSlice({
       .addCase(AuthUser.fulfilled, (state, action) => {
         state.user = action.payload;
       })
-      .addCase(fetchTodos.pending, (state) => {
+      .addCase(getTodos.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchTodos.fulfilled, (state, action) => {
+      .addCase(getTodos.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.todos = action.payload;
+        state.todos = action.payload[0].todos;
       })
-      .addCase(fetchTodos.rejected, (state, action) => {
+      .addCase(getTodos.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

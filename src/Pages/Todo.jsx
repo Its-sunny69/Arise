@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  fetchTodos,
+  getTodos,
   addTodo,
   updateTodo,
   deleteTodo,
   checkBoxUpdate,
   AuthUser,
-} from "./features/todosSlice";
-import ProgressBar from "./ProgressBar";
-import Navbar from "./components/Navbar";
+} from "../features/todosSlice";
+import ProgressBar from "../components/ProgressBar";
+import Navbar from "../components/Navbar";
 
-const Todo = () => { 
+const Todo = () => {
   const [newTodo, setNewTodo] = useState("");
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [checkedCount, setCheckedCount] = useState(0);
   const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
 
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.todos);
@@ -29,13 +30,31 @@ const Todo = () => {
   // const isLoggedin = !!currentToken;
   // console.log("isLoggedin", isLoggedin);
 
+  const userAuth = async () => {
+    // console.log("currentToken", currentToken);
+
+    dispatch(AuthUser(currentToken)).then((response) => {
+      if (response.payload) {
+        setUsername(response.payload.username);
+        setUserId(response.payload._id);
+      }
+    });
+  };
+
   useEffect(() => {
-    dispatch(fetchTodos());
-  }, [dispatch]);
+    userAuth();
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      console.log("todojsx", userId);
+      dispatch(getTodos(userId));
+    }
+  }, [userId]);
 
   const handleAddTodo = (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-    const todoData = { name: newTodo, checked: false }; // Create a new todo object
+    const todoData = { userId: userId, title: newTodo, checked: false }; // Create a new todo object
 
     dispatch(addTodo(todoData))
       .then((response) => {
@@ -106,46 +125,36 @@ const Todo = () => {
 
   // console.log(checkedCount);
 
-  const userAuth = async () => {
-    // console.log("currentToken", currentToken);
-
-    dispatch(AuthUser(currentToken)).then((response) => {
-      if (response.payload) {
-        setUsername(response.payload.username);
-      }
-    });
-  };
-
-  useEffect(() => {
-    userAuth();
-  }, []);
+  console.log(todos);
 
   const capitalizeString = (str) => {
-    const firstLetter = str.charAt(0).toUpperCase()
-    const remainingLetters = str.slice(1)
+    const firstLetter = str.charAt(0).toUpperCase();
+    const remainingLetters = str.slice(1);
 
     const finalStr = firstLetter + remainingLetters;
-    
-    return finalStr
-  }
+
+    return finalStr;
+  };
 
   return (
     <>
       <div className="App border-2 border-black m-2 p-2">
         <div className="flex justify-center">
-        <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
-          <div className="mx-4 font-semibold tracking-wider">Username: {capitalizeString(username)}</div>
-          {<Navbar />}
-        </div>
+          <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
+            <div className="mx-4 font-semibold tracking-wider">
+              Username: {capitalizeString(username)}
+            </div>
+            {<Navbar />}
+          </div>
         </div>
         <h1>Todo List</h1>
-        {/* <ProgressBar
+        <ProgressBar
           label={"Progress"}
           currentValue={checkedCount}
           maxValue={todos.length}
         />
         {error && <p>Error fetching todos: {error.message}</p>}
-        <ul>
+        {/* <ul>
           {todos.map((todo, index) => (
             <li key={todo._id}>
               {editId == todo._id ? (
@@ -186,6 +195,12 @@ const Todo = () => {
             </li>
           ))}
         </ul> */}
+
+        <ul>
+          {todos.map((todo, index) => (
+            <li key={index}>{todo.title}</li>
+          ))}
+        </ul>
 
         <div>
           <input

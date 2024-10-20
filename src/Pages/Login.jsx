@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login, setToken } from "./features/todosSlice";
+import { login, setToken } from "../features/todosSlice";
 import "@material/web/textfield/filled-text-field";
 import { toast } from "react-hot-toast";
 

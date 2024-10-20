@@ -1,14 +1,14 @@
 import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
 import React from "react";
 import "./App.css";
-import Todo from "./Todo";
+import Todo from "./pages/Todo";
 import { useSelector } from "react-redux";
 import CreateJoinRoom from "./CreateJoinRoom";
 import ChatRoom from "./ChatRoom";
 import { SocketProvider } from "./context/Socket";
-import Login from "./Login";
-import SignUp from "./SignUp";
-import Logout from "./Pages/Logout";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Logout from "./pages/Logout";
 import { Toaster } from "react-hot-toast";
 
 function App() {
