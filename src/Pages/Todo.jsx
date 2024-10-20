@@ -10,6 +10,7 @@ import {
 } from "../features/todosSlice";
 import ProgressBar from "../components/ProgressBar";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const Todo = () => {
   const [newTodo, setNewTodo] = useState("");
@@ -17,6 +18,7 @@ const Todo = () => {
   const [editValue, setEditValue] = useState("");
   const [checkedCount, setCheckedCount] = useState(0);
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
 
   const dispatch = useDispatch();
@@ -127,6 +129,10 @@ const Todo = () => {
 
   console.log(todos);
 
+  const handleRoomClick = () => {
+    navigate("/join-room");
+  };
+
   const capitalizeString = (str) => {
     const firstLetter = str.charAt(0).toUpperCase();
     const remainingLetters = str.slice(1);
@@ -138,6 +144,14 @@ const Todo = () => {
 
   return (
     <>
+      <div>
+        <button
+          className="bg-blue-600 rounded-md px-4 py-2"
+          onClick={handleRoomClick}
+        >
+          Room
+        </button>
+      </div>
       <div className="App border-2 border-black m-2 p-2">
         <div className="flex justify-center">
           <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">

@@ -4,11 +4,11 @@ import { io } from "socket.io-client";
 const SocketContext = createContext();
 
 export const useSocket = () => {
-  return useContext(SocketContext); // This is now inside a function, which is correct
+  return useContext(SocketContext);
 };
 
 export const SocketProvider = ({ children }) => {
-  const socket = io("http://localhost:3001");
+  const socket = io("http://localhost:3002");
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

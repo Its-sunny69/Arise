@@ -19,12 +19,16 @@ function App() {
     <>
       <Toaster />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={isLoggedin ? <Todo /> : <Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/logout" element={<Logout />} />
-        </Routes>
+        <SocketProvider>
+          <Routes>
+            <Route path="/" element={isLoggedin ? <Todo /> : <Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/join-room" element={<CreateJoinRoom />} />
+            <Route path="/chat/:roomId" element={<ChatRoom />} />
+          </Routes>
+        </SocketProvider>
       </BrowserRouter>
       {/*       
 import CreateJoinRoom from "./CreateJoinRoom";
