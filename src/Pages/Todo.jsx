@@ -144,15 +144,7 @@ const Todo = () => {
 
   return (
     <>
-      <div>
-        <button
-          className="bg-blue-600 rounded-md px-4 py-2"
-          onClick={handleRoomClick}
-        >
-          Room
-        </button>
-      </div>
-      <div className="App border-2 border-black m-2 p-2">
+      <div className=" border-2 border-black m-2 p-2">
         <div className="flex justify-center">
           <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
             <div className="mx-4 font-semibold tracking-wider">
@@ -226,6 +218,15 @@ const Todo = () => {
           />
           <button type="submit" onClick={handleAddTodo}>
             Add Todo
+          </button>
+        </div>
+
+        <div className="my-4">
+          <button
+            className="px-4 py-2 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 text-sm font-medium text-white hover:scale-105 hover:opacity-70 transition-all duration-200 "
+            onClick={handleRoomClick}
+          >
+            Create Room
           </button>
         </div>
       </div>
