@@ -10,7 +10,7 @@ const ChatRoom = () => {
   const { roomId } = useParams();
   const [roomData, setRoomData] = useState(null);
   const [profile, setProfile] = useState(null);
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState();
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const ChatRoom = () => {
     socket.emit("send-msg", {
       profileName: profile,
       msg: message,
-      timeStamp: new Date().toLocaleTimeString(),
+      timeStamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
       roomId: roomData.roomId,
     });
 
@@ -71,6 +71,11 @@ const ChatRoom = () => {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  const cssForCurrentUser =
+    "w-full flex justify-end";
+  const cssForOtherUser =
+    "w-full flex justify-start";
 
   return (
     <>
@@ -109,8 +114,8 @@ const ChatRoom = () => {
           <p>Loading...</p>
         )}
         <div className="flex justify-center items-center">
-          <div className="w-[40%] h-64 flex flex-col overflow-y-auto justify-center items-center bg-slate-100 ">
-            <div className="w-[60%] px-3">
+          <div className="w-[40%] h-72 flex flex-col justify-center items-center bg-slate-100">
+            <div className="w-full px-3 bg-slate-100 overflow-y-auto">
               {messages?.length == 0 ? (
                 <div className="flex flex-col justify-center items-center text-slate-300">
                   No Messages Yet
@@ -119,30 +124,39 @@ const ChatRoom = () => {
                 ""
               )}
               {messages ? (
-                messages.map((item) => (
+                messages.map((item, index) => (
                   <>
-                   {/* <div class="h-0 w-0 border-t-[25px] border-r-[55px] border-b-[25px] border-solid border-t-transparent border-b-transparent border-r-[#555] -z-10"></div> */}
                     <div
-                      key={item.timeStamp}
-                      className=" bg-slate-300 w-fit max-w-[100%] my-3 py-1 px-2 rounded-lg flex flex-col"
+                      className={
+                        item.profileName == profile
+                          ? cssForCurrentUser
+                          : cssForOtherUser
+                      }
+                      key={index}
                     >
-                      <p className="text-[0.65rem] flex justify-start pr-5 text-slate-600">
-                        {item.profileName}
-                      </p>
-                      <p className="break-words whitespace-pre-wrap p-1 leading-4">
-                        {item.msg}
-                      </p>
-                      <p className="text-[0.65rem] flex justify-end pl-5 text-slate-600">
-                        {item.timeStamp.substring(0, 4)}
-                      </p>
+                      <div
+                        key={item.timeStamp}
+                        className=" bg-slate-300 w-fit max-w-[100%] my-3 py-1 px-2 rounded-lg flex flex-col"
+                      >
+                        <p className="text-[0.65rem] flex justify-start pr-5 text-slate-600">
+                          {item.profileName}
+                        </p>
+                        <p className="break-words whitespace-pre-wrap p-1 leading-4">
+                          {item.msg}
+                        </p>
+                        <p className="text-[0.65rem] flex justify-end pl-5 text-slate-600">
+                          {item.timeStamp}
+                          {console.log(item.timeStamp)}
+                        </p>
+                      </div>
                     </div>
                   </>
                 ))
               ) : (
                 <p>Loading Messages...</p>
               )}
+              <div ref={messagesEndRef} className="bg-blue-800" />
             </div>
-            <div ref={messagesEndRef} />
           </div>
         </div>
 
