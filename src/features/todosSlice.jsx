@@ -90,9 +90,9 @@ export const addTodo = createAsyncThunk("todos/todo/post", async (todoData) => {
 
 export const updateTodo = createAsyncThunk(
   "todos/updateTodo",
-  async ({ id, updatedTodo }) => {
-    const response = await fetch(`http://localhost:3001/api/todos/${id}`, {
-      method: "PUT",
+  async ({ updatedTodo }) => {
+    const response = await fetch(`http://localhost:5000/api/todos/todo/update`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },

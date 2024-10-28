@@ -13,5 +13,6 @@ router.route("/login").post(validation(LoginSchema), authControllers.login);
 router.route("/user").get(authMiddleware, authControllers.user);
 router.route("/todo/get/:userId").get(todoControllers.getTodo)
 router.route("/todo/post").post(todoControllers.createTodo)
+router.route("/todo/update").patch(todoControllers.updateTodo)
 
 export default router;

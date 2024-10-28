@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 const Todo = () => {
   const [newTodo, setNewTodo] = useState("");
+  const [newTodoAdded, setNewTodoAdded] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [checkedCount, setCheckedCount] = useState(0);
@@ -48,11 +49,14 @@ const Todo = () => {
   }, []);
 
   useEffect(() => {
-    if (userId) {
+    if (newTodoAdded || userId) {
       console.log("todojsx", userId);
       dispatch(getTodos(userId));
+      setNewTodoAdded(false); // Reset the flag after dispatching
     }
-  }, [userId]);
+  }, [newTodoAdded, userId, dispatch]);
+
+
 
   const handleAddTodo = (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
@@ -62,6 +66,7 @@ const Todo = () => {
       .then((response) => {
         console.log("Todo Added", response.payload);
         setNewTodo(""); // Clear the input field
+        setNewTodoAdded(true)
       })
       .catch((error) => setError(error));
   };
