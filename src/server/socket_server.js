@@ -152,4 +152,24 @@ io.on("connection", (socket) => {
       io.to(roomId).emit("updated-msg", room.message);
     }
   });
+
+  socket.on("leave-room", async (user, id) => {
+    socket.leave(id);
+    try {
+      const leaveUser = await roomsCollection.findOneAndUpdate(
+        {
+          roomId: id,
+        },
+        { $pull: { users: user } },
+        {
+          new: true,
+        }
+      );
+      if (leaveUser) {
+        io.to(id).emit("leave-user", leaveUser.users, user);
+      }
+    } catch (error) {
+      console.log(error, "Error occured while leaving room");
+    }
+  });
 });
