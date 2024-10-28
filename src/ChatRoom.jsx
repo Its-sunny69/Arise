@@ -35,6 +35,12 @@ const ChatRoom = () => {
       setMessages(data);
     });
 
+    socket.on("leave-user", (updatedRoom, user) => {
+      console.log(updatedRoom);
+      setUsers(updatedRoom);
+      console.log(user, "Left");
+    });
+
     socket.emit("rejoin-room", profile, roomId);
     return () => {
       socket.off("room-update");
@@ -49,7 +55,11 @@ const ChatRoom = () => {
     socket.emit("send-msg", {
       profileName: profile,
       msg: message,
-      timeStamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+      timeStamp: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
       roomId: roomData.roomId,
     });
 
@@ -66,16 +76,18 @@ const ChatRoom = () => {
 
   const messagesEndRef = useRef(null);
 
+  const handleLeaveRoom = () => {
+    socket.emit("leave-room", profile, roomId);
+  };
+
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
-  const cssForCurrentUser =
-    "w-full flex justify-end";
-  const cssForOtherUser =
-    "w-full flex justify-start";
+  const cssForCurrentUser = "w-full flex justify-end";
+  const cssForOtherUser = "w-full flex justify-start";
 
   return (
     <>
@@ -88,6 +100,9 @@ const ChatRoom = () => {
                   Room: {roomData.createdBy}
                 </div>
               </div>
+              {profile == users[0] ? null : (
+                <button onClick={handleLeaveRoom}>Leave Room</button>
+              )}
             </div>
 
             <div className="flex justify-center items-center">
