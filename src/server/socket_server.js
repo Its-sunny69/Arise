@@ -22,24 +22,42 @@ connectDb()
     console.log(err);
   });
 
-// app.get("/api/rooms/:roomId", async (req, res) => {
-//   const { roomId } = req.params;
+app.get("/api/rooms/:createdBy", async (req, res) => {
+  const { createdBy } = req.params;
+  console.log(createdBy);
+  try {
+    const rooms = await roomsCollection.find({ createdBy: createdBy });
 
-//   try {
-//     const rooms = await roomsCollection.findOne({ roomId: roomId });
+    if (rooms) {
+      res.status(200).json(rooms);
+    } else {
+      res.status(404).json({ message: "room not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching room data:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch room data", error: error.message });
+  }
+});
 
-//     if (rooms) {
-//       res.status(200).json(rooms);
-//     } else {
-//       res.status(404).json({ message: "room not found" });
-//     }
-//   } catch (error) {
-//     console.error("Error fetching room data:", error);
-//     res
-//       .status(500)
-//       .json({ message: "Failed to fetch room data", error: error.message });
-//   }
-// });
+app.delete("/api/rooms/:roomId", async (req, res) => {
+  const { roomId } = req.params;
+  try {
+    const rooms = await roomsCollection.findOneAndDelete({ roomId: roomId });
+
+    if (rooms) {
+      res.status(200).json(rooms);
+    } else {
+      res.status(404).json({ message: "room not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching room data:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch room data", error: error.message });
+  }
+});
 
 app.get("/", (req, res) => {
   res.send("Hii");
@@ -58,7 +76,7 @@ io.on("connection", (socket) => {
     const roomId = Math.random().toString(36).substring(2, 8);
     const rooms = new roomsCollection({
       roomId: roomId,
-      createdAt: new Date(),
+      createdAt: Date.now(),
       createdBy: val,
       users: [val],
     });
@@ -142,19 +160,7 @@ io.on("connection", (socket) => {
 
   //handle user who is rejoined or has refreshed the page
 
-  socket.on("rejoin-room", async (user, roomId) => {
-    const room = await roomsCollection.findOne({ roomId });
-    if (room) {
-      socket.join(roomId);
-      io.to(roomId).emit("join-msg", { userName: user, roomId });
-      io.to(roomId).emit("update-users", room.users);
-      io.to(roomId).emit("room-update", room);
-      io.to(roomId).emit("updated-msg", room.message);
-    }
-  });
-
   socket.on("leave-room", async (user, id) => {
-    socket.leave(id);
     try {
       const leaveUser = await roomsCollection.findOneAndUpdate(
         {
@@ -166,10 +172,27 @@ io.on("connection", (socket) => {
         }
       );
       if (leaveUser) {
+        io.to(id).emit("room-update", leaveUser);
         io.to(id).emit("leave-user", leaveUser.users, user);
+        socket.leave(id);
       }
     } catch (error) {
       console.log(error, "Error occured while leaving room");
+    }
+  });
+
+  socket.on("delete-room", (roomId) => {
+    socket.to(roomId).emit("delete", roomId);
+  });
+
+  socket.on("rejoin-room", async (user, roomId) => {
+    const room = await roomsCollection.findOne({ roomId });
+    if (room) {
+      socket.join(roomId);
+      io.to(roomId).emit("join-msg", { userName: user, roomId });
+      io.to(roomId).emit("update-users", room.users);
+      io.to(roomId).emit("room-update", room);
+      io.to(roomId).emit("updated-msg", room.message);
     }
   });
 });

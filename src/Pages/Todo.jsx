@@ -11,21 +11,22 @@ import {
 import ProgressBar from "../components/ProgressBar";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-
+import { useSocket } from "../context/Socket";
 const Todo = () => {
   const [newTodo, setNewTodo] = useState("");
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [checkedCount, setCheckedCount] = useState(0);
   const [username, setUsername] = useState("");
-  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
+  const [showRooms, setShowRooms] = useState([]);
 
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.todos);
   const error = useSelector((state) => state.todos.error);
   const currentToken = useSelector((state) => state.todos.token);
-
+  const navigate = useNavigate();
+  const socket = useSocket();
   // console.log(todos);
   // console.log(currentToken);
 
@@ -38,6 +39,7 @@ const Todo = () => {
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
         setUsername(response.payload.username);
+        roomCreatedData(response.payload.username);
         setUserId(response.payload._id);
       }
     });
@@ -125,8 +127,24 @@ const Todo = () => {
     progressCalculator();
   }, [todos]);
 
-  // console.log(checkedCount);
+  const roomCreatedData = async (username) => {
+    try {
+      const url = `http://localhost:3002/api/rooms/${username}`;
+      const response = await fetch(url);
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("fetch", data);
+      setShowRooms(data);
+    } catch (error) {
+      console.log(error, "Error while fetching all created rooms");
+    }
+  };
+
+  console.log("showRooms", showRooms);
+  console.log("Username", username);
   console.log(todos);
 
   const handleRoomClick = () => {
@@ -140,6 +158,62 @@ const Todo = () => {
     const finalStr = firstLetter + remainingLetters;
 
     return finalStr;
+  };
+
+  const timeAgo = (date) => {
+    const now = Date.now();
+
+    const seconds = Math.floor((now - date) / 1000);
+
+    let interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) return `${interval} year${interval > 1 ? "s" : ""} ago`;
+
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) return `${interval} month${interval > 1 ? "s" : ""} ago`;
+
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) return `${interval} day${interval > 1 ? "s" : ""} ago`;
+
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+      return interval === 1 ? "an hour ago" : `${interval} hours ago`;
+    }
+
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+      return interval === 1 ? "a minute ago" : `${interval} minutes ago`;
+    }
+
+    return seconds === 1 ? "a second ago" : `${seconds} seconds ago`;
+  };
+
+  const handleRoomJoin = (roomId) => {
+    navigate(`/chat/${roomId}`);
+  };
+
+  const handleRoomDelete = async (roomId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3002/api/rooms/${roomId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setShowRooms(showRooms.filter((room) => room.roomId !== roomId));
+      socket.emit("delete-room", roomId);
+      console.log("id:", data.roomId);
+    } catch (error) {
+      console.log(error, "Error deleting room");
+    }
   };
 
   return (
@@ -229,6 +303,21 @@ const Todo = () => {
             Create Room
           </button>
         </div>
+      </div>
+      Created Rooms:
+      <div className="flex flex-wrap">
+        {showRooms.map((room) => (
+          <div className="w-40 h-28 shadow-lg m-5 rounded-md">
+            <p className="p-4">Joined:{room.users.length}</p>
+            <p>Created:{timeAgo(room.createdAt)}</p>
+            <div className=" flex justify-around">
+              <button onClick={() => handleRoomJoin(room.roomId)}>Join</button>
+              <button onClick={() => handleRoomDelete(room.roomId)}>
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );

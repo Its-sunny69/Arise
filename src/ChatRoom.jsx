@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSocket } from "./context/Socket";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthUser } from "./features/todosSlice";
+import { useNavigate } from "react-router-dom";
 import SendSvg from "./assets/send-svg.svg";
 
 const ChatRoom = () => {
@@ -15,7 +16,7 @@ const ChatRoom = () => {
   const [messages, setMessages] = useState();
   const dispatch = useDispatch();
   const currentToken = useSelector((state) => state.todos.token);
-
+  const navigate = useNavigate();
   useEffect(() => {
     socket.on("room-update", (updatedRoom) => {
       setRoomData(updatedRoom);
@@ -36,9 +37,12 @@ const ChatRoom = () => {
     });
 
     socket.on("leave-user", (updatedRoom, user) => {
-      console.log(updatedRoom);
       setUsers(updatedRoom);
       console.log(user, "Left");
+    });
+
+    socket.on("delete", (id) => {
+      navigate("/join-room");
     });
 
     socket.emit("rejoin-room", profile, roomId);
@@ -78,6 +82,7 @@ const ChatRoom = () => {
 
   const handleLeaveRoom = () => {
     socket.emit("leave-room", profile, roomId);
+    navigate("/join-room");
   };
 
   useEffect(() => {
