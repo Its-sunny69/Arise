@@ -14,5 +14,7 @@ router.route("/user").get(authMiddleware, authControllers.user);
 router.route("/todo/get/:userId").get(todoControllers.getTodo)
 router.route("/todo/post").post(todoControllers.createTodo)
 router.route("/todo/update").patch(todoControllers.updateTodo)
+router.route("/todo/checkBoxUpdate").patch(todoControllers.checkBoxUpdate)
+router.route("/todo/deleteTodo").delete(todoControllers.deleteTodo)
 
 export default router;

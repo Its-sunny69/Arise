@@ -56,8 +56,6 @@ const Todo = () => {
     }
   }, [newTodoAdded, userId, dispatch]);
 
-
-
   const handleAddTodo = (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
     const todoData = { userId: userId, title: newTodo, checked: false }; // Create a new todo object
@@ -66,16 +64,21 @@ const Todo = () => {
       .then((response) => {
         console.log("Todo Added", response.payload);
         setNewTodo(""); // Clear the input field
-        setNewTodoAdded(true)
+        setNewTodoAdded(true);
       })
       .catch((error) => setError(error));
   };
 
-  const handleUpdateTodo = (id) => {
-    const updatedTodo = { name: editValue, checked: false };
-    dispatch(updateTodo({ id, updatedTodo }))
+  const handleUpdateTodo = (todoId, title) => {
+    const updatedTodo = {
+      userId: userId,
+      todoId: todoId,
+      title: title,
+      checked: false,
+    };
+    dispatch(updateTodo(updatedTodo))
       .then((response) => {
-        console.log("Response: ", response.payload.message);
+        // console.log("UpdateTodo Response: ", response);
         handleCancelEdit();
       })
       .catch((error) => {
@@ -83,26 +86,26 @@ const Todo = () => {
       });
   };
 
-  const handleCheckboxChanges = (id, todo) => {
+  const handleCheckboxChanges = (todoId, todo) => {
     const currentChecked = todo.checked;
 
-    dispatch(checkBoxUpdate({ id, currentChecked }))
+    const updatedCheckedBox = { userId, todoId, currentChecked };
+
+    dispatch(checkBoxUpdate(updatedCheckedBox))
       .then((response) => {
-        console.log("Response: ", response.payload.message);
+        console.log("Response: ", response.payload);
       })
       .catch((error) => {
         console.error("Error checked status of todo:", error);
       });
   };
 
-  const handleDeleteTodo = (id) => {
-    dispatch(deleteTodo(id))
+  const handleDeleteTodo = (todoId) => {
+    const todoData = { userId, todoId };
+
+    dispatch(deleteTodo(todoData))
       .then((response) => {
-        console.log(
-          response.payload.data.message,
-          ", id:",
-          response.payload.id
-        );
+        console.log("Response: ", response.payload);
       })
       .catch((error) => console.error("Error deleting todo:", error));
   };
@@ -132,7 +135,7 @@ const Todo = () => {
 
   // console.log(checkedCount);
 
-  console.log(todos);
+  // console.log(todos);
 
   const handleRoomClick = () => {
     navigate("/join-room");
@@ -165,9 +168,10 @@ const Todo = () => {
           maxValue={todos.length}
         />
         {error && <p>Error fetching todos: {error.message}</p>}
-        {/* <ul>
+
+        <ul>
           {todos.map((todo, index) => (
-            <li key={todo._id}>
+            <li key={index}>
               {editId == todo._id ? (
                 <>
                   <input
@@ -178,7 +182,7 @@ const Todo = () => {
                   />
                   <button
                     className="m-2"
-                    onClick={() => handleUpdateTodo(todo._id)}
+                    onClick={() => handleUpdateTodo(todo._id, editValue)}
                   >
                     Save
                   </button>
@@ -191,10 +195,10 @@ const Todo = () => {
                     checked={todo.checked}
                     onChange={() => handleCheckboxChanges(todo._id, todo)}
                   />
-                  {todo.name}{" "}
+                  {todo.title}
                   <button
                     className="m-2"
-                    onClick={() => handleUpdateClick(todo._id, todo.name)}
+                    onClick={() => handleUpdateClick(todo._id, todo.title)}
                   >
                     Edit
                   </button>
@@ -204,12 +208,6 @@ const Todo = () => {
                 </>
               )}
             </li>
-          ))}
-        </ul> */}
-
-        <ul>
-          {todos.map((todo, index) => (
-            <li key={index}>{todo.title}</li>
           ))}
         </ul>
 

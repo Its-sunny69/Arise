@@ -66,11 +66,11 @@ const updateTodo = async (req, res) => {
     if (title !== undefined) todoItem.title = title;
     if (checked !== undefined) todoItem.checked = checked;
 
-    const updatedTodos = await userTodos.save();
+    await userTodos.save();
 
     return res.status(200).send({
       msg: "Todo Updated Successfully",
-      data: updatedTodos,
+      data: todoItem,
     });
   } catch (error) {
     console.error(error);
@@ -78,6 +78,69 @@ const updateTodo = async (req, res) => {
   }
 };
 
-const todoControllers = { getTodo, createTodo, updateTodo };
+const checkBoxUpdate = async (req, res) => {
+  try {
+    const { userId, todoId, currentChecked } = req.body;
+
+    const userTodos = await Todo.findOne({ userId });
+
+    if (!userTodos) {
+      return res.status(404).send({ msg: "User not found" });
+    }
+
+    const todoItem = userTodos.todos.id(todoId);
+    if (!todoItem) {
+      return res.status(404).send({ msg: "Todo item not found" });
+    }
+
+    if (currentChecked !== undefined) todoItem.checked = !currentChecked;
+
+    await userTodos.save();
+
+    return res.status(200).send({
+      msg: "CheckBox Updated Successfully",
+      data: todoItem,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ msg: "Internal server error" });
+  }
+};
+
+const deleteTodo = async (req, res) => {
+  try {
+    const { userId, todoId } = req.body;
+
+    const userTodos = await Todo.findOne({ userId });
+
+    if (!userTodos) {
+      return res.status(404).send({ msg: "User not found" });
+    }
+
+    const todoItem = userTodos.todos.id(todoId);
+    if (!todoItem) {
+      return res.status(404).send({ msg: "Todo item not found" });
+    }
+
+    userTodos.todos.pull({ _id: todoId });
+    await userTodos.save();
+
+    return res.status(200).send({
+      msg: "Todo deleted Successfully",
+      data: todoId,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ msg: "Internal server error" });
+  }
+};
+
+const todoControllers = {
+  getTodo,
+  createTodo,
+  updateTodo,
+  checkBoxUpdate,
+  deleteTodo,
+};
 
 export default todoControllers;

@@ -21,7 +21,7 @@ export const register = createAsyncThunk("auth/register", async (userData) => {
     }
   } catch (error) {
     console.error("Registered failed", error);
-    return error
+    return error;
   }
 });
 
@@ -71,70 +71,131 @@ export const AuthUser = createAsyncThunk("auth/user", async (currentToken) => {
 });
 
 export const getTodos = createAsyncThunk("todos/todo/get", async (userId) => {
-  console.log("slice", userId)
-  const response = await fetch(`http://localhost:5000/api/todos/todo/get/${userId}`);
-  return response.json();
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/todos/todo/get/${userId}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      const errorData = await response.json();
+      return errorData;
+    }
+  } catch (error) {
+    return error;
+  }
 });
 
 export const addTodo = createAsyncThunk("todos/todo/post", async (todoData) => {
-  const response = await fetch("http://localhost:5000/api/todos/todo/post", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(todoData),
-  });
+  try {
+    const response = await fetch("http://localhost:5000/api/todos/todo/post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todoData),
+    });
 
-  return response.json();
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Updated Todo", data);
+      return data;
+    } else {
+      const errorData = await response.json();
+      return errorData;
+    }
+  } catch (error) {
+    return error;
+  }
 });
 
 export const updateTodo = createAsyncThunk(
   "todos/updateTodo",
-  async ({ updatedTodo }) => {
-    const response = await fetch(`http://localhost:5000/api/todos/todo/update`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedTodo),
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  async (updatedTodo) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/todos/todo/update`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedTodo),
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Updated Todo", data);
+        return data;
+      } else {
+        const errorData = await response.json();
+        return errorData;
+      }
+    } catch (error) {
+      return error;
     }
-
-    return response.json();
   }
 );
 
 export const checkBoxUpdate = createAsyncThunk(
   "todos/checkBoxUpdate",
-  async ({ id, currentChecked }) => {
-    const response = await fetch(`http://localhost:3001/api/todos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        checked: !currentChecked,
-      }),
-    });
+  async (updatedCheckedBox) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/todos/todo/checkBoxUpdate`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedCheckedBox),
+        }
+      );
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Updated Checkbox", data);
+        return data;
+      } else {
+        const errorData = await response.json();
+        return errorData;
+      }
+    } catch (error) {
+      return error;
     }
-
-    return response.json();
   }
 );
 
-export const deleteTodo = createAsyncThunk("todos/deleteTodo", async (id) => {
-  const response = await fetch(`http://localhost:3001/api/todos/${id}`, {
-    method: "DELETE",
-  });
+export const deleteTodo = createAsyncThunk(
+  "todos/deleteTodo",
+  async (todoData) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/todos/todo/deleteTodo`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(todoData),
+        }
+      );
 
-  const data = await response.json();
-  return { id: id, data: data };
-});
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Deleted Todo", data);
+        return data;
+      } else {
+        const errorData = await response.json();
+        return errorData;
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+);
 
 const todosSlice = createSlice({
   name: "todos",
@@ -166,6 +227,7 @@ const todosSlice = createSlice({
       .addCase(getTodos.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.todos = action.payload[0].todos;
+        console.log(state.todos);
       })
       .addCase(getTodos.rejected, (state, action) => {
         state.status = "failed";
@@ -175,27 +237,38 @@ const todosSlice = createSlice({
         state.todos.push(action.payload);
       })
       .addCase(updateTodo.fulfilled, (state, action) => {
+        const updatedTodo = action.payload.data;
+
         const index = state.todos.findIndex(
-          (todo) => todo._id === action.payload.updatedTodoFromDB._id
+          (todo) => todo._id == updatedTodo._id
         );
 
         if (index !== -1) {
-          state.todos[index] = action.payload.updatedTodoFromDB;
+          state.todos[index] = {
+            ...state.todos[index],
+            title: updatedTodo.title,
+            checked: updatedTodo.checked,
+          };
         }
       })
       .addCase(checkBoxUpdate.fulfilled, (state, action) => {
+        const updatedCheckBox = action.payload.data;
+
         const index = state.todos.findIndex(
-          (todo) => todo._id === action.payload.updatedTodoFromDB._id
+          (todo) => todo._id == updatedCheckBox._id
         );
 
         if (index !== -1) {
-          state.todos[index].checked = action.payload.updatedTodoFromDB.checked;
+          state.todos[index] = {
+            ...state.todos[index],
+            checked: updatedCheckBox.checked,
+          };
         }
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
-        state.todos = state.todos.filter(
-          (todo) => todo._id !== action.payload.id
-        );
+        const todoId = action.payload.data;
+
+        state.todos = state.todos.filter((todo) => todo._id !== todoId);
       });
   },
 });
