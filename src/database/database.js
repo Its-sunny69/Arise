@@ -1,6 +1,9 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import mongoose from "mongoose";
 
-const URI = "mongodb+srv://ranjeetyadav31638:i88rHyT8v9468T7X@arise0.l4sif.mongodb.net/arise?retryWrites=true&w=majority&appName=arise0";
+const URI = process.env.MONGODB_URI;
 
 const connectDb = async () => {
   try {

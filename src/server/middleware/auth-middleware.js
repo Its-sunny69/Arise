@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import jwt from "jsonwebtoken";
 import User from "../../models/userModal.js";
 
@@ -10,7 +13,8 @@ const authMiddleware = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
 
   try {
-    const isVerified = jwt.verify(token, "ASXFDSTYHND");
+
+    const isVerified = jwt.verify(token, process.env.JWT_SECRET);
     const id = isVerified.userId;
 
     const userData = await User.findOne({ _id: id }).select({ password: 0 });
