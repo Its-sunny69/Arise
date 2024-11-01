@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AuthUser } from "./features/todosSlice";
 import { useNavigate } from "react-router-dom";
 import SendSvg from "./assets/send-svg.svg";
+import Todo from "./Pages/Todo";
 
 const ChatRoom = () => {
   const socket = useSocket();
@@ -192,7 +193,6 @@ const ChatRoom = () => {
                   onKeyDown={handleKeyDown}
                 />
               </div>
-
               <div className="w-1/5 flex justify-center items-center hover:opacity-60">
                 <button
                   className="w-full flex items-center bg-gradient-to-br from-blue-500 to-purple-400 text-sm font-medium text-white rounded-r-lg justify-center py-1.5 hover:scale-105 hover:opacity-70 transition-all duration-200"
@@ -204,6 +204,9 @@ const ChatRoom = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <Todo />
       </div>
     </>
   );

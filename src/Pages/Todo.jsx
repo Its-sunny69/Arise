@@ -9,7 +9,7 @@ import {
   AuthUser,
 } from "../features/todosSlice";
 import ProgressBar from "../components/ProgressBar";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../context/Socket";
 const Todo = () => {
@@ -18,9 +18,9 @@ const Todo = () => {
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [checkedCount, setCheckedCount] = useState(0);
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
-  const [showRooms, setShowRooms] = useState([]);
+  // const [showRooms, setShowRooms] = useState([]);
 
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.todos);
@@ -35,12 +35,8 @@ const Todo = () => {
   // console.log("isLoggedin", isLoggedin);
 
   const userAuth = async () => {
-    // console.log("currentToken", currentToken);
-
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
-        setUsername(response.payload.username);
-        roomCreatedData(response.payload.username);
         setUserId(response.payload._id);
       }
     });
@@ -135,105 +131,105 @@ const Todo = () => {
     progressCalculator();
   }, [todos]);
 
-  const roomCreatedData = async (username) => {
-    try {
-      const url = `http://localhost:3002/api/rooms/${username}`;
-      const response = await fetch(url);
+  // const roomCreatedData = async (username) => {
+  //   try {
+  //     const url = `http://localhost:3002/api/rooms/${username}`;
+  //     const response = await fetch(url);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log("fetch", data);
-      setShowRooms(data);
-    } catch (error) {
-      console.log(error, "Error while fetching all created rooms");
-    }
-  };
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     const data = await response.json();
+  //     console.log("fetch", data);
+  //     setShowRooms(data);
+  //   } catch (error) {
+  //     console.log(error, "Error while fetching all created rooms");
+  //   }
+  // };
 
-  console.log("showRooms", showRooms);
-  console.log("Username", username);
-  console.log(todos);
+  // console.log("showRooms", showRooms);
+  // console.log("Username", username);
+  // console.log(todos);
 
-  const handleRoomClick = () => {
-    navigate("/join-room");
-  };
+  // const handleRoomClick = () => {
+  //   navigate("/join-room");
+  // };
 
-  const capitalizeString = (str) => {
-    const firstLetter = str.charAt(0).toUpperCase();
-    const remainingLetters = str.slice(1);
+  // const capitalizeString = (str) => {
+  //   const firstLetter = str.charAt(0).toUpperCase();
+  //   const remainingLetters = str.slice(1);
 
-    const finalStr = firstLetter + remainingLetters;
+  //   const finalStr = firstLetter + remainingLetters;
 
-    return finalStr;
-  };
+  //   return finalStr;
+  // };
 
-  const timeAgo = (date) => {
-    const now = Date.now();
+  // const timeAgo = (date) => {
+  //   const now = Date.now();
 
-    const seconds = Math.floor((now - date) / 1000);
+  //   const seconds = Math.floor((now - date) / 1000);
 
-    let interval = Math.floor(seconds / 31536000);
-    if (interval >= 1) return `${interval} year${interval > 1 ? "s" : ""} ago`;
+  //   let interval = Math.floor(seconds / 31536000);
+  //   if (interval >= 1) return `${interval} year${interval > 1 ? "s" : ""} ago`;
 
-    interval = Math.floor(seconds / 2592000);
-    if (interval >= 1) return `${interval} month${interval > 1 ? "s" : ""} ago`;
+  //   interval = Math.floor(seconds / 2592000);
+  //   if (interval >= 1) return `${interval} month${interval > 1 ? "s" : ""} ago`;
 
-    interval = Math.floor(seconds / 86400);
-    if (interval >= 1) return `${interval} day${interval > 1 ? "s" : ""} ago`;
+  //   interval = Math.floor(seconds / 86400);
+  //   if (interval >= 1) return `${interval} day${interval > 1 ? "s" : ""} ago`;
 
-    interval = Math.floor(seconds / 3600);
-    if (interval >= 1) {
-      return interval === 1 ? "an hour ago" : `${interval} hours ago`;
-    }
+  //   interval = Math.floor(seconds / 3600);
+  //   if (interval >= 1) {
+  //     return interval === 1 ? "an hour ago" : `${interval} hours ago`;
+  //   }
 
-    interval = Math.floor(seconds / 60);
-    if (interval >= 1) {
-      return interval === 1 ? "a minute ago" : `${interval} minutes ago`;
-    }
+  //   interval = Math.floor(seconds / 60);
+  //   if (interval >= 1) {
+  //     return interval === 1 ? "a minute ago" : `${interval} minutes ago`;
+  //   }
 
-    return seconds === 1 ? "a second ago" : `${seconds} seconds ago`;
-  };
+  //   return seconds === 1 ? "a second ago" : `${seconds} seconds ago`;
+  // };
 
-  const handleRoomJoin = (roomId) => {
-    navigate(`/chat/${roomId}`);
-  };
+  // const handleRoomJoin = (roomId) => {
+  //   navigate(`/chat/${roomId}`);
+  // };
 
-  const handleRoomDelete = async (roomId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3002/api/rooms/${roomId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+  // const handleRoomDelete = async (roomId) => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:3002/api/rooms/${roomId}`,
+  //       {
+  //         method: "DELETE",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
 
-      const data = await response.json();
-      setShowRooms(showRooms.filter((room) => room.roomId !== roomId));
-      socket.emit("delete-room", roomId);
-      console.log("id:", data.roomId);
-    } catch (error) {
-      console.log(error, "Error deleting room");
-    }
-  };
+  //     const data = await response.json();
+  //     setShowRooms(showRooms.filter((room) => room.roomId !== roomId));
+  //     socket.emit("delete-room", roomId);
+  //     console.log("id:", data.roomId);
+  //   } catch (error) {
+  //     console.log(error, "Error deleting room");
+  //   }
+  // };
 
   return (
     <>
       <div className=" border-2 border-black m-2 p-2">
         <div className="flex justify-center">
-          <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
+          {/* <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
             <div className="mx-4 font-semibold tracking-wider">
               Username: {capitalizeString(username)}
             </div>
             {<Navbar />}
-          </div>
+          </div> */}
         </div>
         <h1>Todo List</h1>
         <ProgressBar
@@ -298,16 +294,16 @@ const Todo = () => {
           </button>
         </div>
 
-        <div className="my-4">
+        {/* <div className="my-4">
           <button
             className="px-4 py-2 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 text-sm font-medium text-white hover:scale-105 hover:opacity-70 transition-all duration-200 "
             onClick={handleRoomClick}
           >
             Create Room
           </button>
-        </div>
+        </div> */}
       </div>
-      Created Rooms:
+      {/* Created Rooms:
       <div className="flex flex-wrap">
         {showRooms.map((room) => (
           <div className="w-40 h-28 shadow-lg m-5 rounded-md">
@@ -321,7 +317,7 @@ const Todo = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 };

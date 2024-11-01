@@ -2,6 +2,7 @@ import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
 import React from "react";
 import "./App.css";
 import Todo from "./Pages/Todo";
+import Home from "./Pages/Home";
 import { useSelector } from "react-redux";
 import CreateJoinRoom from "./CreateJoinRoom";
 import ChatRoom from "./ChatRoom";
@@ -21,12 +22,13 @@ function App() {
       <BrowserRouter>
         <SocketProvider>
           <Routes>
-            <Route path="/" element={isLoggedin ? <Todo /> : <Login />} />
+            <Route path="/" element={isLoggedin ? <Home /> : <Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/join-room" element={<CreateJoinRoom />} />
             <Route path="/chat/:roomId" element={<ChatRoom />} />
+            <Route path="/todo" element={<Todo />} />
           </Routes>
         </SocketProvider>
       </BrowserRouter>
