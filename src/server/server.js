@@ -4,7 +4,7 @@ dotenv.config();
 import express from "express";
 const app = express();
 
-import router from "./router/auth-route.js";
+import router from "./router/routes.js";
 import connectDb from "../database/database.js";
 import cors from "cors";
 

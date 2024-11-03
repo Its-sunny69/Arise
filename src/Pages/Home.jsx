@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthUser } from "../features/todosSlice";
 import RoomCard from "../components/RoomCard";
+import Todo from "../components/Todo";
+
 const Home = () => {
   const [username, setUsername] = useState("");
   const [showRooms, setShowRooms] = useState([]);
@@ -51,16 +53,21 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex justify-center">
-        <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
-          <div className="mx-4 font-semibold tracking-wider">
-            Username: {capitalizeString(username)}
+      <div className=" border-2 border-black m-2 p-2">
+        <div className="flex justify-center">
+          <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
+            <div className="mx-4 font-semibold tracking-wider">
+              Username: {capitalizeString(username)}
+            </div>
+            {<Navbar />}
           </div>
-          {<Navbar />}
         </div>
-      </div>
-      <div>
-        <RoomCard showRooms={showRooms} setShowRooms={setShowRooms} />
+        <div>
+          <Todo />
+        </div>
+        <div>
+          <RoomCard showRooms={showRooms} setShowRooms={setShowRooms} />
+        </div>
       </div>
     </>
   );

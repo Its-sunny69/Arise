@@ -66,28 +66,33 @@ const RoomCard = ({ showRooms, setShowRooms }) => {
 
   return (
     <>
-      <div className="my-4">
-        <button
-          className="px-4 py-2 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 text-sm font-medium text-white hover:scale-105 hover:opacity-70 transition-all duration-200 "
-          onClick={handleRoomClick}
-        >
-          Create Room
-        </button>
-      </div>
-      Created Rooms:
-      <div className="flex flex-wrap">
-        {showRooms.map((room) => (
-          <div className="w-40 h-28 shadow-lg m-5 rounded-md">
-            <p className="p-4">Joined:{room.users.length}</p>
-            <p>Created:{timeAgo(room.createdAt)}</p>
-            <div className=" flex justify-around">
-              <button onClick={() => handleRoomJoin(room.roomId)}>Join</button>
-              <button onClick={() => handleRoomDelete(room.roomId)}>
-                Delete
-              </button>
+      <div className=" border-2 border-black m-2 p-2">
+        <div className="my-4">
+          <button
+            className="px-4 py-2 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 text-sm font-medium text-white hover:scale-105 hover:opacity-70 transition-all duration-200 "
+            onClick={handleRoomClick}
+          >
+            Create or Join Room
+          </button>
+        </div>
+
+        {showRooms?.length ? "Rooms:" : "No Rooms Created or Joined Yet..!"}
+        <div className="flex justify-start flex-wrap">
+          {showRooms.map((room) => (
+            <div className="shadow-lg m-5 rounded-md">
+              <p className="bg-slate-300 px-4 py-2 rounded-t-md">Joined: {room.users.length}</p>
+              <p className="px-4 py-5 rounded-md">Created: {timeAgo(room.createdAt)}</p>
+              <div className=" flex justify-between rounded-b-md">
+                <button className="w-1/2 text-black border-r bg-slate-300 hover:bg-blue-400 focus:ring-1 focus:ring-blue-300 font-medium rounded-bl-md text-sm px-4 py-2 focus:outline-none"  onClick={() => handleRoomJoin(room.roomId)}>
+                  Join
+                </button>
+                <button className="w-1/2 focus:outline-none text-black border-l bg-slate-300 hover:bg-red-400 focus:ring-1 focus:ring-red-300 font-medium rounded-br-md text-sm px-4 py-2" onClick={() => handleRoomDelete(room.roomId)}>
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </>
   );

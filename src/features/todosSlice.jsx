@@ -88,9 +88,9 @@ export const getTodos = createAsyncThunk("todos/todo/get", async (userId) => {
   }
 });
 
-export const addTodo = createAsyncThunk("todos/todo/post", async (todoData) => {
+export const addTodo = createAsyncThunk("todos/todo/create", async (todoData) => {
   try {
-    const response = await fetch("http://localhost:5000/api/todos/todo/post", {
+    const response = await fetch("http://localhost:5000/api/todos/todo/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
