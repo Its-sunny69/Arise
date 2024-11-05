@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { useSocket } from "./context/Socket";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthUser } from "./features/todosSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SendSvg from "./assets/send-svg.svg";
 import Todo from "./Pages/Todo";
-
+import toast from "react-hot-toast";
 const ChatRoom = () => {
   const socket = useSocket();
   const { roomId } = useParams();
@@ -18,7 +18,23 @@ const ChatRoom = () => {
   const dispatch = useDispatch();
   const currentToken = useSelector((state) => state.todos.token);
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
+    // socket.on("join-msg", (data) => {
+    //   if (data.error) {
+    //     console.log(data.error);
+    //     toast.error(`${data.error}`, {
+    //       position: "top-center",
+    //       duration: 3000,
+    //     });
+    //   } else {
+    //     console.log(`${data.userName} joined room: ${data.roomId}`);
+    //     toast.success(`${data.userName} joined room: ${data.roomId}`, {
+    //       position: "top-center",
+    //       duration: 3000,
+    //     });
+    //   }
+    // });
     socket.on("room-update", (updatedRoom) => {
       setRoomData(updatedRoom);
     });
@@ -52,6 +68,9 @@ const ChatRoom = () => {
       socket.off("update-users");
       socket.off("rejoin-room");
       socket.off("updated-msg");
+      socket.off("leave-user");
+      socket.off("delete");
+      socket.off("join-msg");
     };
   }, [socket, roomId]);
 

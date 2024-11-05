@@ -41,6 +41,25 @@ app.get("/api/rooms/:createdBy", async (req, res) => {
   }
 });
 
+app.get("/api/rooms/join/:userJoined", async (req, res) => {
+  const { userJoined } = req.params;
+
+  try {
+    const rooms = await roomsCollection.find({ users: { $in: [userJoined] } });
+
+    if (rooms) {
+      res.status(200).json(rooms);
+    } else {
+      res.status(404).json({ message: "room not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching room data:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch room data", error: error.message });
+  }
+});
+
 app.delete("/api/rooms/:roomId", async (req, res) => {
   const { roomId } = req.params;
   try {
@@ -115,9 +134,12 @@ io.on("connection", (socket) => {
           console.log("update", updatedRoom);
           io.to(updatedRoom.roomId).emit("room-update", updatedRoom);
           io.to(updatedRoom.roomId).emit("update-users", updatedRoom.users);
+          io.to(id).emit("join-msg", { userName: user, roomId: id });
+          io.to(updatedRoom.roomId).emit(
+            "update-members",
+            updatedRoom.users.length
+          );
         }
-
-        io.to(id).emit("join-msg", { userName: user, roomId: id });
       } else {
         socket.emit("join-msg", { error: "Room doesn't exist" });
       }
@@ -173,7 +195,8 @@ io.on("connection", (socket) => {
       );
       if (leaveUser) {
         io.to(id).emit("room-update", leaveUser);
-        io.to(id).emit("leave-user", leaveUser.users, user);
+        io.to(id).emit("leave-user", leaveUser.users, user, id);
+        io.to(leaveUser.roomId).emit("update-members", leaveUser.users.length);
         socket.leave(id);
       }
     } catch (error) {
@@ -191,6 +214,8 @@ io.on("connection", (socket) => {
       socket.join(roomId);
       io.to(roomId).emit("join-msg", { userName: user, roomId });
       io.to(roomId).emit("update-users", room.users);
+      // io.to(roomId).emit("leave-user", room.users, user, roomId);
+      // socket.to(roomId).emit("delete", room.roomId);
       io.to(roomId).emit("room-update", room);
       io.to(roomId).emit("updated-msg", room.message);
     }

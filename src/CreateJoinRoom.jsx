@@ -74,7 +74,9 @@ const CreateJoinRoom = () => {
               className="w-[80%] my-8 flex flex-col justify-center items-center"
             >
               <div className="flex flex-col justify-center items-center">
-                <p className="font-semibold tracking-wider my-4">Create New Room</p>
+                <p className="font-semibold tracking-wider my-4">
+                  Create New Room
+                </p>
                 <button
                   onClick={handleCreateRoom}
                   className="w-fit px-4 py-2 mx-4 rounded-lg group bg-gradient-to-br from-blue-500 to-purple-400 text-sm font-medium text-white hover:scale-105 hover:opacity-70 transition-all duration-200"
