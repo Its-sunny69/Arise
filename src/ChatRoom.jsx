@@ -11,7 +11,7 @@ import HomeSvg from "./assets/home-svg.svg";
 import SessionLeaveSvg from "./assets/session-leave-svg-com.svg";
 import Todo from "./components/Todo";
 import toast from "react-hot-toast";
-import toast from "react-hot-toast";
+
 const ChatRoom = () => {
   const socket = useSocket();
   const { roomId } = useParams();

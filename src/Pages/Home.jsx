@@ -53,10 +53,13 @@ const Home = () => {
       }
     });
 
-    socket.on("delete", (id) => {
-      const data = showCreatedRooms.filter((room) => room.roomId != id);
+    socket.on("delete", (id, user) => {
+      if (user == username) {
+        const data = showCreatedRooms.filter((room) => room.roomId != id);
+        setCreatedRooms(data);
+      }
       const data2 = joinedRooms.filter((room) => room.roomId != id);
-      setCreatedRooms(data);
+
       setJoinedRooms(data2);
       console.log(`Deleted:${id}`);
     });
@@ -156,7 +159,7 @@ const Home = () => {
       setCreatedRooms(
         showCreatedRooms.filter((room) => room.roomId !== roomId)
       );
-      socket.emit("delete-room", roomId);
+      socket.emit("delete-room", roomId, username);
       console.log("delete-data", data);
     } catch (error) {
       console.log(error, "Error deleting room");
