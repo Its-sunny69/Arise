@@ -201,46 +201,55 @@ const Home = () => {
         </div>
 
         <div className=" border-2 border-black m-2 p-2">
-        <div className="my-4">
-          <button
-            className="px-4 py-2 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 text-sm font-medium text-white hover:scale-105 hover:opacity-70 transition-all duration-200 "
-            onClick={handleRoomClick}
-          >
-            Create or Join Room
-          </button>
-        </div>
+          <div className="my-4">
+            <button
+              className="px-4 py-2 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 text-sm font-medium text-white hover:scale-105 hover:opacity-70 transition-all duration-200 "
+              onClick={handleRoomClick}
+            >
+              Create or Join Room
+            </button>
+          </div>
+          {console.log(
+            showCreatedRooms,
+            joinedRooms,
+            showCreatedRooms?.length == 0 &&
+              joinedRooms[0]?.createdBy == username
+          )}
+          Created Room:
+          <br />
+          {showCreatedRooms?.length ? "" : "No Rooms Created"}
+          <div className="flex justify-start flex-wrap">
+            {showCreatedRooms.map((room) => (
+              <RoomCard
+                key={room._id}
+                room={room}
+                timeAgo={timeAgo}
+                handleCreatedRoomClick={handleCreatedRoomClick}
+                handleRoomDelete={handleRoomDelete}
+                ref={createdRoomRef}
+              />
+            ))}
+          </div>
 
-        {/* {showCreatedRooms?.length == 0 && !joinedRooms?.length == 0 ? "" : "No Rooms Created or Joined Yet..!"} */}
-
-        {/* {showCreatedRooms?.length ? " Created Rooms:" : ""} */}
-        Created Rooms
-        <div className="flex justify-start flex-wrap">
-          {showCreatedRooms.map((room) => (
-            <RoomCard
-              key={room._id}
-              room={room}
-              timeAgo={timeAgo}
-              handleCreatedRoomClick={handleCreatedRoomClick}
-              handleRoomDelete={handleRoomDelete}
-              ref={createdRoomRef}
-            />
-          ))}
-        </div>  
-
-        {/* {joinedRooms?.length ? "Joined Rooms:" : ""} */}
-        Joined Rooms:
-        <div>
-          {joinedRooms?.map((room) => (
-            <JoinCard
-              room={room}
-              username={username}
-              ref={joinRoomRef}
-              timeAgo={timeAgo}
-              handleJoinRoomClick={handleJoinRoomClick}
-              handleLeaveRoom={handleLeaveRoom}
-            />
-          ))}
-        </div>
+          <br />
+          
+          Joined Rooms:
+          <br />
+          {joinedRooms[0] && joinedRooms[0]?.createdBy !== username
+            ? ""
+            : "No Rooms Joined"}
+          <div>
+            {joinedRooms?.map((room) => (
+              <JoinCard
+                room={room}
+                username={username}
+                ref={joinRoomRef}
+                timeAgo={timeAgo}
+                handleJoinRoomClick={handleJoinRoomClick}
+                handleLeaveRoom={handleLeaveRoom}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>

@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useSocket } from "./context/Socket";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthUser } from "./features/todosSlice";
+import { Tooltip } from "react-tooltip";
+import HomeSvg from "./assets/home-svg.svg";
+
 const CreateJoinRoom = () => {
   const socket = useSocket();
   const [input, setInput] = useState({ joinRoom: "" });
@@ -61,7 +64,19 @@ const CreateJoinRoom = () => {
       <div className="border-2 border-black m-2 p-2">
         <div className="flex justify-center items-center">
           <div className="w-[80%] flex justify-center items-center mb-5 bg-slate-100 rounded-md shadow-sm">
-            <div className="my-2 font-bold text-xl tracking-wider">
+          <div className="w-[5%] m-3">
+                  <button
+                    data-tooltip-id="my-tooltip"
+                    data-tooltip-content="Go to Home Page"
+                    data-tooltip-place="top"
+                    className="hover:opacity-55"
+                    onClick={() => navigate("/")}
+                  >
+                    <img src={HomeSvg} className="w-7" />
+                  </button>
+                  <Tooltip id="my-tooltip" />
+                </div>
+            <div className="w-[95%] my-2 font-bold text-xl tracking-wider flex justify-center items-center">
               <h1>Welcome To Arise</h1>
             </div>
           </div>
