@@ -1,8 +1,8 @@
 import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
 import React from "react";
 import "./App.css";
-import Todo from "./Pages/Todo";
-import Home from "./Pages/Home";
+import Todo from "./components/Todo";
+import Home from "./pages/Home";
 import { useSelector } from "react-redux";
 import CreateJoinRoom from "./CreateJoinRoom";
 import ChatRoom from "./ChatRoom";

@@ -4,8 +4,13 @@ import { useSocket } from "./context/Socket";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthUser } from "./features/todosSlice";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
 import SendSvg from "./assets/send-svg.svg";
-import Todo from "./Pages/Todo";
+import CopySvg from "./assets/copy-svg.svg";
+import HomeSvg from "./assets/home-svg.svg";
+import SessionLeaveSvg from "./assets/session-leave-svg-com.svg";
+import Todo from "./components/Todo";
+import toast from "react-hot-toast";
 import toast from "react-hot-toast";
 const ChatRoom = () => {
   const socket = useSocket();
@@ -15,10 +20,12 @@ const ChatRoom = () => {
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState();
+
   const dispatch = useDispatch();
   const currentToken = useSelector((state) => state.todos.token);
   const navigate = useNavigate();
   const location = useLocation();
+
   useEffect(() => {
     // socket.on("join-msg", (data) => {
     //   if (data.error) {
@@ -111,6 +118,19 @@ const ChatRoom = () => {
     }
   }, [messages]);
 
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(roomId)
+      .then(() => {
+        toast.success("ID copied to clipboard!", {
+          position: "top-right",
+        });
+      })
+      .catch((error) => {
+        console.error("Failed to copy text: ", error);
+      });
+  };
+
   const cssForCurrentUser = "w-full flex justify-end";
   const cssForOtherUser = "w-full flex justify-start";
 
@@ -120,14 +140,49 @@ const ChatRoom = () => {
         {roomData ? (
           <>
             <div className="flex justify-center items-center">
-              <div className="w-[80%] flex justify-center items-center mb-5 bg-slate-100 rounded-md shadow-sm">
+              <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
+                <div className="m-3">
+                  <button
+                    data-tooltip-id="my-tooltip"
+                    data-tooltip-content="Go to Home Page"
+                    data-tooltip-place="top"
+                    className="hover:opacity-55"
+                    onClick={() => navigate("/")}
+                  >
+                    <img src={HomeSvg} className="w-7" />
+                  </button>
+                  <Tooltip id="my-tooltip" />
+                </div>
+
                 <div className="my-2 font-bold text-xl tracking-wider">
                   Room: {roomData.createdBy}
+                  <div className="font-normal text-sm flex justify-center items-center mt-2">
+                    Room ID: {roomId}
+                    <button className="mx-2" onClick={handleCopy}>
+                      <img src={CopySvg} className="w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  {profile == users[0] ? null : (
+                    <>
+                      <div className="m-3">
+                        <button
+                          data-tooltip-id="my-tooltip"
+                          data-tooltip-content="Leave Room"
+                          data-tooltip-place="top"
+                          className="hover:opacity-55"
+                          onClick={handleLeaveRoom}
+                        >
+                          <img src={SessionLeaveSvg} className="w-7" />
+                        </button>
+                        <Tooltip id="my-tooltip" />
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
-              {profile == users[0] ? null : (
-                <button onClick={handleLeaveRoom}>Leave Room</button>
-              )}
             </div>
 
             <div className="flex justify-center items-center">
@@ -210,6 +265,7 @@ const ChatRoom = () => {
                   onChange={(e) => setMessage(e.target.value)}
                   value={message}
                   onKeyDown={handleKeyDown}
+                  placeholder="Type..."
                 />
               </div>
               <div className="w-1/5 flex justify-center items-center hover:opacity-60">
@@ -224,9 +280,9 @@ const ChatRoom = () => {
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <Todo />
-      </div>
+      </div> */}
     </>
   );
 };
