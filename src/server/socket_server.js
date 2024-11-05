@@ -204,8 +204,8 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("delete-room", (roomId) => {
-    socket.to(roomId).emit("delete", roomId);
+  socket.on("delete-room", (roomId, user) => {
+    socket.to(roomId).emit("delete", roomId, user);
   });
 
   socket.on("rejoin-room", async (user, roomId) => {
