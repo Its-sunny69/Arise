@@ -11,7 +11,7 @@ import HomeSvg from "./assets/home-svg.svg";
 import SessionLeaveSvg from "./assets/session-leave-svg-com.svg";
 import Todo from "./components/Todo";
 import toast from "react-hot-toast";
-import toast from "react-hot-toast";
+
 const ChatRoom = () => {
   const socket = useSocket();
   const { roomId } = useParams();
@@ -27,21 +27,7 @@ const ChatRoom = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // socket.on("join-msg", (data) => {
-    //   if (data.error) {
-    //     console.log(data.error);
-    //     toast.error(`${data.error}`, {
-    //       position: "top-center",
-    //       duration: 3000,
-    //     });
-    //   } else {
-    //     console.log(`${data.userName} joined room: ${data.roomId}`);
-    //     toast.success(`${data.userName} joined room: ${data.roomId}`, {
-    //       position: "top-center",
-    //       duration: 3000,
-    //     });
-    //   }
-    // });
+ 
     socket.on("room-update", (updatedRoom) => {
       setRoomData(updatedRoom);
     });
@@ -123,7 +109,7 @@ const ChatRoom = () => {
       .writeText(roomId)
       .then(() => {
         toast.success("ID copied to clipboard!", {
-          position: "top-right",
+          position: "top-center",
         });
       })
       .catch((error) => {
