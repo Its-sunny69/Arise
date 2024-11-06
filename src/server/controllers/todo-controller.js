@@ -6,9 +6,13 @@ const getTodo = async (req, res) => {
     console.log("userIdaa", req.params);
 
     const todoData = await Todo.find({ userId });
-    return res.status(200).json(todoData);
+    return res.status(201).send({
+      msg: "RoomTodos data fetched succuessfully",
+      data: todoData,
+    });
   } catch (error) {
     console.error(error);
+    return res.status(500).send({ msg: "Internal server error" });
   }
 };
 
