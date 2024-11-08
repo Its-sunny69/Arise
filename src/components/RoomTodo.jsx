@@ -1,60 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getTodos,
-  addTodo,
-  updateTodo,
-  deleteTodo,
-  checkBoxUpdate,
-  AuthUser,
-} from "../features/todosSlice";
 import ProgressBar from "./ProgressBar";
 import AddCricleSvg from "../assets/add-circle-svg.svg";
+import {
+  getRoomTodos,
+  addRoomTodo,
+  updateRoomTodo,
+  roomCheckBoxUpdate,
+  deleteRoomTodo,
+} from "../features/roomTodosSlice";
 
-function Todo() {
+function RoomTodo() {
   const [newTodo, setNewTodo] = useState("");
   const [newTodoAdded, setNewTodoAdded] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [checkedCount, setCheckedCount] = useState(0);
-  const [userId, setUserId] = useState("");
 
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todos.todos);
-  const error = useSelector((state) => state.todos.error);
-  const currentToken = useSelector((state) => state.todos.token);
+  const userId = useSelector((state) => state.todos.user?._id);
+  const todos = useSelector((state) => state.roomTodos.roomTodos);
 
-  // console.log(todos);
-  // console.log(currentToken);
+  console.log("RoomTodo - userId: ", userId);
 
-  // const isLoggedin = !!currentToken;
-  // console.log("isLoggedin", isLoggedin);
-
-  const userAuth = async () => {
-    dispatch(AuthUser(currentToken)).then((response) => {
-      if (response.payload) {
-        setUserId(response.payload._id);
+  useEffect(() => {
+      if (newTodoAdded || userId) {
+        console.log("RoomTodojsx", userId);
+        dispatch(getRoomTodos(userId));
+        setNewTodoAdded(false); // Reset the flag after dispatching
       }
-    });
-  };
-
-  useEffect(() => {
-    userAuth();
-  }, []);
-
-  useEffect(() => {
-    if (newTodoAdded || userId) {
-      console.log("todojsx", userId);
-      dispatch(getTodos(userId));
-      setNewTodoAdded(false); // Reset the flag after dispatching
-    }
   }, [newTodoAdded, userId, dispatch]);
 
-  const handleAddTodo = (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    const todoData = { userId: userId, title: newTodo, checked: false }; // Create a new todo object
+  console.log(todos)
 
-    dispatch(addTodo(todoData))
+  const handleAddTodo = (e) => {
+    e.preventDefault();
+
+    const todoData = { adminId: userId, title: newTodo }; // Create a new todo object
+
+    dispatch(addRoomTodo(todoData))
       .then((response) => {
         console.log("Todo Added", response.payload);
         setNewTodo(""); // Clear the input field
@@ -65,12 +49,12 @@ function Todo() {
 
   const handleUpdateTodo = (todoId, title) => {
     const updatedTodo = {
-      userId: userId,
+      adminId: userId,
       todoId: todoId,
       title: title,
-      checked: false,
+      checked: [],
     };
-    dispatch(updateTodo(updatedTodo))
+    dispatch(updateRoomTodo(updatedTodo))
       .then((response) => {
         // console.log("UpdateTodo Response: ", response);
         handleCancelEdit();
@@ -80,24 +64,23 @@ function Todo() {
       });
   };
 
-  const handleCheckboxChanges = (todoId, todo) => {
-    const currentChecked = todo.checked;
+  const handleCheckboxChanges = (todoId) => {
 
-    const updatedCheckedBox = { userId, todoId, currentChecked };
+  const updatedCheckedBox = { adminId: userId, todoId, checkedById: userId };
 
-    dispatch(checkBoxUpdate(updatedCheckedBox))
-      .then((response) => {
-        console.log("Response: ", response.payload);
-      })
-      .catch((error) => {
-        console.error("Error checked status of todo:", error);
-      });
+  dispatch(roomCheckBoxUpdate(updatedCheckedBox))
+    .then((response) => {
+      console.log("Response: ", response.payload);
+    })
+    .catch((error) => {
+      console.error("Error updating checkbox status of todo:", error);
+    });
   };
 
   const handleDeleteTodo = (todoId) => {
-    const todoData = { userId, todoId };
+    const todoData = { adminId: userId, todoId };
 
-    dispatch(deleteTodo(todoData))
+    dispatch(deleteRoomTodo(todoData))
       .then((response) => {
         console.log("Response: ", response.payload);
       })
@@ -117,7 +100,7 @@ function Todo() {
   const progressCalculator = () => {
     // console.log(todos.map((todo) => todo.checked));
     const count = todos.reduce((accumulator, todo) => {
-      return todo.checked ? accumulator + 1 : accumulator;
+      return todo.checked.includes(userId) ? accumulator + 1 : accumulator;
     }, 0);
 
     setCheckedCount(count);
@@ -136,7 +119,7 @@ function Todo() {
           currentValue={checkedCount}
           maxValue={todos.length}
         />
-        {error && <p>Error fetching todos: {error.message}</p>}
+        {/* {error && <p>Error fetching todos: {error.message}</p>} */}
 
         <ul>
           {todos.map((todo, index) => (
@@ -161,7 +144,7 @@ function Todo() {
                 <>
                   <input
                     type="checkbox"
-                    checked={todo.checked}
+                    checked={todo.checked.includes(userId)}
                     onChange={() => handleCheckboxChanges(todo._id, todo)}
                   />
                   {todo.title}
@@ -204,6 +187,6 @@ function Todo() {
       </div>
     </>
   );
-};
+}
 
-export default Todo;
+export default RoomTodo;

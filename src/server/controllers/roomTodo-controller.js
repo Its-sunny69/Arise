@@ -86,7 +86,7 @@ const updateTodo = async (req, res) => {
 const checkBoxUpdate = async (req, res) => {
   try {
     const { adminId, todoId, checkedById } = req.body;
-
+    console.log("idaaa0", adminId)
     const userTodos = await RoomTodo.findOne({ adminId });
     if (!userTodos) {
       return res.status(404).send({ msg: "User not found" });
@@ -111,7 +111,7 @@ const checkBoxUpdate = async (req, res) => {
 
     return res.status(200).send({
       msg: "Checked status updated successfully in Room",
-      data: todoItem,
+      data: { ...todoItem.toObject(), checkedById },
     });
   } catch (error) {
     console.error(error);

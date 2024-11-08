@@ -11,6 +11,7 @@ import HomeSvg from "./assets/home-svg.svg";
 import SessionLeaveSvg from "./assets/session-leave-svg-com.svg";
 import Todo from "./components/Todo";
 import toast from "react-hot-toast";
+import RoomTodo from "./components/RoomTodo";
 
 const ChatRoom = () => {
   const socket = useSocket();
@@ -27,7 +28,6 @@ const ChatRoom = () => {
   const location = useLocation();
 
   useEffect(() => {
- 
     socket.on("room-update", (updatedRoom) => {
       setRoomData(updatedRoom);
     });
@@ -266,9 +266,9 @@ const ChatRoom = () => {
           </div>
         </div>
       </div>
-      {/* <div>
-        <Todo />
-      </div> */}
+      <div>
+        <RoomTodo />
+      </div>
     </>
   );
 };

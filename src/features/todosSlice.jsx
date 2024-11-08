@@ -88,31 +88,37 @@ export const getTodos = createAsyncThunk("todos/todo/get", async (userId) => {
   }
 });
 
-export const addTodo = createAsyncThunk("todos/todo/create", async (todoData) => {
-  try {
-    const response = await fetch("http://localhost:5000/api/todos/todo/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(todoData),
-    });
+export const addTodo = createAsyncThunk(
+  "todos/todo/create",
+  async (todoData) => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/todos/todo/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(todoData),
+        }
+      );
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Updated Todo", data);
-      return data;
-    } else {
-      const errorData = await response.json();
-      return errorData;
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Updated Todo", data);
+        return data;
+      } else {
+        const errorData = await response.json();
+        return errorData;
+      }
+    } catch (error) {
+      return error;
     }
-  } catch (error) {
-    return error;
   }
-});
+);
 
 export const updateTodo = createAsyncThunk(
-  "todos/updateTodo",
+  "todos/todo/update",
   async (updatedTodo) => {
     try {
       const response = await fetch(
@@ -140,7 +146,7 @@ export const updateTodo = createAsyncThunk(
 );
 
 export const checkBoxUpdate = createAsyncThunk(
-  "todos/checkBoxUpdate",
+  "todos/todo/checkBoxUpdate",
   async (updatedCheckedBox) => {
     try {
       const response = await fetch(
@@ -169,7 +175,7 @@ export const checkBoxUpdate = createAsyncThunk(
 );
 
 export const deleteTodo = createAsyncThunk(
-  "todos/deleteTodo",
+  "todos/todo/deleteTodo",
   async (todoData) => {
     try {
       const response = await fetch(
