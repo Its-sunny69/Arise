@@ -15,8 +15,8 @@ import toast from "react-hot-toast";
 const ChatRoom = () => {
   const socket = useSocket();
   const { roomId } = useParams();
-  const [roomData, setRoomData] = useState(null);
-  const [profile, setProfile] = useState(null);
+  const [roomData, setRoomData] = useState([]);
+  const [profile, setProfile] = useState("");
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState();
@@ -27,7 +27,6 @@ const ChatRoom = () => {
   const location = useLocation();
 
   useEffect(() => {
- 
     socket.on("room-update", (updatedRoom) => {
       setRoomData(updatedRoom);
     });
@@ -119,7 +118,7 @@ const ChatRoom = () => {
 
   const cssForCurrentUser = "w-full flex justify-end";
   const cssForOtherUser = "w-full flex justify-start";
-
+  console.log(roomData);
   return (
     <>
       <div className="border-2 border-black m-2 p-2">
@@ -266,9 +265,7 @@ const ChatRoom = () => {
           </div>
         </div>
       </div>
-      {/* <div>
-        <Todo />
-      </div> */}
+      <div>{roomData && <Todo roomData={roomData.createdBy} />}</div>
     </>
   );
 };

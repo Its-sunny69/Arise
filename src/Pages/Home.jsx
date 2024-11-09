@@ -64,10 +64,13 @@ const Home = () => {
       console.log(`Deleted:${id}`);
     });
 
+    socket.emit("refresh", username);
+
     return () => {
       socket.off("update-members");
       socket.off("leave-user");
       socket.off("delete");
+      socket.off("refresh");
     };
   }, [socket, username]);
 
@@ -230,9 +233,7 @@ const Home = () => {
               />
             ))}
           </div>
-
           <br />
-          
           Joined Rooms:
           <br />
           {joinedRooms[0] && joinedRooms[0]?.createdBy !== username
@@ -241,6 +242,7 @@ const Home = () => {
           <div>
             {joinedRooms?.map((room) => (
               <JoinCard
+                key={room._id}
                 room={room}
                 username={username}
                 ref={joinRoomRef}

@@ -11,14 +11,15 @@ import {
 import ProgressBar from "./ProgressBar";
 import AddCricleSvg from "../assets/add-circle-svg.svg";
 
-const Todo = () => {
+const Todo = ({ roomData }) => {
+  const [username, setUsername] = useState("");
   const [newTodo, setNewTodo] = useState("");
   const [newTodoAdded, setNewTodoAdded] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [checkedCount, setCheckedCount] = useState(0);
   const [userId, setUserId] = useState("");
-
+  const [createdBy, setCreatedBy] = useState("");
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.todos);
   const error = useSelector((state) => state.todos.error);
@@ -34,6 +35,8 @@ const Todo = () => {
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
         setUserId(response.payload._id);
+        setUsername(response.payload.username);
+        setCreatedBy(roomData);
       }
     });
   };
@@ -127,6 +130,7 @@ const Todo = () => {
     progressCalculator();
   }, [todos]);
 
+  console.log("todo", roomData);
   return (
     <>
       <div className=" border-2 border-black m-2 p-2">
@@ -180,27 +184,29 @@ const Todo = () => {
           ))}
         </ul>
 
-        <div className="w-[20%] flex">
-          <div className="w-4/5 py-1">
-            <input
-              type="text"
-              className="w-full px-4 py-1 border rounded-l-lg text-gray-800 focus:outline-none focus:bg-slate-300"
-              value={newTodo}
-              onChange={(e) => setNewTodo(e.target.value)}
-              placeholder="Add New Task"
-              required
-            />
+        {username == roomData && (
+          <div className="w-[20%] flex">
+            <div className="w-4/5 py-1">
+              <input
+                type="text"
+                className="w-full px-4 py-1 border rounded-l-lg text-gray-800 focus:outline-none focus:bg-slate-300"
+                value={newTodo}
+                onChange={(e) => setNewTodo(e.target.value)}
+                placeholder="Add New Task"
+                required
+              />
+            </div>
+            <div className="w-1/5 flex justify-center items-center hover:opacity-60">
+              <button
+                className="w-full flex items-center bg-gradient-to-br from-blue-500 to-purple-400 text-sm font-medium text-white rounded-r-lg justify-center py-1.5 hover:scale-105 hover:opacity-70 transition-all duration-200"
+                type="submit"
+                onClick={handleAddTodo}
+              >
+                <img src={AddCricleSvg} className="w-5" />
+              </button>
+            </div>
           </div>
-          <div className="w-1/5 flex justify-center items-center hover:opacity-60">
-            <button
-              className="w-full flex items-center bg-gradient-to-br from-blue-500 to-purple-400 text-sm font-medium text-white rounded-r-lg justify-center py-1.5 hover:scale-105 hover:opacity-70 transition-all duration-200"
-              type="submit"
-              onClick={handleAddTodo}
-            >
-              <img src={AddCricleSvg} className="w-5" />
-            </button>
-          </div>
-        </div>
+        )}
       </div>
     </>
   );

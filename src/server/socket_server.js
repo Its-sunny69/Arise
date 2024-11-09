@@ -220,4 +220,13 @@ io.on("connection", (socket) => {
       io.to(roomId).emit("updated-msg", room.message);
     }
   });
+
+  socket.on("refresh", async (username) => {
+    const room = await roomsCollection.find({ users: { $in: [username] } });
+    if (room) {
+      io.to(room.roomId).emit("leave-user", room.users, username, room.roomId);
+      socket.to(room.roomId).emit("delete", room.roomId);
+      // io.to(room.roomId).emit("update-members", room.users.length);
+    }
+  });
 });
