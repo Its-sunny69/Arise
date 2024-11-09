@@ -9,7 +9,7 @@ import JoinCard from "../components/JoinCard";
 import { useRef } from "react";
 import Todo from "../components/Todo";
 
-const Home = () => {
+function Home() {
   const [username, setUsername] = useState("");
   const [showCreatedRooms, setCreatedRooms] = useState([]);
   const [joinedRooms, setJoinedRooms] = useState([]);
@@ -240,7 +240,7 @@ const Home = () => {
             ? ""
             : "No Rooms Joined"}
           <div>
-            {joinedRooms?.map((room) => (
+            {joinedRooms?.map((room, index) => (
               <JoinCard
                 key={room._id}
                 room={room}
@@ -256,6 +256,6 @@ const Home = () => {
       </div>
     </>
   );
-};
+}
 
 export default Home;
