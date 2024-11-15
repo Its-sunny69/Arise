@@ -102,6 +102,7 @@ function Home() {
   };
 
   const roomCreatedData = async (username) => {
+    console.log("Home", username);
     try {
       const url = `http://localhost:3002/api/rooms/${username}`;
       const response = await fetch(url);

@@ -82,7 +82,7 @@ export const roomCheckBoxUpdate = createAsyncThunk(
   "todos/roomtodo/checkBoxUpdate",
   async (updatedCheckedBox) => {
     try {
-      console.log("redux fn", updatedCheckedBox)
+      console.log("redux fn", updatedCheckedBox);
       const response = await fetch(
         `http://localhost:5000/api/todos/roomtodo/checkBoxUpdate`,
         {
@@ -169,34 +169,19 @@ const roomTodosSlice = createSlice({
         }
       })
       .addCase(roomCheckBoxUpdate.fulfilled, (state, action) => {
-
-        console.log("redux", action.payload)
+        // console.log("redux", action.payload);
         const updatedCheckBox = action.payload.data;
-        
+
+        // console.log(updatedCheckBox);
+
         const index = state.roomTodos.findIndex(
           (todo) => todo._id === updatedCheckBox._id
         );
 
         if (index !== -1) {
-          // Find if the checkedById is present in the checked array
-          const checkedIndex = state.roomTodos[index].checked.indexOf(
-            updatedCheckBox.checkedById
-          );
-
-          let updatedCheckedArray = [...state.roomTodos[index].checked];
-
-          if (checkedIndex === -1) {
-            // If not found, add the checkedById to the array
-            updatedCheckedArray.push(updatedCheckBox.checkedById);
-          } else {
-            // If found, remove the checkedById from the array
-            updatedCheckedArray.splice(checkedIndex, 1);
-          }
-
-          // Update the todo with the modified checked array
           state.roomTodos[index] = {
             ...state.roomTodos[index],
-            checked: updatedCheckedArray,
+            checked: updatedCheckBox.checked,
           };
         }
       })

@@ -266,9 +266,7 @@ const ChatRoom = () => {
           </div>
         </div>
       </div>
-      <div>
-        <RoomTodo />
-      </div>
+      <div>{roomData && <RoomTodo roomData={roomData} />}</div>
     </>
   );
 };
