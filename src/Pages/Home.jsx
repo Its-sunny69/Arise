@@ -11,6 +11,7 @@ import Todo from "../components/Todo";
 
 function Home() {
   const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState();
   const [showCreatedRooms, setCreatedRooms] = useState([]);
   const [joinedRooms, setJoinedRooms] = useState([]);
 
@@ -27,9 +28,9 @@ function Home() {
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
         setUsername(response.payload.username);
-        roomCreatedData(response.payload.username);
-        roomJoinData(response.payload.username);
-        // setUserId(response.payload._id);
+        roomCreatedData(response.payload._id);
+        roomJoinData(response.payload._id);
+        setUserId(response.payload._id);
       }
     });
   };
@@ -39,22 +40,14 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    socket.on("update-members", (data) => {
-      console.log("update-members", data);
-      createdRoomRef.current?.updateChild(data);
-      joinRoomRef.current?.updateChild(data);
-    });
-
     socket.on("leave-user", (users, user, id) => {
-      console.log("user", user, "username", username);
-
-      if (user == username) {
+      if (user == userId) {
         setJoinedRooms((prev) => prev.filter((room) => room.roomId !== id));
       }
     });
 
     socket.on("delete", (id, user) => {
-      if (user == username) {
+      if (user == userId) {
         const data = showCreatedRooms.filter((room) => room.roomId != id);
         setCreatedRooms(data);
       }
@@ -64,15 +57,22 @@ function Home() {
       console.log(`Deleted:${id}`);
     });
 
-    socket.emit("refresh", username);
+    socket.on("update-members", (data, id) => {
+      // console.log("update-members", data, id);
+
+      createdRoomRef.current?.updateChild(data, id);
+      joinRoomRef.current?.updateChild(data, id);
+    });
+
+    // socket.emit("refresh", userId);
 
     return () => {
       socket.off("update-members");
       socket.off("leave-user");
       socket.off("delete");
-      socket.off("refresh");
+      // socket.off("refresh");
     };
-  }, [socket, username]);
+  }, [socket, userId]);
 
   const timeAgo = (date) => {
     const now = Date.now();
@@ -102,7 +102,7 @@ function Home() {
   };
 
   const roomCreatedData = async (username) => {
-    console.log("Home", username);
+    // console.log("Home", username);
     try {
       const url = `http://localhost:3002/api/rooms/${username}`;
       const response = await fetch(url);
@@ -163,8 +163,8 @@ function Home() {
       setCreatedRooms(
         showCreatedRooms.filter((room) => room.roomId !== roomId)
       );
-      socket.emit("delete-room", roomId, username);
-      console.log("delete-data", data);
+      socket.emit("delete-room", roomId, username, userId);
+      // console.log("delete-data", data);
     } catch (error) {
       console.log(error, "Error deleting room");
     }
@@ -183,11 +183,11 @@ function Home() {
   };
 
   const handleLeaveRoom = (roomId) => {
-    socket.emit("leave-room", username, roomId);
+    socket.emit("leave-room", userId, roomId);
   };
 
-  console.log("showCreatedRooms", showCreatedRooms);
-  console.log("joinedRooms", joinedRooms);
+  // console.log("showCreatedRooms", showCreatedRooms);
+  // console.log("joinedRooms", joinedRooms);
 
   return (
     <>
@@ -214,10 +214,11 @@ function Home() {
             </button>
           </div>
           {console.log(
+            "Home Card",
             showCreatedRooms,
             joinedRooms,
             showCreatedRooms?.length == 0 &&
-              joinedRooms[0]?.createdBy == username
+              joinedRooms[0]?.createdBy == joinedRooms[0]?.users[0]
           )}
           Created Room:
           <br />
@@ -237,7 +238,7 @@ function Home() {
           <br />
           Joined Rooms:
           <br />
-          {joinedRooms[0] && joinedRooms[0]?.createdBy !== username
+          {joinedRooms[0] && username !== joinedRooms[0]?.users[0].username
             ? ""
             : "No Rooms Joined"}
           <div>

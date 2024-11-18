@@ -8,8 +8,10 @@ const RoomCard = forwardRef(
     const [members, setMembers] = useState(room.users.length);
 
     useImperativeHandle(ref, () => ({
-      updateChild(newValue) {
-        setMembers(newValue);
+      updateChild(newValue, id) {
+        if (room.roomId == id) {
+          setMembers(newValue);
+        }
       },
     }));
 
@@ -25,7 +27,7 @@ const RoomCard = forwardRef(
           console.error("Failed to copy text: ", error);
         });
     };
-
+    // console.log("RoomCard", members);
     return (
       <>
         <div key={room._id} className="flex flex-wrap">

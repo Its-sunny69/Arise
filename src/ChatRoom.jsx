@@ -29,6 +29,7 @@ const ChatRoom = () => {
 
   useEffect(() => {
     socket.on("room-update", (updatedRoom) => {
+      console.log("roomUpdate", roomData);
       setRoomData(updatedRoom);
     });
 
@@ -38,7 +39,7 @@ const ChatRoom = () => {
 
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
-        setProfile(response.payload.username);
+        setProfile(response.payload._id);
       }
     });
 
@@ -119,7 +120,7 @@ const ChatRoom = () => {
 
   const cssForCurrentUser = "w-full flex justify-end";
   const cssForOtherUser = "w-full flex justify-start";
-  console.log(roomData);
+  console.log("roomUpdate", roomData);
   return (
     <>
       <div className="border-2 border-black m-2 p-2">
@@ -141,7 +142,7 @@ const ChatRoom = () => {
                 </div>
 
                 <div className="my-2 font-bold text-xl tracking-wider">
-                  Room: {roomData.createdBy}
+                  Room: {users[0]?.username}
                   <div className="font-normal text-sm flex justify-center items-center mt-2">
                     Room ID: {roomId}
                     <button className="mx-2" onClick={handleCopy}>
@@ -177,7 +178,9 @@ const ChatRoom = () => {
                 <div>
                   <ul>
                     {users
-                      ? users.map((user) => <li key={user}>{user}</li>)
+                      ? users.map((user) => (
+                          <li key={user._id}>{user.username}</li>
+                        ))
                       : "Loading Users"}
                   </ul>
                 </div>

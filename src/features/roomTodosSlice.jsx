@@ -82,7 +82,7 @@ export const roomCheckBoxUpdate = createAsyncThunk(
   "todos/roomtodo/checkBoxUpdate",
   async (updatedCheckedBox) => {
     try {
-      console.log("redux fn", updatedCheckedBox);
+      // console.log("redux fn", updatedCheckedBox);
       const response = await fetch(
         `http://localhost:5000/api/todos/roomtodo/checkBoxUpdate`,
         {
@@ -96,7 +96,7 @@ export const roomCheckBoxUpdate = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated RoomCheckbox", data);
+        // console.log("Updated RoomCheckbox", data);
         return data;
       } else {
         const errorData = await response.json();

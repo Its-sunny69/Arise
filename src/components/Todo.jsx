@@ -44,7 +44,7 @@ const Todo = () => {
 
   useEffect(() => {
     if (newTodoAdded || userId) {
-      console.log("todojsx", userId);
+      // console.log("todojsx", userId);
       dispatch(getTodos(userId));
       setNewTodoAdded(false); // Reset the flag after dispatching
     }

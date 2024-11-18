@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import connectDb from "../database/database.js";
 import roomsCollection from "../models/roomModel.js";
+import User from "../models/userModal.js";
 const port = 3002;
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -22,43 +23,47 @@ connectDb()
     console.log(err);
   });
 
-// app.get("/api/rooms/:createdBy", async (req, res) => {
-//   const { createdBy } = req.params;
-//   console.log("socket created", createdBy);
-//   try {
-//     const rooms = await roomsCollection.find({ createdBy: createdBy });
+app.get("/api/rooms/:createdBy", async (req, res) => {
+  const { createdBy } = req.params;
+  // console.log("socket created", createdBy);
+  try {
+    const rooms = await roomsCollection
+      .find({ createdBy: createdBy })
+      .populate("users");
 
-//     if (rooms) {
-//       res.status(200).json(rooms);
-//     } else {
-//       res.status(404).json({ message: "room not found" });
-//     }
-//   } catch (error) {
-//     console.error("Error fetching room data:", error);
-//     res
-//       .status(500)
-//       .json({ message: "Failed to fetch room data", error: error.message });
-//   }
-// });
+    if (rooms) {
+      res.status(200).json(rooms);
+    } else {
+      res.status(404).json({ message: "room not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching room data:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch room data", error: error.message });
+  }
+});
 
-// app.get("/api/rooms/join/:userJoined", async (req, res) => {
-//   const { userJoined } = req.params;
+app.get("/api/rooms/join/:userJoined", async (req, res) => {
+  const { userJoined } = req.params;
 
-//   try {
-//     const rooms = await roomsCollection.find({ users: { $in: [userJoined] } });
+  try {
+    const rooms = await roomsCollection
+      .find({ users: { $in: [userJoined] } })
+      .populate("users");
 
-//     if (rooms) {
-//       res.status(200).json(rooms);
-//     } else {
-//       res.status(404).json({ message: "room not found" });
-//     }
-//   } catch (error) {
-//     console.error("Error fetching room data:", error);
-//     res
-//       .status(500)
-//       .json({ message: "Failed to fetch room data", error: error.message });
-//   }
-// });
+    if (rooms) {
+      res.status(200).json(rooms);
+    } else {
+      res.status(404).json({ message: "room not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching room data:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch room data", error: error.message });
+  }
+});
 
 app.delete("/api/rooms/:roomId", async (req, res) => {
   const { roomId } = req.params;
@@ -98,12 +103,21 @@ io.on("connection", (socket) => {
       createdAt: Date.now(),
       createdBy: val,
       users: [val],
+      progress: { [val]: 0 },
     });
     try {
       const roomSaved = await rooms.save();
       if (roomSaved) {
         socket.join(roomId);
-        // io.to(roomId).emit("room-update", roomSaved);
+
+        const populatedRoom = await roomsCollection
+          .findOne({ roomId })
+          .populate("users");
+
+        if (populatedRoom) {
+          socket.emit("room-update", roomSaved);
+        }
+
         socket.emit("msg", { user: val, id: roomId });
       }
     } catch (err) {
@@ -112,32 +126,35 @@ io.on("connection", (socket) => {
   });
 
   socket.on("join-room", async (user, id) => {
-    console.log("joinroom userId", user);
+    // console.log("joinroom userId", user);
     try {
       const room = await roomsCollection.findOne({ roomId: id });
 
       if (room) {
         socket.join(id);
-        const updatedRoom = await roomsCollection.findOneAndUpdate(
+        await roomsCollection.findOneAndUpdate(
           {
             roomId: room.roomId,
           },
           {
             $push: { users: user },
-          },
-          {
-            new: true,
+            $set: { [`progress.${user}`]: 0 },
           }
         );
 
+        const updatedRoom = await roomsCollection
+          .findOne({ roomId: room.roomId })
+          .populate("users");
+
         if (updatedRoom) {
-          console.log("update", updatedRoom);
+          // console.log("update", updatedRoom);
           io.to(updatedRoom.roomId).emit("room-update", updatedRoom);
           io.to(updatedRoom.roomId).emit("update-users", updatedRoom.users);
           io.to(id).emit("join-msg", { userName: user, roomId: id });
           io.to(updatedRoom.roomId).emit(
             "update-members",
-            updatedRoom.users.length
+            updatedRoom.users.length,
+            updatedRoom.roomId
           );
         }
       } else {
@@ -188,15 +205,26 @@ io.on("connection", (socket) => {
         {
           roomId: id,
         },
-        { $pull: { users: user } },
+        {
+          $pull: { users: user },
+
+          $unset: { [`progress.${user}`]: 0 },
+        },
         {
           new: true,
         }
       );
+
       if (leaveUser) {
+        // console.log("leaveUser", leaveUser);
         io.to(id).emit("room-update", leaveUser);
         io.to(id).emit("leave-user", leaveUser.users, user, id);
-        io.to(leaveUser.roomId).emit("update-members", leaveUser.users.length);
+        io.to(leaveUser.roomId).emit(
+          "update-members",
+          leaveUser.users.length,
+          leaveUser.roomId
+        );
+
         socket.leave(id);
       }
     } catch (error) {
@@ -204,12 +232,12 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("delete-room", (roomId, user) => {
+  socket.on("delete-room", async (roomId, user, userId) => {
     socket.to(roomId).emit("delete", roomId, user);
   });
 
   socket.on("rejoin-room", async (user, roomId) => {
-    const room = await roomsCollection.findOne({ roomId });
+    const room = await roomsCollection.findOne({ roomId }).populate("users");
     if (room) {
       socket.join(roomId);
       io.to(roomId).emit("join-msg", { userName: user, roomId });
@@ -224,10 +252,12 @@ io.on("connection", (socket) => {
   socket.on("refresh", async (username) => {
     console.log(username);
     const room = await roomsCollection.find({ users: { $in: [username] } });
+
     if (room) {
+      // console.log("refresh-socket", room);
       io.to(room.roomId).emit("leave-user", room.users, username, room.roomId);
       socket.to(room.roomId).emit("delete", room.roomId);
-      // io.to(room.roomId).emit("update-members", room.users.length);
+      io.to(room.roomId).emit("update-members", room?.users?.length);
     }
   });
 
@@ -237,5 +267,25 @@ io.on("connection", (socket) => {
 
   socket.on("updateCheckbox", (updatedTodo, roomId) => {
     io.to(roomId).emit("updateTodo", updatedTodo);
+  });
+
+  socket.on("progress", async (userId, count, roomId, todoLength) => {
+    try {
+      console.log("progressUser", userId);
+      if (userId) {
+        const progress = await roomsCollection.findOneAndUpdate(
+          { roomId: roomId },
+          { $set: { [`progress.${userId}`]: count } },
+          {
+            new: true,
+          }
+        );
+        if (progress) {
+          io.to(roomId).emit("room-progress", progress.progress, todoLength);
+        }
+      }
+    } catch (error) {
+      console.log("Error while updating progress", error);
+    }
   });
 });

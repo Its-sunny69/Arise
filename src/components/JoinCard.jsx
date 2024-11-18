@@ -7,8 +7,10 @@ const JoinCard = forwardRef(
     const [members, setMembers] = useState(room.users.length);
 
     useImperativeHandle(ref, () => ({
-      updateChild(newValue) {
-        setMembers(newValue);
+      updateChild(newValue, id) {
+        if (room.roomId == id) {
+          setMembers(newValue);
+        }
       },
     }));
 
@@ -25,13 +27,15 @@ const JoinCard = forwardRef(
         });
     };
 
+    // console.log("JoinCard", members);
+
     return (
       <>
         <div key={room._id} className="flex flex-wrap">
-          {username !== room.createdBy ? (
+          {username !== room.users[0].username ? (
             <div className="shadow-lg m-5 rounded-md">
               <div className="bg-slate-300 px-4 py-2 rounded-t-md">
-                <p>Admin: {room.createdBy}</p>
+                <p>Admin: {room.users[0].username}</p>
                 <div className="flex">
                   <p>RoomId: {room.roomId}</p>
                   <button className="mx-2" onClick={handleCopy}>
