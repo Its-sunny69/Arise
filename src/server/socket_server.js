@@ -262,6 +262,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("todo", (todos, roomId, todoAdminId) => {
+    console.log("todos", todos);
     io.to(roomId).emit("addTodo", todos, todoAdminId);
   });
 

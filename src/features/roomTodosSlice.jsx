@@ -149,7 +149,7 @@ const roomTodosSlice = createSlice({
       .addCase(getRoomTodos.fulfilled, (state, action) => {
         state.adminId = action.payload.data[0].adminId;
         state.roomTodos = action.payload.data[0].todos;
-        console.log(state.roomTodos);
+        console.log("roomTodos", state.roomTodos);
       })
       .addCase(addRoomTodo.fulfilled, (state, action) => {
         state.roomTodos.push(action.payload);

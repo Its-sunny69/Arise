@@ -30,11 +30,20 @@ function RoomTodo({ roomData }) {
   // console.log("RoomTodo - userId: ", userId);
 
   useEffect(() => {
+    console.log("Todo", todos);
     socket.on("addTodo", (todos, todoAdminId) => {
+      console.log("addTodo", todos);
       setSocketTodo(todos);
       setSocketAdminId(todoAdminId);
     });
+    socket.emit("todo", todos, roomData.roomId, todoAdminId);
+    return () => {
+      socket.off("addTodo");
+      socket.off("todo");
+    };
+  }, [todos, dispatch, socket]);
 
+  useEffect(() => {
     socket.on("updateTodo", (updatedTodo) => {
       // console.log("updateTodo", updatedTodo);
       // Update the local socketTodo state with the latest data
@@ -54,11 +63,11 @@ function RoomTodo({ roomData }) {
     });
 
     return () => {
-      socket.off("addTodo");
+      // socket.off("addTodo");
       socket.off("updateTodo");
       socket.off("room-progress");
     };
-  }, [socketTodo, roomData]);
+  }, [todos]);
 
   useEffect(() => {
     if (newTodoAdded || userId) {
@@ -67,10 +76,6 @@ function RoomTodo({ roomData }) {
       setNewTodoAdded(false); // Reset the flag after dispatching
     }
   }, [newTodoAdded, userId, dispatch]);
-
-  useEffect(() => {
-    socket.emit("todo", todos, roomData.roomId, todoAdminId);
-  }, [todos, dispatch]);
 
   const handleAddTodo = (e) => {
     e.preventDefault();
