@@ -7,7 +7,7 @@ const todoListSchema = new mongoose.Schema({
 });
 
 const roomTodoSchema = new mongoose.Schema({
-  adminId: { type: mongoose.Schema.Types.ObjectId, ref: "User", require: true },
+  roomId: { type: String, require: true },
   todos: { type: [todoListSchema], default: [] },
 });
 

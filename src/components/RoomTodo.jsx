@@ -18,21 +18,21 @@ function RoomTodo({ roomData }) {
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [socketTodo, setSocketTodo] = useState([]);
-  const [socketAdminId, setSocketAdminId] = useState("");
+  const [socketRoomId, setSocketRoomId] = useState("");
   const [roomProgress, setRoomProgress] = useState();
   const [todoLength, setTodoLength] = useState();
   const dispatch = useDispatch();
   const username = useSelector((state) => state.todos.user?.username);
   const userId = useSelector((state) => state.todos.user?._id);
   const todos = useSelector((state) => state.roomTodos.roomTodos);
-  const todoAdminId = useSelector((state) => state.roomTodos.adminId);
+  const todoRoomId = useSelector((state) => state.roomTodos.roomId);
   const socket = useSocket();
   // console.log("RoomTodo - userId: ", userId);
 
   useEffect(() => {
-    socket.on("addTodo", (todos, todoAdminId) => {
+    socket.on("addTodo", (todos, todoRoomId) => {
       setSocketTodo(todos);
-      setSocketAdminId(todoAdminId);
+      setSocketRoomId(todoRoomId);
     });
 
     socket.on("updateTodo", (updatedTodo) => {
@@ -61,21 +61,22 @@ function RoomTodo({ roomData }) {
   }, [socketTodo, roomData]);
 
   useEffect(() => {
-    if (newTodoAdded || userId) {
-      dispatch(getRoomTodos(userId));
+    if (newTodoAdded || roomData.roomId) {
+      console.log("roomId", roomData.roomId)
+      dispatch(getRoomTodos(roomData.roomId));
 
       setNewTodoAdded(false); // Reset the flag after dispatching
     }
-  }, [newTodoAdded, userId, dispatch]);
+  }, [newTodoAdded, roomData.roomId, dispatch]);
 
   useEffect(() => {
-    socket.emit("todo", todos, roomData.roomId, todoAdminId);
+    socket.emit("todo", todos, roomData.roomId, todoRoomId);
   }, [todos, dispatch]);
 
   const handleAddTodo = (e) => {
     e.preventDefault();
 
-    const todoData = { adminId: userId, title: newTodo }; // Create a new todo object
+    const todoData = { roomId: roomData.roomId, title: newTodo }; // Create a new todo object
 
     dispatch(addRoomTodo(todoData))
       .then((response) => {
@@ -88,7 +89,7 @@ function RoomTodo({ roomData }) {
 
   const handleUpdateTodo = (todoId, title) => {
     const updatedTodo = {
-      adminId: userId,
+      roomId: roomData.roomId,
       todoId: todoId,
       title: title,
       checked: [],
@@ -105,7 +106,7 @@ function RoomTodo({ roomData }) {
 
   const handleCheckboxChanges = (todoId) => {
     const updatedCheckedBox = {
-      adminId: socketAdminId,
+      roomId: socketRoomId,
       todoId,
       checkedById: userId,
     };
@@ -121,7 +122,7 @@ function RoomTodo({ roomData }) {
   };
 
   const handleDeleteTodo = (todoId) => {
-    const todoData = { adminId: userId, todoId };
+    const todoData = { roomId: roomData.roomId, todoId };
 
     dispatch(deleteRoomTodo(todoData))
       .then((response) => {

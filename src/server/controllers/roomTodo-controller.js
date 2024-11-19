@@ -2,11 +2,12 @@ import RoomTodo from "../../models/roomTodoModel.js";
 
 const getTodo = async (req, res) => {
   try {
-    const { adminId } = req.params;
-    console.log("adminIdaa", req.params);
+    const { roomId } = req.params;
+    console.log("roomIdaa", req.params);
 
-    const todoData = await RoomTodo.find({ adminId });
+    const todoData = await RoomTodo.find({ roomId });
 
+    console.log("back-roomData", todoData)
     return res.status(201).send({
       msg: "RoomTodos data fetched succuessfully",
       data: todoData,
@@ -19,15 +20,15 @@ const getTodo = async (req, res) => {
 
 const createTodo = async (req, res) => {
   try {
-    const { adminId, title, checked } = req.body;
+    const { roomId, title, checked } = req.body;
 
-    const userTodos = await RoomTodo.findOne({ adminId });
+    const userTodos = await RoomTodo.findOne({ roomId });
 
     console.log("userTodos", userTodos);
 
     if (!userTodos) {
       const todoCreated = await RoomTodo.create({
-        adminId,
+        roomId,
         todos: [{ title, checked }],
       });
 
@@ -56,9 +57,9 @@ const createTodo = async (req, res) => {
 
 const updateTodo = async (req, res) => {
   try {
-    const { adminId, todoId, title, checked } = req.body;
+    const { roomId, todoId, title, checked } = req.body;
 
-    const userTodos = await RoomTodo.findOne({ adminId });
+    const userTodos = await RoomTodo.findOne({ roomId });
     if (!userTodos) {
       return res.status(404).send({ msg: "User not found" });
     }
@@ -85,9 +86,9 @@ const updateTodo = async (req, res) => {
 
 const checkBoxUpdate = async (req, res) => {
   try {
-    const { adminId, todoId, checkedById } = req.body;
-    console.log("idaaa0", adminId)
-    const userTodos = await RoomTodo.findOne({ adminId });
+    const { roomId, todoId, checkedById } = req.body;
+    console.log("idaaa0", roomId)
+    const userTodos = await RoomTodo.findOne({ roomId });
     if (!userTodos) {
       return res.status(404).send({ msg: "User not found" });
     }
@@ -121,9 +122,9 @@ const checkBoxUpdate = async (req, res) => {
 
 const deleteTodo = async (req, res) => {
   try {
-    const { adminId, todoId } = req.body;
+    const { roomId, todoId } = req.body;
 
-    const userTodos = await RoomTodo.findOne({ adminId });
+    const userTodos = await RoomTodo.findOne({ roomId });
 
     if (!userTodos) {
       return res.status(404).send({ msg: "User not found" });
