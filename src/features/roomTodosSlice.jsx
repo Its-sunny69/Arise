@@ -2,14 +2,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getRoomTodos = createAsyncThunk(
   "todos/roomtodo/get",
-  async (adminId) => {
+  async (roomId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/todos/roomtodo/get/${adminId}`
+        `http://localhost:5000/api/todos/roomtodo/get/${roomId}`
       );
 
       if (response.ok) {
         const data = await response.json();
+        console.log("roomdata", data)
         return data;
       } else {
         const errorData = await response.json();
@@ -140,14 +141,14 @@ export const deleteRoomTodo = createAsyncThunk(
 const roomTodosSlice = createSlice({
   name: "roomTodos",
   initialState: {
-    adminId: null,
+    roomId: null,
     roomTodos: [],
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getRoomTodos.fulfilled, (state, action) => {
-        state.adminId = action.payload.data[0].adminId;
+        state.roomId = action.payload.data[0].roomId;
         state.roomTodos = action.payload.data[0].todos;
         console.log("roomTodos", state.roomTodos);
       })
