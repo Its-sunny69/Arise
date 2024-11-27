@@ -21,7 +21,12 @@ const register = async (req, res) => {
       return res.status(400).json({ msg: "Email is Already Registerd" });
     }
 
-    const userCreated = await User.create({ username, email, password });
+    const userCreated = await User.create({
+      username,
+      email,
+      password,
+      points: 0,
+    });
 
     return res.status(201).send({
       msg: "Registerd Successfully",
@@ -30,9 +35,8 @@ const register = async (req, res) => {
       userId: userCreated._id.toString(),
     });
   } catch (error) {
-    
     console.error("Error in Registration Logic", error);
-    return res.status(500).json({msg: "Internal Server Error"});
+    return res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 

@@ -115,10 +115,10 @@ const Todo = () => {
   };
 
   const progressCalculator = () => {
-    console.log(
-      "prgressChecked",
-      todos.map((todo) => todo.checked)
-    );
+    // console.log(
+    //   "prgressChecked",
+    //   todos.map((todo) => todo.checked)
+    // );
     const count = todos.reduce((accumulator, todo) => {
       return todo.checked ? accumulator + 1 : accumulator;
     }, 0);
@@ -130,7 +130,7 @@ const Todo = () => {
     progressCalculator();
   }, [todos]);
 
-  console.log("checkedCount", checkedCount);
+  // console.log("checkedCount", checkedCount);
   return (
     <>
       <div className=" border-2 border-black m-2 p-2">

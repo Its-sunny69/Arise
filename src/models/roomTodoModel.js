@@ -9,6 +9,7 @@ const todoListSchema = new mongoose.Schema({
 const roomTodoSchema = new mongoose.Schema({
   roomId: { type: String, require: true },
   todos: { type: [todoListSchema], default: [] },
+  completed: { type: Array },
 });
 
 const RoomTodo = new mongoose.model("RoomTodo", roomTodoSchema);

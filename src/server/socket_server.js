@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import connectDb from "../database/database.js";
 import roomsCollection from "../models/roomModel.js";
+import RoomTodo from "../models/roomTodoModel.js";
 import User from "../models/userModal.js";
 const port = 3002;
 import { createServer } from "http";
@@ -83,6 +84,23 @@ app.delete("/api/rooms/:roomId", async (req, res) => {
   }
 });
 
+// app.get("/api/points", async (req, res) => {
+//   try {
+//     const userwithPoints = await User.find({ points: { $exists: true } });
+//     if (userwithPoints) {
+//       io.emit("pointsSocket", userwithPoints);
+//       res.status(200).json(userwithPoints);
+//     } else {
+//       res.status(404).json({ message: "Points data not found" });
+//     }
+//   } catch (error) {
+//     console.error("Error updating points data:", error);
+//     res
+//       .status(500)
+//       .json({ message: "Failed to update points data", error: error.message });
+//   }
+// });
+
 app.get("/", (req, res) => {
   res.send("Hii");
 });
@@ -115,6 +133,7 @@ io.on("connection", (socket) => {
           .populate("users");
 
         if (populatedRoom) {
+          // console.log("roomSaved", roomSaved);
           socket.emit("room-update", roomSaved);
         }
 
@@ -147,8 +166,9 @@ io.on("connection", (socket) => {
           .populate("users");
 
         if (updatedRoom) {
-          // console.log("update", updatedRoom);
+          console.log("update", updatedRoom);
           io.to(updatedRoom.roomId).emit("room-update", updatedRoom);
+
           io.to(updatedRoom.roomId).emit("update-users", updatedRoom.users);
           io.to(id).emit("join-msg", { userName: user, roomId: id });
           io.to(updatedRoom.roomId).emit(
@@ -188,7 +208,8 @@ io.on("connection", (socket) => {
         if (updatedMessage) {
           io.to(updatedMessage.roomId).emit(
             "updated-msg",
-            updatedMessage.message
+            updatedMessage.message,
+            roomId
           );
         }
       }
@@ -234,18 +255,23 @@ io.on("connection", (socket) => {
 
   socket.on("delete-room", async (roomId, user, userId) => {
     socket.to(roomId).emit("delete", roomId, user);
+    await RoomTodo.findOneAndDelete({ roomId: roomId });
   });
 
   socket.on("rejoin-room", async (user, roomId) => {
     const room = await roomsCollection.findOne({ roomId }).populate("users");
     if (room) {
+      const roomNew = io.sockets.adapter.rooms;
+      console.log("Room members:", roomNew);
+
+      console.log("rejoin", room);
       socket.join(roomId);
-      io.to(roomId).emit("join-msg", { userName: user, roomId });
-      io.to(roomId).emit("update-users", room.users);
+      io.to(room.roomId).emit("join-msg", { userName: user, roomId });
+      io.to(room.roomId).emit("update-users", room.users, roomId);
       // io.to(roomId).emit("leave-user", room.users, user, roomId);
       // socket.to(roomId).emit("delete", room.roomId);
-      io.to(roomId).emit("room-update", room);
-      io.to(roomId).emit("updated-msg", room.message);
+      io.to(room.roomId).emit("room-update", room, roomId);
+      io.to(room.roomId).emit("updated-msg", room.message, roomId);
     }
   });
 
@@ -261,13 +287,13 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("todo", (todos, roomId, todoAdminId) => {
+  socket.on("todo", (todos, roomId) => {
     console.log("todos", todos);
-    io.to(roomId).emit("addTodo", todos, todoAdminId);
+    io.to(roomId).emit("addTodo", todos, roomId);
   });
 
   socket.on("updateCheckbox", (updatedTodo, roomId) => {
-    io.to(roomId).emit("updateTodo", updatedTodo);
+    io.to(roomId).emit("updateTodo", updatedTodo, roomId);
   });
 
   socket.on("progress", async (userId, count, roomId, todoLength) => {
@@ -282,11 +308,24 @@ io.on("connection", (socket) => {
           }
         );
         if (progress) {
-          io.to(roomId).emit("room-progress", progress.progress, todoLength);
+          io.to(roomId).emit(
+            "room-progress",
+            progress.progress,
+            roomId,
+            todoLength
+          );
         }
       }
     } catch (error) {
       console.log("Error while updating progress", error);
+    }
+  });
+
+  socket.on("points", async () => {
+    const userwithPoints = await User.find({ points: { $exists: true } });
+    console.log("userwithPoints", userwithPoints);
+    if (userwithPoints) {
+      io.emit("pointsSocket", userwithPoints);
     }
   });
 });
