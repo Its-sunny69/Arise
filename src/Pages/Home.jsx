@@ -127,7 +127,7 @@ function Home() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      // console.log("joined", data);
+      console.log("joined", data);
       setJoinedRooms(data);
     } catch (error) {
       console.log(error, "Error while fetching all joined rooms");

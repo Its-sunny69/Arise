@@ -10,7 +10,7 @@ export const getRoomTodos = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("roomdata", data)
+        console.log("roomdata-fetch", data)
         return data;
       } else {
         const errorData = await response.json();
@@ -150,7 +150,7 @@ const roomTodosSlice = createSlice({
       .addCase(getRoomTodos.fulfilled, (state, action) => {
         state.roomId = action.payload.data[0].roomId;
         state.roomTodos = action.payload.data[0].todos;
-        console.log("roomTodos", state.roomTodos);
+        console.log("roomTodos-redux", state.roomTodos);
       })
       .addCase(addRoomTodo.fulfilled, (state, action) => {
         state.roomTodos.push(action.payload);
@@ -166,23 +166,6 @@ const roomTodosSlice = createSlice({
             ...state.roomTodos[index],
             title: updatedTodo.title,
             checked: updatedTodo.checked,
-          };
-        }
-      })
-      .addCase(roomCheckBoxUpdate.fulfilled, (state, action) => {
-        // console.log("redux", action.payload);
-        const updatedCheckBox = action.payload.data;
-
-        // console.log(updatedCheckBox);
-
-        const index = state.roomTodos.findIndex(
-          (todo) => todo._id === updatedCheckBox._id
-        );
-
-        if (index !== -1) {
-          state.roomTodos[index] = {
-            ...state.roomTodos[index],
-            checked: updatedCheckBox.checked,
           };
         }
       })
