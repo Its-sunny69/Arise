@@ -23,10 +23,15 @@ router.route("/todo/checkBoxUpdate").patch(todoControllers.checkBoxUpdate);
 router.route("/todo/deleteTodo").delete(todoControllers.deleteTodo);
 
 //roomTodo
-router.route("/roomtodo/get/:roomId").get(roomTodoControllers.getTodo)
+router.route("/roomtodo/get/:roomId").get(roomTodoControllers.getTodo);
 router.route("/roomtodo/create").post(roomTodoControllers.createTodo);
 router.route("/roomtodo/update").patch(roomTodoControllers.updateTodo);
-router.route("/roomtodo/checkBoxUpdate").patch(roomTodoControllers.checkBoxUpdate)
-router.route("/roomtodo/deleteTodo").delete(roomTodoControllers.deleteTodo)
+router
+  .route("/roomtodo/checkBoxUpdate")
+  .patch(roomTodoControllers.checkBoxUpdate);
+router.route("/roomtodo/deleteTodo").delete(roomTodoControllers.deleteTodo);
+router
+  .route("/roomtodo/completedUpdate")
+  .patch(roomTodoControllers.completedUpdate);
 
 export default router;

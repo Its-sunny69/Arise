@@ -10,7 +10,7 @@ export const getRoomTodos = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("roomdata-fetch", data)
+        console.log("roomdata", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -97,7 +97,7 @@ export const roomCheckBoxUpdate = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        // console.log("Updated RoomCheckbox", data);
+        console.log("Updated RoomCheckbox", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -138,6 +138,35 @@ export const deleteRoomTodo = createAsyncThunk(
   }
 );
 
+export const completedUpdate = createAsyncThunk(
+  "todos/roomtodo/completedUpdate",
+  async (completeData) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/todos/roomtodo/completedUpdate`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(completeData),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Updated completed", data);
+        return data;
+      } else {
+        const errorData = await response.json();
+        return errorData;
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
 const roomTodosSlice = createSlice({
   name: "roomTodos",
   initialState: {
@@ -150,7 +179,7 @@ const roomTodosSlice = createSlice({
       .addCase(getRoomTodos.fulfilled, (state, action) => {
         state.roomId = action.payload.data[0].roomId;
         state.roomTodos = action.payload.data[0].todos;
-        console.log("roomTodos-redux", state.roomTodos);
+        console.log("roomTodos", state.roomId);
       })
       .addCase(addRoomTodo.fulfilled, (state, action) => {
         state.roomTodos.push(action.payload);
@@ -169,6 +198,7 @@ const roomTodosSlice = createSlice({
           };
         }
       })
+
       .addCase(deleteRoomTodo.fulfilled, (state, action) => {
         const todoId = action.payload.data;
 

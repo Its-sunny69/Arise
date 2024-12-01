@@ -8,11 +8,14 @@ import {
   updateRoomTodo,
   roomCheckBoxUpdate,
   deleteRoomTodo,
+  completedUpdate,
 } from "../features/roomTodosSlice";
 
 import { useSocket } from "../context/Socket";
+import { useParams } from "react-router-dom";
 
 function RoomTodo({ roomData }) {
+  const roomParamsId = useParams();
   const [newTodo, setNewTodo] = useState("");
   const [newTodoAdded, setNewTodoAdded] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -21,49 +24,52 @@ function RoomTodo({ roomData }) {
   const [socketRoomId, setSocketRoomId] = useState("");
   const [roomProgress, setRoomProgress] = useState();
   const [todoLength, setTodoLength] = useState();
+  const [ranking, setRanking] = useState({});
   const dispatch = useDispatch();
   const username = useSelector((state) => state.todos.user?.username);
   const userId = useSelector((state) => state.todos.user?._id);
   const todos = useSelector((state) => state.roomTodos.roomTodos);
-  const todoRoomId = useSelector((state) => state.roomTodos.roomId);
+  const todoRoomId = useSelector((state) => {
+    // console.log("State", state.roomTodos);
+    return state.roomTodos.roomId;
+  });
   const socket = useSocket();
-  // console.log("RoomTodo - userId: ", userId);
 
   useEffect(() => {
-    console.log("Todo", todos);
-    socket.on("addTodo", (todos, todoRoomId) => {
-      console.log("addTodo", todos);
-      setSocketTodo(todos);
-      setSocketRoomId(todoRoomId);
+    socket.on("addTodo", (todos, roomId) => {
+      if (roomId == roomData.roomId) {
+        console.log("addTodo", todos);
+        setSocketTodo(todos);
+        setSocketRoomId(roomId);
+      }
     });
-    socket.emit("todo", todos, roomData.roomId, todoRoomId);
+    socket.emit("todo", todos, todoRoomId);
+
     return () => {
       socket.off("addTodo");
       socket.off("todo");
     };
-  }, [todos, dispatch, socket]);
+  }, [todos, socket, roomData.roomId]);
 
   useEffect(() => {
-    socket.on("updateTodo", (updatedTodo) => {
-      // console.log("updateTodo", updatedTodo);
+    socket.on("updateTodo", (updatedTodo, roomId) => {
       // Update the local socketTodo state with the latest data
-        setSocketTodo((prevTodos) => {
-            const newTodos = prevTodos.map((todo) => {
-                if (todo._id === updatedTodo._id && todo.checked !== updatedTodo.checked) {
-                    console.log(`Todo updated: ${todo._id}`);
-                    return { ...todo, checked: updatedTodo.checked };
-                }
-                return todo;
-            });
-            return newTodos;
-        });
+      if (roomId == roomData.roomId) {
+        setSocketTodo((prevTodos) =>
+          prevTodos.map((todo) => {
+            return todo._id === updatedTodo._id
+              ? { ...todo, checked: updatedTodo.checked }
+              : todo;
+          })
+        );
+      }
     });
 
-
-    socket.on("room-progress", (count, todoLength) => {
-      console.log("roomProgress", count);
-      setRoomProgress(count);
-      setTodoLength(todoLength);
+    socket.on("room-progress", (count, roomId, todoLength) => {
+      if (roomId == roomData.roomId) {
+        setRoomProgress(count);
+        setTodoLength(todoLength);
+      }
     });
 
     return () => {
@@ -75,20 +81,15 @@ function RoomTodo({ roomData }) {
 
   useEffect(() => {
     if (newTodoAdded || roomData.roomId) {
-      console.log("roomId", roomData.roomId);
-      dispatch(getRoomTodos(roomData.roomId)).then((res) => {
-        console.log("res", data)
-      })
+      dispatch(getRoomTodos(roomData.roomId));
 
       setNewTodoAdded(false); // Reset the flag after dispatching
     }
   }, [newTodoAdded, roomData.roomId, dispatch]);
 
-  console.log("todosRoomId", todoRoomId)
-
-  useEffect(() => {
-    socket.emit("todo", todos, roomData.roomId, todoRoomId);
-  }, [todos, dispatch]);
+  // useEffect(() => {
+  //   socket.emit("todo", todos, roomData.roomId, todoRoomId);
+  // }, [todos, dispatch]);
 
   const handleAddTodo = (e) => {
     e.preventDefault();
@@ -130,11 +131,8 @@ function RoomTodo({ roomData }) {
 
     dispatch(roomCheckBoxUpdate(updatedCheckedBox))
       .then((response) => {
-        console.log("Response: ", response.payload.data);
-        socket.emit("updateCheckbox", {
-          ...response.payload.data,
-          checkedById: userId,
-        }, roomData.roomId);
+        // console.log("Response: ", response.payload.data);
+        socket.emit("updateCheckbox", response.payload.data, todoRoomId);
       })
       .catch((error) => {
         console.error("Error updating checkbox status of todo:", error);
@@ -162,10 +160,6 @@ function RoomTodo({ roomData }) {
   };
 
   const progressCalculator = () => {
-    // console.log(
-    //   "ProgressCalculator",
-    //   socketTodo.map((todo) => todo)
-    // );
     const count = socketTodo.reduce((accumulator, todo) => {
       return todo.checked?.includes(userId) ? accumulator + 1 : accumulator;
     }, 0);
@@ -177,11 +171,76 @@ function RoomTodo({ roomData }) {
 
   useEffect(() => {
     progressCalculator();
+    handleRanking();
+    completed();
   }, [socketTodo]);
 
-  console.log("socketTodo", socketTodo);
+  // useEffect(() => {
+  //   handleRanking();
+  // }, []);
 
-  // console.log(socketTodo.length);
+  useEffect(() => {
+    roomData.users?.forEach((user) => {
+      setRanking((prev) => ({ ...prev, [user._id]: [0, user.username] }));
+    });
+  }, [roomData]);
+
+  const handleRanking = () => {
+    let arr = {};
+
+    // Iterate over todos to calculate the count of checked items for each user
+    socketTodo.forEach((todo) => {
+      if (todo.checked?.length) {
+        todo.checked.forEach((user) => {
+          if (!arr[user]) {
+            arr[user] = 0; // Initialize the user's count if not already present
+          }
+          arr[user] += 1; // Increment the count for each checkbox checked by the user
+        });
+      }
+    });
+
+    // Update the ranking state with the new values
+    setRanking((prevRanking) => {
+      // Create a copy of prevRanking and reset all counts to zero
+      const updatedRanking = { ...prevRanking };
+      Object.keys(updatedRanking).forEach((key) => {
+        updatedRanking[key][0] = 0; // Reset all counts to zero
+      });
+
+      // Update counts based on the current arr
+      Object.entries(arr).forEach(([key, val]) => {
+        if (updatedRanking[key]) {
+          updatedRanking[key][0] = val; // Update existing users
+        } else {
+          updatedRanking[key] = [val]; // Add new users
+        }
+      });
+
+      // Sort updatedRanking by values in descending order
+      const sortedRanking = Object.entries(updatedRanking)
+        .sort(([, a], [, b]) => b[0] - a[0]) // Sort by the ranking value (descending)
+        .reduce((acc, [key, val]) => {
+          acc[key] = val;
+          return acc;
+        }, {});
+
+      return sortedRanking;
+    });
+  };
+
+  const completed = () => {
+    const completed = socketTodo.every((todo) =>
+      todo.checked?.includes(userId)
+    );
+    if (completed) {
+      const completeData = { roomId: roomData.roomId, userId: userId };
+      dispatch(completedUpdate(completeData)).then((response) => {
+        socket.emit("points");
+      });
+    }
+  };
+
   return (
     <>
       <div className=" border-2 border-black m-2 p-2">
@@ -197,48 +256,7 @@ function RoomTodo({ roomData }) {
           );
         })}
 
-        {/* {error && <p>Error fetching todos: {error.message}</p>} */}
         <ul>
-          {/* {todos.map((todo, index) => (
-            <li key={index}>
-              {editId == todo._id ? (
-                <>
-                  <input
-                    type="text"
-                    className="border border-black"
-                    value={editValue}
-                    onChange={(e) => setEditValue(e.target.value)}
-                  />
-                  <button
-                    className="m-2"
-                    onClick={() => handleUpdateTodo(todo._id, editValue)}
-                  >
-                    Save
-                  </button>
-                  <button onClick={handleCancelEdit}>Cancel</button>
-                </>
-              ) : (
-                <>
-                  <input
-                    type="checkbox"
-                    checked={todo.checked.includes(userId)}
-                    onChange={() => handleCheckboxChanges(todo._id, todo)}
-                  />
-                  {todo.title}
-                  <button
-                    className="m-2"
-                    onClick={() => handleUpdateClick(todo._id, todo.title)}
-                  >
-                    Edit
-                  </button>
-                  <button onClick={() => handleDeleteTodo(todo._id)}>
-                    Delete
-                  </button>
-                </>
-              )}
-            </li>
-          ))} */}
-
           {socketTodo?.map((todo, index) => (
             <li key={index}>
               {editId == todo._id ? (
@@ -306,6 +324,18 @@ function RoomTodo({ roomData }) {
             </div>
           </div>
         )}
+      </div>
+
+      <div>
+        {Object.entries(ranking).map(([_, val], index) => (
+          <>
+            <ol>
+              <li key={index}>
+                {index + 1}. {val[1]}:{val[0]}
+              </li>
+            </ol>
+          </>
+        ))}
       </div>
     </>
   );

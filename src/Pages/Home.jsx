@@ -14,7 +14,8 @@ function Home() {
   const [userId, setUserId] = useState();
   const [showCreatedRooms, setCreatedRooms] = useState([]);
   const [joinedRooms, setJoinedRooms] = useState([]);
-
+  const [ranking, setRanking] = useState([]);
+  const [point, setPoint] = useState();
   const currentToken = useSelector((state) => state.todos.token);
   const dispatch = useDispatch();
   const socket = useSocket();
@@ -31,6 +32,7 @@ function Home() {
         roomCreatedData(response.payload._id);
         roomJoinData(response.payload._id);
         setUserId(response.payload._id);
+        setPoint(response.payload.points);
       }
     });
   };
@@ -64,12 +66,19 @@ function Home() {
       joinRoomRef.current?.updateChild(data, id);
     });
 
+    socket.on("pointsSocket", (pointsData) => {
+      console.log("pointsData", pointsData);
+      const sortedRank = pointsData.sort((a, b) => b.points - a.points);
+      setRanking(sortedRank);
+    });
+
     // socket.emit("refresh", userId);
 
     return () => {
       socket.off("update-members");
       socket.off("leave-user");
       socket.off("delete");
+      socket.off("pointsSocket");
       // socket.off("refresh");
     };
   }, [socket, userId]);
@@ -111,7 +120,7 @@ function Home() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("fetch", data);
+      // console.log("fetch", data);
       setCreatedRooms(data);
     } catch (error) {
       console.log(error, "Error while fetching all created rooms");
@@ -186,6 +195,14 @@ function Home() {
     socket.emit("leave-room", userId, roomId);
   };
 
+  useEffect(() => {
+    handlePoints();
+  }, [showCreatedRooms, joinedRooms]);
+
+  const handlePoints = () => {
+    socket.emit("points");
+  };
+  console.log("point", point);
   // console.log("showCreatedRooms", showCreatedRooms);
   // console.log("joinedRooms", joinedRooms);
 
@@ -199,6 +216,7 @@ function Home() {
             </div>
             {<Navbar />}
           </div>
+          Points:{point}
         </div>
         <div>
           <Todo />
@@ -213,13 +231,13 @@ function Home() {
               Create or Join Room
             </button>
           </div>
-          {console.log(
+          {/* {console.log(
             "Home Card",
             showCreatedRooms,
             joinedRooms,
             showCreatedRooms?.length == 0 &&
               joinedRooms[0]?.createdBy == joinedRooms[0]?.users[0]
-          )}
+          )} */}
           Created Room:
           <br />
           {showCreatedRooms?.length ? "" : "No Rooms Created"}
@@ -255,6 +273,19 @@ function Home() {
             ))}
           </div>
         </div>
+      </div>
+      <div>
+        {ranking.map((user, index) => {
+          return (
+            <>
+              <ol>
+                <li key={user._id}>
+                  {index + 1}.{user.username}:{user.points}
+                </li>
+              </ol>
+            </>
+          );
+        })}
       </div>
     </>
   );

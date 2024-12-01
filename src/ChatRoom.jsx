@@ -29,12 +29,16 @@ const ChatRoom = () => {
 
   useEffect(() => {
     socket.on("room-update", (updatedRoom) => {
-      console.log("roomUpdate", roomData);
-      setRoomData(updatedRoom);
+      if (roomId == updatedRoom.roomId) {
+        console.log("roomUpdate", updatedRoom);
+        setRoomData(updatedRoom);
+      }
     });
 
-    socket.on("update-users", (users) => {
-      setUsers(users);
+    socket.on("update-users", (users, socketRoomId) => {
+      if (socketRoomId == roomId) {
+        setUsers(users);
+      }
     });
 
     dispatch(AuthUser(currentToken)).then((response) => {
@@ -43,13 +47,16 @@ const ChatRoom = () => {
       }
     });
 
-    socket.on("updated-msg", (data) => {
-      setMessages(data);
+    socket.on("updated-msg", (data, socketRoomId) => {
+      if (socketRoomId == roomId) {
+        setMessages(data);
+      }
     });
 
-    socket.on("leave-user", (updatedRoom, user) => {
-      setUsers(updatedRoom);
-      console.log(user, "Left");
+    socket.on("leave-user", (updatedRoom, user, socketRoomId) => {
+      if (socketRoomId == roomId) {
+        setUsers(updatedRoom);
+      }
     });
 
     socket.on("delete", (id) => {
@@ -120,7 +127,7 @@ const ChatRoom = () => {
 
   const cssForCurrentUser = "w-full flex justify-end";
   const cssForOtherUser = "w-full flex justify-start";
-  console.log("roomUpdate", roomData);
+  console.log("roomData", roomData);
   return (
     <>
       <div className="border-2 border-black m-2 p-2">
@@ -144,7 +151,7 @@ const ChatRoom = () => {
                 <div className="my-2 font-bold text-xl tracking-wider">
                   Room: {users[0]?.username}
                   <div className="font-normal text-sm flex justify-center items-center mt-2">
-                    Room ID: {roomId}
+                    Room ID: {roomData.roomId}
                     <button className="mx-2" onClick={handleCopy}>
                       <img src={CopySvg} className="w-4" />
                     </button>

@@ -61,7 +61,7 @@ export const AuthUser = createAsyncThunk("auth/user", async (currentToken) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       return data;
     }
@@ -233,7 +233,7 @@ const todosSlice = createSlice({
       .addCase(getTodos.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.todos = action.payload.data[0].todos;
-        console.log("succeed", state.todos);
+        // console.log("succeed", state.todos);
       })
       .addCase(getTodos.rejected, (state, action) => {
         state.status = "failed";
