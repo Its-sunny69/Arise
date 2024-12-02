@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "server1": "nodemon src/server/server.js",
-    "server2": "nodemon src/server/socket_server.js",
+    "server1": "nodemon server/server.js",
+    "server2": "nodemon server/socket_server.js",
     "client": "vite",
     "dev": "concurrently \"npm run server1\" \"npm run server2\" \"npm run client\"",
     "build": "vite build",

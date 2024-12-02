@@ -1,4 +1,4 @@
-import User from "../../models/userModal.js";
+import User from "../models/userModal.js";
 
 //Home logic
 const home = async (req, res) => {

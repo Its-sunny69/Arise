@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import connectDb from "../database/database.js";
-import roomsCollection from "../models/roomModel.js";
-import RoomTodo from "../models/roomTodoModel.js";
-import User from "../models/userModal.js";
+import connectDb from "./database/database.js";
+import roomsCollection from "../src/models/roomModel.js";
+import RoomTodo from "../src/models/roomTodoModel.js";
+import User from "../src/models/userModal.js";
 const port = 3002;
 import { createServer } from "http";
 import { Server } from "socket.io";
