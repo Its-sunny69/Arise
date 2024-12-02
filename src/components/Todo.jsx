@@ -7,7 +7,7 @@ import {
   deleteTodo,
   checkBoxUpdate,
   AuthUser,
-} from "../features/todosSlice";
+} from "../slice/todosSlice";
 import ProgressBar from "./ProgressBar";
 import AddCricleSvg from "../assets/add-circle-svg.svg";
 
@@ -135,6 +135,7 @@ const Todo = () => {
     <>
       <div className=" border-2 border-black m-2 p-2">
         <h1>Task List</h1>
+        <br />
         <ProgressBar
           label={"Progress"}
           currentValue={checkedCount}

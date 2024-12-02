@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSocket } from "./context/Socket";
+import { useSocket } from "../context/Socket";
 import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "./features/todosSlice";
+import { AuthUser } from "../slice/todosSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
-import SendSvg from "./assets/send-svg.svg";
-import CopySvg from "./assets/copy-svg.svg";
-import HomeSvg from "./assets/home-svg.svg";
-import SessionLeaveSvg from "./assets/session-leave-svg-com.svg";
-import Todo from "./components/Todo";
+import SendSvg from "../assets/send-svg.svg";
+import CopySvg from "../assets/copy-svg.svg";
+import HomeSvg from "../assets/home-svg.svg";
+import SessionLeaveSvg from "../assets/session-leave-svg-com.svg";
+import Todo from "../components/Todo";
 import toast from "react-hot-toast";
-import RoomTodo from "./components/RoomTodo";
+import RoomTodo from "../components/RoomTodo";
 
 const ChatRoom = () => {
   const socket = useSocket();

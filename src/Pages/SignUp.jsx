@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register, setToken } from "../features/todosSlice";
+import { register, setToken } from "../slice/todosSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 

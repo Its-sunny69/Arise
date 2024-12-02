@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../features/todosSlice";
+import { AuthUser } from "../slice/todosSlice";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../context/Socket";
 import RoomCard from "../components/RoomCard";
@@ -216,7 +216,9 @@ function Home() {
             </div>
             {<Navbar />}
           </div>
-          Points:{point}
+          <div className="flex mx-1 px-2 justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
+          Points: {point}
+          </div>
         </div>
         <div>
           <Todo />
@@ -273,19 +275,21 @@ function Home() {
             ))}
           </div>
         </div>
-      </div>
-      <div>
-        {ranking.map((user, index) => {
-          return (
-            <>
-              <ol>
-                <li key={user._id}>
-                  {index + 1}.{user.username}:{user.points}
-                </li>
-              </ol>
-            </>
-          );
-        })}
+        <div className=" border-2 border-black m-2 p-2">
+        <p>World Rankings</p>
+        <br />
+          {ranking.map((user, index) => {
+            return (
+              <>
+                <ol>
+                  <li key={user._id}>
+                    {index + 1}.{user.username}:{user.points}
+                  </li>
+                </ol>
+              </>
+            );
+          })}
+        </div>
       </div>
     </>
   );

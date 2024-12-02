@@ -9,7 +9,7 @@ import {
   roomCheckBoxUpdate,
   deleteRoomTodo,
   completedUpdate,
-} from "../features/roomTodosSlice";
+} from "../slice/roomTodosSlice";
 
 import { useSocket } from "../context/Socket";
 import { useParams } from "react-router-dom";
@@ -286,7 +286,7 @@ function RoomTodo({ roomData }) {
                   {userId == roomData.createdBy ? (
                     <>
                       <button
-                        className="m-2"
+                        className="mx-2"
                         onClick={() => handleUpdateClick(todo._id, todo.title)}
                       >
                         Edit
@@ -326,12 +326,14 @@ function RoomTodo({ roomData }) {
         )}
       </div>
 
-      <div>
+      <div className=" border-2 border-black m-2 p-2">
+        <p>Ranking:</p>
+        <br />
         {Object.entries(ranking).map(([_, val], index) => (
           <>
             <ol>
               <li key={index}>
-                {index + 1}. {val[1]}:{val[0]}
+                {index + 1}. {val[1]} - Task Compeleted: {val[0]}
               </li>
             </ol>
           </>

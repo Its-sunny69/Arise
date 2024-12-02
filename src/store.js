@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import todosReducers from "./features/todosSlice"
-import roomTodosReducers from "./features/roomTodosSlice"
+import todosReducers from "./slice/todosSlice"
+import roomTodosReducers from "./slice/roomTodosSlice"
 
 export default configureStore({
     reducer:{

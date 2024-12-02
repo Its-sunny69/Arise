@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSocket } from "./context/Socket";
+import { useSocket } from "../context/Socket";
 import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "./features/todosSlice";
+import { AuthUser } from "../slice/todosSlice";
 import { Tooltip } from "react-tooltip";
-import HomeSvg from "./assets/home-svg.svg";
+import HomeSvg from "../assets/home-svg.svg";
 
 const CreateJoinRoom = () => {
   const socket = useSocket();

@@ -1,0 +1,18 @@
+progress {
+    appearance: none;
+    height: 10px;
+    border: 1px solid rgb(0, 105, 196);
+    border-radius: 2rem;
+  
+    &::-webkit-progress-bar {
+      background-color: rgb(200, 229, 255);
+      border-radius: 2rem;
+    }
+  
+    &::-webkit-progress-value {
+      background-color: rgb(0, 136, 255);
+      border-radius: 2rem;
+      transition: width 1s;
+    }
+  }
+  

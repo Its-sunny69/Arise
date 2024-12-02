@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/progressbar.css";
+import "../App.css";
 
 function ProgressBar({ label, currentValue, maxValue }) {
   return (

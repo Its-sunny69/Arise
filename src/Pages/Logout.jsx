@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteToken } from "../features/todosSlice";
+import { deleteToken } from "../slice/todosSlice";
 import { Navigate } from "react-router-dom";
 
 function Logout() {
