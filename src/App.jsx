@@ -2,7 +2,7 @@ import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
 import React from "react";
 import "./App.css";
 import Todo from "./components/Todo";
-import Home from "./Pages/Home";
+import Home from "./pages/Home";
 import { useSelector } from "react-redux";
 import CreateJoinRoom from "./pages/CreateJoinRoom";
 import ChatRoom from "./pages/ChatRoom";
