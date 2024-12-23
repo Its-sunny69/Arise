@@ -4,8 +4,6 @@ import { register, setToken } from "../slice/todosSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-//manage password toast error...!!!!!!!!!!!!!!
-
 function SignUp() {
   const [userData, setUserData] = useState({
     username: "",
