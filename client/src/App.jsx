@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import React from "react";
 import "./App.css";
 import Home from "./pages/Home";
@@ -17,6 +17,8 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Navbar from "./components/Navbar";
 import Layout from "./components/Layout";
+import StarsBackground from "./components/StarsBackground";
+import Landing from "./pages/Landing";
 
 function App() {
   const currentToken = useSelector((state) => state.todos.token);
@@ -25,13 +27,27 @@ function App() {
   return (
     <>
       <Toaster />
+      {/* <StarsBackground/> */}
       <BrowserRouter>
         <SocketProvider>
           <Routes>
-            <Route path="/" element={<Layout/>}>
-              <Route index element={isLoggedin ? <Home /> : <Login />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
+            <Route
+              path="/"
+              element={!isLoggedin ? <Landing /> : <Navigate to="/home" />}
+            />
+            <Route
+              path="/login"
+              element={!isLoggedin ? <Login /> : <Navigate to="/home" />}
+            />
+            <Route
+              path="/signup"
+              element={!isLoggedin ? <SignUp /> : <Navigate to="/home" />}
+            />
+            <Route
+              path="/"
+              element={isLoggedin ? <Layout /> : <Navigate to="/login" />}
+            >
+              <Route path="/home" element={<Home />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/task-list" element={<TaskList />} />
               <Route path="/room" element={<Room />} />

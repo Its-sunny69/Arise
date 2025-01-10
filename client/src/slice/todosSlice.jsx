@@ -37,7 +37,7 @@ export const login = createAsyncThunk("auth/login", async (userData) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("login", data);
+      // console.log("login", data);
       return data;
     } else {
       const errorData = await response.json();
@@ -105,7 +105,7 @@ export const addTodo = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated Todo", data);
+        // console.log("Updated Todo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -133,7 +133,7 @@ export const updateTodo = createAsyncThunk(
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated Todo", data);
+        // console.log("Updated Todo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -162,7 +162,7 @@ export const checkBoxUpdate = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated Checkbox", data);
+        // console.log("Updated Checkbox", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -191,7 +191,7 @@ export const deleteTodo = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Deleted Todo", data);
+        // console.log("Deleted Todo", data);
         return data;
       } else {
         const errorData = await response.json();

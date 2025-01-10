@@ -20,71 +20,147 @@ function Navbar() {
 
   return (
     <>
-      <div className={`${isHoverd ? "w-40" : "w-12"} h-full shadow-lg transition-all duration-300`}>
+      <div
+        className={`${
+          isHoverd ? "w-40 outline-1 outline-dashed" : "w-12 border border-black"
+        } h-full shadow-lg rounded-md transition-all duration-300 bg-slate-50`}
+      >
         <ul
-          className=" bg-slate-200 h-full flex flex-col justify-between items-center rounded-md transition-all"
+          className=" bg-slate-5 h-full flex flex-col justify-between items-center rounded-md transition-all"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
           <div className="w-full m-2 px-2 flex flex-col justify-center items-center">
             <NavLink
-              to="/"
+              to="/home"
               className={`mx-1 my-1 p-2 w-full flex ${
                 isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-400 rounded-md transition-all`}
+              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
             >
-              <HomeRoundedIcon />
-             <span className={`ml-2 ${isHoverd ? "block animate-jump-in animate-ease-in" : "hidden"} transition-all duration-1000 delay-1000`}>Home</span>
+              <HomeRoundedIcon className="text-gray-800" />
+              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+                <span
+                  className={` ${
+                    isHoverd
+                      ? "block animate-jump-in animate-ease-in"
+                      : "hidden"
+                  } transition-all delay-500`}
+                >
+                  Home
+                </span>
+
+                <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-gray-800" />
+              </div>
             </NavLink>
 
             <NavLink
               to="/task-list"
               className={`mx-1 my-1 p-2 w-full flex ${
                 isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-400 rounded-md transition-all`}
+              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
             >
-              <ChecklistRoundedIcon />
-              <span className={`ml-2 ${isHoverd ? "block animate-jump-in animate-ease-in" : "hidden"} transition-all delay-1000`}>Task</span>
+              <ChecklistRoundedIcon className="text-gray-800" />
+              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+                <span
+                  className={` ${
+                    isHoverd
+                      ? "block animate-jump-in animate-ease-in"
+                      : "hidden"
+                  } transition-all delay-500`}
+                >
+                  Task
+                </span>
+
+                <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-gray-800" />
+              </div>
             </NavLink>
 
             <NavLink
               to="/room"
               className={`mx-1 my-1 p-2 w-full flex ${
                 isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-400 rounded-md transition-all`}
+              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
             >
-              <GroupsRoundedIcon />
-              <span className={`ml-2 ${isHoverd ? "block animate-jump-in animate-ease-in" : "hidden"} transition-all delay-1000`}>Room</span>
+              <GroupsRoundedIcon className="text-gray-800" />
+              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+                <span
+                  className={` ${
+                    isHoverd
+                      ? "block animate-jump-in animate-ease-in"
+                      : "hidden"
+                  } transition-all delay-500`}
+                >
+                  Room
+                </span>
+
+                <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-gray-800" />
+              </div>
             </NavLink>
 
             <NavLink
               to="/world-rank"
               className={`mx-1 my-1 p-2 w-full flex ${
                 isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-400 rounded-md transition-all`}
+              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
             >
-              <MilitaryTechRoundedIcon />
-              <span className={`ml-2 ${isHoverd ? "block animate-jump-in animate-ease-in" : "hidden"} transition-all delay-1000`}>Rank</span>
+              <MilitaryTechRoundedIcon className="text-gray-800" />
+              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+                <span
+                  className={` ${
+                    isHoverd
+                      ? "block animate-jump-in animate-ease-in"
+                      : "hidden"
+                  } transition-all delay-500`}
+                >
+                  Rank
+                </span>
+
+                <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-gray-800" />
+              </div>
             </NavLink>
 
             <NavLink
               to="aboutus"
               className={`mx-1 my-1 p-2 w-full flex ${
                 isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-400 rounded-md transition-all`}
+              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
             >
-              <ImportContactsRoundedIcon />
-              <span className={`ml-2 ${isHoverd ? "block animate-jump-in animate-ease-in" : "hidden"} transition-all delay-1000`}>About</span>
+              <ImportContactsRoundedIcon className="text-gray-800" />
+              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+                <span
+                  className={` ${
+                    isHoverd
+                      ? "block animate-jump-in animate-ease-in"
+                      : "hidden"
+                  } transition-all delay-500`}
+                >
+                  About
+                </span>
+
+                <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-gray-800" />
+              </div>
             </NavLink>
 
             <NavLink
               to="contactus"
               className={`mx-1 my-1 p-2 w-full flex ${
                 isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-400 rounded-md transition-all`}
+              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
             >
-              <PermContactCalendarRoundedIcon />
-              <span className={`ml-2 ${isHoverd ? "block animate-jump-in animate-ease-in" : "hidden"} transition-all delay-1000`}>Contact</span>
+              <PermContactCalendarRoundedIcon className="text-gray-800" />
+              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+                <span
+                  className={` ${
+                    isHoverd
+                      ? "block animate-jump-in animate-ease-in"
+                      : "hidden"
+                  } transition-all delay-500`}
+                >
+                  Contact
+                </span>
+
+                <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-gray-800" />
+              </div>
             </NavLink>
           </div>
           <div className=" w-full m-2 px-2 flex flex-col justify-center items-center">
@@ -93,20 +169,40 @@ function Navbar() {
                 <div
                   className={`mx-1 my-1 p-2 w-full flex ${
                     isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-400 rounded-md transition-all`}
+                  } items-center text-center rounded-sm transition-all`}
                 >
-                  <PersonRoundedIcon />
-                  <span className={`ml-2 ${isHoverd ? "block animate-jump-in animate-ease-in" : "hidden"} transition-all delay-1000`}>{username}</span>
+                  <PersonRoundedIcon className="text-gray-800" />
+                  <span
+                    className={`ml-2 ${
+                      isHoverd
+                        ? "block animate-jump-in animate-ease-in"
+                        : "hidden"
+                    } transition-all delay-500`}
+                  >
+                    {username}
+                  </span>
                 </div>
 
                 <NavLink
                   to="/logout"
                   className={`mx-1 my-1 p-2 w-full flex ${
                     isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-400 rounded-md transition-all`}
+                  } items-center text-center hover:bg-red-100  group rounded-sm transition-all`}
                 >
                   <LogoutRoundedIcon className="text-red-600" />
-                  <span className={`ml-2 text-red-600 ${isHoverd ? "block animate-jump-in animate-ease-in" : "hidden"} transition-all delay-1000`}>Logout</span>
+                  <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+                    <span
+                      className={` ${
+                        isHoverd
+                          ? "block animate-jump-in animate-ease-in"
+                          : "hidden"
+                      } transition-all text-red-600 delay-500`}
+                    >
+                      Logout
+                    </span>
+
+                    <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-red-600" />
+                  </div>
                 </NavLink>
               </>
             ) : (

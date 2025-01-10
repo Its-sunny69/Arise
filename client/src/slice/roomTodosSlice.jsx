@@ -10,7 +10,7 @@ export const getRoomTodos = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("roomdata", data);
+        // console.log("roomdata", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -39,7 +39,7 @@ export const addRoomTodo = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated RoomTodo", data);
+        // console.log("Updated RoomTodo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -67,7 +67,7 @@ export const updateRoomTodo = createAsyncThunk(
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated RoomTodo", data);
+        // console.log("Updated RoomTodo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -97,7 +97,7 @@ export const roomCheckBoxUpdate = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated RoomCheckbox", data);
+        // console.log("Updated RoomCheckbox", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -126,7 +126,7 @@ export const deleteRoomTodo = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Deleted RoomTodo", data);
+        // console.log("Deleted RoomTodo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -155,7 +155,7 @@ export const completedUpdate = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated completed", data);
+        // console.log("Updated completed", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -179,7 +179,7 @@ const roomTodosSlice = createSlice({
       .addCase(getRoomTodos.fulfilled, (state, action) => {
         state.roomId = action.payload.data[0].roomId;
         state.roomTodos = action.payload.data[0].todos;
-        console.log("roomTodos", state.roomId);
+        // console.log("roomTodos", state.roomId);
       })
       .addCase(addRoomTodo.fulfilled, (state, action) => {
         state.roomTodos.push(action.payload);

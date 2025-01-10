@@ -3,7 +3,7 @@ import Todo from "../models/todoModal.js";
 const getTodo = async (req, res) => {
   try {
     const { userId } = req.params;
-    console.log("userIdaa", req.params);
+    // console.log("userIdaa", req.params);
 
     const todoData = await Todo.find({ userId });
     return res.status(201).send({

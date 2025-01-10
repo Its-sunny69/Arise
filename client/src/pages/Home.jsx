@@ -1,59 +1,104 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../slice/todosSlice";
-import PaidRoundedIcon from "@mui/icons-material/PaidRounded";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { TypeAnimation } from "react-type-animation";
+import { Fade, Slide } from "react-awesome-reveal";
+import ArrowSvg from "../assets/arrow-svg.svg";
+import SquaresBackground from "../components/SquaresBackground";
+import ShinyText from "../components/ShinyText";
+import GradientText from "../components/GradientText";
 
 function Home() {
-  const [username, setUsername] = useState("");
-  const [point, setPoint] = useState();
-  const currentToken = useSelector((state) => state.todos.token);
-  const dispatch = useDispatch();
-
-  const userAuth = async () => {
-    // console.log("currentToken", currentToken);
-
-    dispatch(AuthUser(currentToken)).then((response) => {
-      if (response.payload) {
-        setUsername(response.payload.username);
-        setPoint(response.payload.points);
-      }
-    });
-  };
-
-  useEffect(() => {
-    userAuth();
-  }, []);
-
-  const capitalizeString = (str) => {
-    const firstLetter = str.charAt(0).toUpperCase();
-    const remainingLetters = str.slice(1);
-
-    const finalStr = firstLetter + remainingLetters;
-
-    return finalStr;
-  };
-
-  console.log("point", point);
+  const navigate = useNavigate();
 
   return (
     <>
-      <div className="w-full bg-red-200 border-2 flex border-black p-2">
-        <div className="w-full">
-          <div className="flex justify-center">
-            <div className="w-[80%] flex justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
-              <div className="mx-4 font-semibold tracking-wider">
-                {capitalizeString(username)}
-              </div>
-              {}
-            </div>
-            <div className="flex mx-1 px-2 justify-between items-center mb-5 bg-slate-100 rounded-md shadow-sm">
-              <PaidRoundedIcon className="text-yellow-400" /> {point}
+      <div className="relative z-10 w-full p-2 ">
+        <div className="absolute inset-0 w-full h-full -z-10">
+          <SquaresBackground
+            speed={0.5}
+            squareSize={40}
+            direction="diagonal" // up, down, left, right, diagonal
+            borderColor="#d5d5d5"
+            hoverFillColor="#f5f5f5"
+          />
+        </div>
+
+        <div className="">
+          <div className="my-4">
+            <div className="w-fit bg-gray-2100 px-5 py-1 rounded-full border border-gray-400 text-sm">
+              <ShinyText
+                text="🎉 | Introduction"
+                disabled={false}
+                speed={3}
+                className=""
+              />
             </div>
           </div>
-          <div>
-            hello world
 
-            fn1
+          <div className="my-10">
+            <div className="flex flex-col justify-center items-center">
+              <Fade
+                delay={200}
+                duration={1000}
+                triggerOnce
+                fraction={0.5}
+                className="mb-10"
+              >
+                <div className="flex tracking-widest">
+                  <div className="hover:scale-110 cursor-pointer transition-all">
+                    <span className="title text-outline text-7xl pl-4">A</span>
+                  </div>
+                  <div className="hover:scale-110 cursor-pointer transition-all">
+                    <span className="title text-outline text-7xl">r</span>
+                  </div>
+                  <div className="hover:scale-110 cursor-pointer transition-all">
+                    <span className="title text-outline text-7xl">i</span>
+                  </div>
+                  <div className="hover:scale-110 cursor-pointer transition-all">
+                    <span className="title text-outline text-7xl">s</span>
+                  </div>
+                  <div className="hover:scale-110 cursor-pointer transition-all">
+                    <span className="title text-outline text-7xl pr-5">e</span>
+                  </div>
+                </div>
+              </Fade>
+              <span className="title text-7xl">
+                <TypeAnimation
+                  sequence={["Above Procrastination, One Task at a Time!"]}
+                  speed={30}
+                  repeat={0}
+                />
+              </span>
+              <Fade
+                delay={400}
+                duration={1000}
+                triggerOnce
+                fraction={0.5}
+                className="text-center"
+              >
+                <span className="text-2xl">
+                  Build momentum, crush distractions, and stay in control with
+                  Arise – your ultimate companion <br />
+                  to beat procrastination and achieve more.
+                </span>
+              </Fade>
+            </div>
+
+            <div className="mt-24 flex justify-center items-center ">
+              <button
+                className="font-thin group transition-all active:scale-95"
+                onClick={() => navigate("/task-list")}
+              >
+                <div className="flex justify-center items-center font-bold group-hover:text-gray-600 gap-2 transition-all">
+                  Get Started
+                  <img
+                    src={ArrowSvg}
+                    className="rotate-45 group-hover:rotate-90 transition-all transform duration-300"
+                  />
+                </div>
+                <hr className="w-0 group-hover:w-full h-1 transition-all duration-500 bg-black" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

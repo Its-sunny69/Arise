@@ -1,6 +1,8 @@
 import { forwardRef, useState } from "react";
 import { useImperativeHandle } from "react";
 import toast from "react-hot-toast";
+import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
+import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import CopySvg from "../assets/copy-svg.svg";
 
 const RoomCard = forwardRef(
@@ -30,27 +32,46 @@ const RoomCard = forwardRef(
     // console.log("RoomCard", members);
     return (
       <>
-        <div key={room._id} className="flex flex-wrap">
-          <div className="shadow-lg m-5 rounded-md">
-            <div className="bg-slate-300 px-4 py-2 rounded-t-md flex">
-              <p>RoomId: {room.roomId}</p>
-              <button className="mx-2" onClick={handleCopy}>
-                <img src={CopySvg} className="w-4" />
+        <div key={room._id} className="min-h-56">
+          <div className="shadow-md hover:shadow-lg m-2 hover:outline hover:outline-1 hover:outline-slate-200 rounded-md hover:scale-105 transition-transform">
+            <div className="bg-slate-100 p-4 rounded-t-md flex justify-between items-center">
+              <p>
+                <span className="font-bold">Id : </span>
+                {room.roomId}
+              </p>
+
+              <button
+                className="mx-2 hover:opacity-60 active:scale-95 transition-all"
+                onClick={handleCopy}
+              >
+                <img src={CopySvg} className="w-5" />
               </button>
             </div>
-            <p className="px-4 pt-5 rounded-md">Members: {members}</p>
-            <p className="px-4 pb-5 rounded-md">
-              Created: {timeAgo(room.createdAt)}
-            </p>
+            
+            <div className="bg-white">
+              <p className="px-4 pt-5 my-1 rounded-md">
+                <span>
+                  <PeopleRoundedIcon />
+                </span>
+                <span className="ml-3">{members}</span>
+              </p>
+              <p className="px-4 pb-5 my-1 rounded-md">
+                <span>
+                  <HistoryRoundedIcon />
+                </span>
+                <span className="ml-3">{timeAgo(room.createdAt)}</span>
+              </p>
+            </div>
+
             <div className=" flex justify-between rounded-b-md">
               <button
-                className="w-1/2 text-black border-r bg-slate-300 hover:bg-blue-400 focus:ring-1 focus:ring-blue-300 font-medium rounded-bl-md text-sm px-4 py-2 focus:outline-none"
+                className="w-1/2 text-black  bg-slate-100 font-bold rounded-bl-md text-sm px-4 py-3 hover:outline-dotted hover:outline-2 hover:outline-blue-500 hover:text-blue-500 active:scale-95 transition-transform hover:z-10"
                 onClick={() => handleCreatedRoomClick(room.roomId)}
               >
                 Join
               </button>
               <button
-                className="w-1/2 focus:outline-none text-black border-l bg-slate-300 hover:bg-red-400 focus:ring-1 focus:ring-red-300 font-medium rounded-br-md text-sm px-4 py-2"
+                className="w-1/2 text-black bg-slate-100 font-bold rounded-br-md text-sm px-4 py-2 hover:outline-dotted hover:outline-2 hover:outline-red-500 hover:text-red-500 active:scale-95 transition-transform hover:z-10"
                 onClick={() => handleRoomDelete(room.roomId)}
               >
                 Delete

@@ -2,7 +2,7 @@
 import React, { useRef } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
-const HoverLottie = ({ src }) => {
+const HoverLottie = ({ src, width, height }) => {
   const lottieInstanceRef = useRef(null);
 
   const dotLottieRefCallback = (instance) => {
@@ -31,6 +31,7 @@ const HoverLottie = ({ src }) => {
         dotLottieRefCallback={dotLottieRefCallback}
         loop={false}
         autoplay
+        style={{width: width, height: height}}
       />
     </div>
   );

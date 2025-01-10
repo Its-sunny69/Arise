@@ -166,7 +166,7 @@ io.on("connection", (socket) => {
           .populate("users");
 
         if (updatedRoom) {
-          console.log("update", updatedRoom);
+          // console.log("update", updatedRoom);
           io.to(updatedRoom.roomId).emit("room-update", updatedRoom);
 
           io.to(updatedRoom.roomId).emit("update-users", updatedRoom.users);
@@ -262,9 +262,9 @@ io.on("connection", (socket) => {
     const room = await roomsCollection.findOne({ roomId }).populate("users");
     if (room) {
       const roomNew = io.sockets.adapter.rooms;
-      console.log("Room members:", roomNew);
+      // console.log("Room members:", roomNew);
 
-      console.log("rejoin", room);
+      // console.log("rejoin", room);
       socket.join(roomId);
       io.to(room.roomId).emit("join-msg", { userName: user, roomId });
       io.to(room.roomId).emit("update-users", room.users, roomId);
@@ -276,7 +276,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("refresh", async (username) => {
-    console.log(username);
+    // console.log(username);
     const room = await roomsCollection.find({ users: { $in: [username] } });
 
     if (room) {
@@ -288,7 +288,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("todo", (todos, roomId) => {
-    console.log("todos", todos);
+    // console.log("todos", todos);
     io.to(roomId).emit("addTodo", todos, roomId);
   });
 
@@ -298,7 +298,7 @@ io.on("connection", (socket) => {
 
   socket.on("progress", async (userId, count, roomId, todoLength) => {
     try {
-      console.log("progressUser", userId);
+      // console.log("progressUser", userId);
       if (userId) {
         const progress = await roomsCollection.findOneAndUpdate(
           { roomId: roomId },
@@ -323,7 +323,7 @@ io.on("connection", (socket) => {
 
   socket.on("points", async () => {
     const userwithPoints = await User.find({ points: { $exists: true } });
-    console.log("userwithPoints", userwithPoints);
+    // console.log("userwithPoints", userwithPoints);
     if (userwithPoints) {
       io.emit("pointsSocket", userwithPoints);
     }

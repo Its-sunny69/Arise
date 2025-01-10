@@ -1,26 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&family=Pirata+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bellota+Text:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
 
 body {
+  font-family: "Bellota Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.title {
   font-family: "Bebas Neue", sans-serif;
   font-weight: 200;
   margin: 0px;
 }
 
 progress {
-    appearance: none;
-    height: 10px;
-    border: 1px solid rgb(0, 105, 196);
+  appearance: none;
+  height: 10px;
+  border: 1px solid rgb(0, 105, 196);
+  border-radius: 2rem;
+
+  &::-webkit-progress-bar {
+    background-color: rgb(200, 229, 255);
     border-radius: 2rem;
-  
-    &::-webkit-progress-bar {
-      background-color: rgb(200, 229, 255);
-      border-radius: 2rem;
-    }
-  
-    &::-webkit-progress-value {
-      background-color: rgb(0, 136, 255);
-      border-radius: 2rem;
-      transition: width 1s;
-    }
   }
-  
+
+  &::-webkit-progress-value {
+    background-color: rgb(0, 136, 255);
+    border-radius: 2rem;
+    transition: width 1s;
+  }
+}
+
+.text-outline {
+  background: linear-gradient(-45deg, #eeaa52, #e73c6f, #2394d5, #2af3b7);
+  background-clip: text;
+  -webkit-text-stroke: 3px transparent;
+  color: #ffffff;
+}
+

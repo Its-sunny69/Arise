@@ -12,7 +12,7 @@ function Logout() {
     dispatch(deleteToken());
   }, [isLoggedIn]);
 
-  return <Navigate to="/login" />;
+  return <Navigate to="/" />;
 }
 
 export default Logout;
