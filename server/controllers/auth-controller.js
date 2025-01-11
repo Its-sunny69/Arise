@@ -16,7 +16,11 @@ const register = async (req, res) => {
     const { username, email, password } = req.body;
 
     const userExist = await User.findOne({ email });
+    const userName = await User.findOne({ username });
 
+    if (userName) {
+      return res.status(400).json({ msg: "Username already exists" });
+    }
     if (userExist) {
       return res.status(400).json({ msg: "Email is Already Registerd" });
     }

@@ -23,7 +23,6 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
 
 function RoomTodo({ roomData }) {
-  const roomParamsId = useParams();
   const [newTodo, setNewTodo] = useState("");
   const [newTodoAdded, setNewTodoAdded] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -83,7 +82,7 @@ function RoomTodo({ roomData }) {
       socket.off("updateTodo");
       socket.off("room-progress");
     };
-  }, [todos]);
+  }, [todos, socketTodo]);
 
   useEffect(() => {
     if (newTodoAdded || roomData.roomId) {
@@ -92,6 +91,18 @@ function RoomTodo({ roomData }) {
       setNewTodoAdded(false);
     }
   }, [newTodoAdded, roomData.roomId, dispatch]);
+
+  useEffect(() => {
+    progressCalculator();
+    handleRanking();
+    completed();
+  }, [socketTodo, roomData]);
+
+  useEffect(() => {
+    roomData.users?.forEach((user) => {
+      setRanking((prev) => ({ ...prev, [user._id]: [0, user.username] }));
+    });
+  }, [roomData]);
 
   const handleAddTodo = (e) => {
     e.preventDefault();
@@ -168,19 +179,6 @@ function RoomTodo({ roomData }) {
     socket.emit("progress", userId, count, roomData.roomId, socketTodo.length);
   };
 
-  useEffect(() => {
-    progressCalculator();
-    handleRanking();
-    completed();
-    
-  }, [socketTodo]);
-
-  useEffect(() => {
-    roomData.users?.forEach((user) => {
-      setRanking((prev) => ({ ...prev, [user._id]: [0, user.username] }));
-    });
-  }, [roomData]);
-
   const handleRanking = () => {
     let arr = {};
 
@@ -199,18 +197,11 @@ function RoomTodo({ roomData }) {
     // Update the ranking state with the new values
     setRanking((prevRanking) => {
       // Create a copy of prevRanking and reset all counts to zero
-      const updatedRanking = { ...prevRanking };
-      Object.keys(updatedRanking).forEach((key) => {
-        updatedRanking[key][0] = 0; // Reset all counts to zero
-      });
-
-      // Update counts based on the current arr
-      Object.entries(arr).forEach(([key, val]) => {
-        if (updatedRanking[key]) {
-          updatedRanking[key][0] = val; // Update existing users
-        } else {
-          updatedRanking[key] = [val]; // Add new users
-        }
+      const updatedRanking = {};
+      roomData?.users?.forEach((user) => {
+        const userId = user._id;
+        const userCount = arr[userId] || 0; // Use 0 if user has no checked todos
+        updatedRanking[userId] = [userCount, user.username];
       });
 
       // Sort updatedRanking by values in descending order
@@ -237,7 +228,7 @@ function RoomTodo({ roomData }) {
     }
   };
 
-  const rankingEntries = ranking ? Object.entries(ranking) : [];
+  const rankingEntries = Object.entries(ranking);
 
   return (
     <>
@@ -482,9 +473,7 @@ function RoomTodo({ roomData }) {
 
           <div className="flex justify-center items-center">
             <ul className="w-[90%] bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
-              <li
-                className="w-full  grid grid-flow-row gap-4 rounded-t-2xl border-b-2"
-              >
+              <li className="w-full  grid grid-flow-row gap-4 rounded-t-2xl border-b-2">
                 <div className="my-3 flex justify-center items-center font-bold">
                   User's Progress
                 </div>

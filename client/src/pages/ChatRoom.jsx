@@ -39,6 +39,7 @@ const ChatRoom = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  console.log("Users", users);
   useEffect(() => {
     socket.on("room-update", (updatedRoom) => {
       if (roomId == updatedRoom.roomId) {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChecklistRoundedIcon from "@mui/icons-material/ChecklistRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
@@ -17,12 +17,16 @@ function Navbar() {
   const username = useSelector((state) => state.todos.user?.username);
 
   const [isHoverd, setIsHovered] = useState(true);
-
+  const location = useLocation();
+  const currentPath = location.pathname.slice(1);
+  console.log(currentPath);
   return (
     <>
       <div
         className={`${
-          isHoverd ? "w-40 outline-1 outline-dashed" : "w-12 border border-black"
+          isHoverd
+            ? "w-40 outline-1 outline-dashed"
+            : "w-12 border border-black"
         } h-full shadow-lg rounded-md transition-all duration-300 bg-slate-50`}
       >
         <ul
@@ -33,18 +37,28 @@ function Navbar() {
           <div className="w-full m-2 px-2 flex flex-col justify-center items-center">
             <NavLink
               to="/home"
-              className={`mx-1 my-1 p-2 w-full flex ${
-                isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
+              className={({ isActive }) =>
+                `mx-1 my-1 p-2 w-full flex ${
+                  isActive
+                    ? "bg-red-100"
+                    : isHoverd
+                    ? "justify-start"
+                    : "justify-center"
+                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+              }
             >
               <HomeRoundedIcon className="text-gray-800" />
-              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+              <div
+                className={`mx-2 ${
+                  isHoverd ? "flex" : "hidden"
+                } flex-col justify-center items-center active:scale-95 transition-all`}
+              >
                 <span
                   className={` ${
                     isHoverd
                       ? "block animate-jump-in animate-ease-in"
                       : "hidden"
-                  } transition-all delay-500`}
+                  } transition-all delay-500 `}
                 >
                   Home
                 </span>
@@ -55,12 +69,22 @@ function Navbar() {
 
             <NavLink
               to="/task-list"
-              className={`mx-1 my-1 p-2 w-full flex ${
-                isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
+              className={({ isActive }) =>
+                `mx-1 my-1 p-2 w-full flex ${
+                  isActive
+                    ? "bg-red-100"
+                    : isHoverd
+                    ? "justify-start"
+                    : "justify-center"
+                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+              }
             >
               <ChecklistRoundedIcon className="text-gray-800" />
-              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+              <div
+                className={`mx-2 ${
+                  isHoverd ? "flex" : "hidden"
+                } flex-col justify-center items-center active:scale-95 transition-all`}
+              >
                 <span
                   className={` ${
                     isHoverd
@@ -77,12 +101,24 @@ function Navbar() {
 
             <NavLink
               to="/room"
-              className={`mx-1 my-1 p-2 w-full flex ${
-                isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
+              className={({ isActive }) =>
+                `mx-1 my-1 p-2 w-full flex ${
+                  isActive ||
+                  currentPath == "join-room" ||
+                  currentPath.includes("chat")
+                    ? "bg-red-100"
+                    : isHoverd
+                    ? "justify-start"
+                    : "justify-center"
+                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+              }
             >
               <GroupsRoundedIcon className="text-gray-800" />
-              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+              <div
+                className={`mx-2 ${
+                  isHoverd ? "flex" : "hidden"
+                } flex-col justify-center items-center active:scale-95 transition-all`}
+              >
                 <span
                   className={` ${
                     isHoverd
@@ -99,12 +135,22 @@ function Navbar() {
 
             <NavLink
               to="/world-rank"
-              className={`mx-1 my-1 p-2 w-full flex ${
-                isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
+              className={({ isActive }) =>
+                `mx-1 my-1 p-2 w-full flex ${
+                  isActive
+                    ? "bg-red-100"
+                    : isHoverd
+                    ? "justify-start"
+                    : "justify-center"
+                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+              }
             >
               <MilitaryTechRoundedIcon className="text-gray-800" />
-              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+              <div
+                className={`mx-2 ${
+                  isHoverd ? "flex" : "hidden"
+                } flex-col justify-center items-center active:scale-95 transition-all`}
+              >
                 <span
                   className={` ${
                     isHoverd
@@ -121,12 +167,22 @@ function Navbar() {
 
             <NavLink
               to="aboutus"
-              className={`mx-1 my-1 p-2 w-full flex ${
-                isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
+              className={({ isActive }) =>
+                `mx-1 my-1 p-2 w-full flex ${
+                  isActive
+                    ? "bg-red-100"
+                    : isHoverd
+                    ? "justify-start"
+                    : "justify-center"
+                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+              }
             >
               <ImportContactsRoundedIcon className="text-gray-800" />
-              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+              <div
+                className={`mx-2 ${
+                  isHoverd ? "flex" : "hidden"
+                } flex-col justify-center items-center active:scale-95 transition-all`}
+              >
                 <span
                   className={` ${
                     isHoverd
@@ -143,12 +199,22 @@ function Navbar() {
 
             <NavLink
               to="contactus"
-              className={`mx-1 my-1 p-2 w-full flex ${
-                isHoverd ? "justify-start" : "justify-center"
-              } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`}
+              className={({ isActive }) =>
+                `mx-1 my-1 p-2 w-full flex ${
+                  isActive
+                    ? "bg-red-100"
+                    : isHoverd
+                    ? "justify-start"
+                    : "justify-center"
+                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+              }
             >
               <PermContactCalendarRoundedIcon className="text-gray-800" />
-              <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+              <div
+                className={`mx-2 ${
+                  isHoverd ? "flex" : "hidden"
+                } flex-col justify-center items-center active:scale-95 transition-all`}
+              >
                 <span
                   className={` ${
                     isHoverd
@@ -190,7 +256,11 @@ function Navbar() {
                   } items-center text-center hover:bg-red-100  group rounded-sm transition-all`}
                 >
                   <LogoutRoundedIcon className="text-red-600" />
-                  <div className={`mx-2 ${isHoverd ? "flex" : "hidden"} flex-col justify-center items-center active:scale-95 transition-all`}>
+                  <div
+                    className={`mx-2 ${
+                      isHoverd ? "flex" : "hidden"
+                    } flex-col justify-center items-center active:scale-95 transition-all`}
+                  >
                     <span
                       className={` ${
                         isHoverd

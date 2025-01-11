@@ -222,19 +222,21 @@ io.on("connection", (socket) => {
 
   socket.on("leave-room", async (user, id) => {
     try {
-      const leaveUser = await roomsCollection.findOneAndUpdate(
-        {
-          roomId: id,
-        },
-        {
-          $pull: { users: user },
+      const leaveUser = await roomsCollection
+        .findOneAndUpdate(
+          {
+            roomId: id,
+          },
+          {
+            $pull: { users: user },
 
-          $unset: { [`progress.${user}`]: 0 },
-        },
-        {
-          new: true,
-        }
-      );
+            $unset: { [`progress.${user}`]: 0 },
+          },
+          {
+            new: true,
+          }
+        )
+        .populate("users");
 
       if (leaveUser) {
         // console.log("leaveUser", leaveUser);
