@@ -37,3 +37,21 @@ progress {
   color: #ffffff;
 }
 
+*::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 1rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cecece;
+  border-radius: 1rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #979797;
+}

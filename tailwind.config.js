@@ -30,8 +30,6 @@ export default {
       },
     },
   },
-  daisyui: {
-    themes: [],
-  },
-  plugins: [require("tailwindcss-animated"), require("daisyui")],
+
+  plugins: [require("tailwindcss-animated")],
 };

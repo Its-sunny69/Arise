@@ -75,7 +75,7 @@ function WorldRank() {
       {/* <div className="relative z-10"> */}
       <div className="  p-2">
         <div className="my-4">
-          <div className="w-fit bg-gray-2100 px-5 py-1 rounded-full border border-gray-400 text-sm">
+          <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
             <ShinyText
               text="🏆 | Arise Leaderboard"
               disabled={false}

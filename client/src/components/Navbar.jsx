@@ -17,16 +17,16 @@ function Navbar() {
   const username = useSelector((state) => state.todos.user?.username);
 
   const [isHoverd, setIsHovered] = useState(true);
+  const [showUnderline, setShowUnderline] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname.slice(1);
-  console.log(currentPath);
   return (
     <>
       <div
         className={`${
           isHoverd
             ? "w-40 outline-1 outline-dashed"
-            : "w-12 border border-black"
+            : "w-14 border border-black"
         } h-full shadow-lg rounded-md transition-all duration-300 bg-slate-50`}
       >
         <ul
@@ -39,12 +39,11 @@ function Navbar() {
               to="/home"
               className={({ isActive }) =>
                 `mx-1 my-1 p-2 w-full flex ${
-                  isActive
-                    ? "bg-red-100"
-                    : isHoverd
-                    ? "justify-start"
-                    : "justify-center"
-                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+                  isActive ? "bg-slate-200 px-5 rounded-sm" : ""
+                }
+                  ${
+                    isHoverd ? "justify-start" : "justify-center"
+                  } items-center text-center hover:bg-slate-200  group rounded-sm transition-all`
               }
             >
               <HomeRoundedIcon className="text-gray-800" />
@@ -56,7 +55,7 @@ function Navbar() {
                 <span
                   className={` ${
                     isHoverd
-                      ? "block animate-jump-in animate-ease-in"
+                      ? "block animate-fade"
                       : "hidden"
                   } transition-all delay-500 `}
                 >
@@ -71,15 +70,15 @@ function Navbar() {
               to="/task-list"
               className={({ isActive }) =>
                 `mx-1 my-1 p-2 w-full flex ${
-                  isActive
-                    ? "bg-red-100"
-                    : isHoverd
-                    ? "justify-start"
-                    : "justify-center"
-                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+                  isActive ? "bg-slate-200 px-5 rounded-sm" : ""
+                }
+                    ${
+                      isHoverd ? "justify-start " : "justify-center"
+                    } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
               }
             >
               <ChecklistRoundedIcon className="text-gray-800" />
+
               <div
                 className={`mx-2 ${
                   isHoverd ? "flex" : "hidden"
@@ -88,7 +87,7 @@ function Navbar() {
                 <span
                   className={` ${
                     isHoverd
-                      ? "block animate-jump-in animate-ease-in"
+                      ? "block animate-fade"
                       : "hidden"
                   } transition-all delay-500`}
                 >
@@ -106,11 +105,12 @@ function Navbar() {
                   isActive ||
                   currentPath == "join-room" ||
                   currentPath.includes("chat")
-                    ? "bg-red-100"
-                    : isHoverd
-                    ? "justify-start"
-                    : "justify-center"
-                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+                    ? "bg-slate-200 px-5 rounded-sm"
+                    : ""
+                }
+                  ${
+                    isHoverd ? "justify-start" : "justify-center"
+                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
               }
             >
               <GroupsRoundedIcon className="text-gray-800" />
@@ -122,7 +122,7 @@ function Navbar() {
                 <span
                   className={` ${
                     isHoverd
-                      ? "block animate-jump-in animate-ease-in"
+                      ? "block animate-fade"
                       : "hidden"
                   } transition-all delay-500`}
                 >
@@ -137,12 +137,11 @@ function Navbar() {
               to="/world-rank"
               className={({ isActive }) =>
                 `mx-1 my-1 p-2 w-full flex ${
-                  isActive
-                    ? "bg-red-100"
-                    : isHoverd
-                    ? "justify-start"
-                    : "justify-center"
-                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+                  isActive ? "bg-slate-200 px-5 rounded-sm" : ""
+                }
+                  ${
+                    isHoverd ? "justify-start" : "justify-center"
+                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
               }
             >
               <MilitaryTechRoundedIcon className="text-gray-800" />
@@ -154,7 +153,7 @@ function Navbar() {
                 <span
                   className={` ${
                     isHoverd
-                      ? "block animate-jump-in animate-ease-in"
+                      ? "block animate-fade"
                       : "hidden"
                   } transition-all delay-500`}
                 >
@@ -169,12 +168,11 @@ function Navbar() {
               to="aboutus"
               className={({ isActive }) =>
                 `mx-1 my-1 p-2 w-full flex ${
-                  isActive
-                    ? "bg-red-100"
-                    : isHoverd
-                    ? "justify-start"
-                    : "justify-center"
-                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+                  isActive ? "bg-slate-200 px-5 rounded-sm" : ""
+                }
+                  ${
+                    isHoverd ? "justify-start" : "justify-center"
+                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
               }
             >
               <ImportContactsRoundedIcon className="text-gray-800" />
@@ -186,7 +184,7 @@ function Navbar() {
                 <span
                   className={` ${
                     isHoverd
-                      ? "block animate-jump-in animate-ease-in"
+                      ? "block animate-fade"
                       : "hidden"
                   } transition-all delay-500`}
                 >
@@ -201,12 +199,11 @@ function Navbar() {
               to="contactus"
               className={({ isActive }) =>
                 `mx-1 my-1 p-2 w-full flex ${
-                  isActive
-                    ? "bg-red-100"
-                    : isHoverd
-                    ? "justify-start"
-                    : "justify-center"
-                } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
+                  isActive ? "bg-slate-200 px-5 rounded-sm" : ""
+                }
+                  ${
+                    isHoverd ? "justify-start" : "justify-center"
+                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
               }
             >
               <PermContactCalendarRoundedIcon className="text-gray-800" />
@@ -218,7 +215,7 @@ function Navbar() {
                 <span
                   className={` ${
                     isHoverd
-                      ? "block animate-jump-in animate-ease-in"
+                      ? "block animate-fade"
                       : "hidden"
                   } transition-all delay-500`}
                 >
@@ -241,7 +238,7 @@ function Navbar() {
                   <span
                     className={`ml-2 ${
                       isHoverd
-                        ? "block animate-jump-in animate-ease-in"
+                        ? "block animate-fade"
                         : "hidden"
                     } transition-all delay-500`}
                   >
@@ -264,7 +261,7 @@ function Navbar() {
                     <span
                       className={` ${
                         isHoverd
-                          ? "block animate-jump-in animate-ease-in"
+                          ? "block animate-fade"
                           : "hidden"
                       } transition-all text-red-600 delay-500`}
                     >

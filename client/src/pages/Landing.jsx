@@ -27,7 +27,7 @@ function Landing() {
 
           <div>
             <div className="my-14">
-              <div className="w-fit bg-gray-2100 px-5 py-1 rounded-full border border-gray-400 text-sm">
+              <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
                 <ShinyText
                   text="🥳 | Welcome"
                   disabled={false}
@@ -46,21 +46,26 @@ function Landing() {
                   fraction={0.5}
                   className="mb-10"
                 >
-                  <div className="">
-                    <GradientText
-                      colors={[
-                        "#40ffaa",
-                        "#4079ff",
-                        "#40ffaa",
-                        "#4079ff",
-                        "#40ffaa",
-                      ]}
-                      animationSpeed={3}
-                      showBorder={false}
-                      className="custom-class title tracking-widest text-7xl font-extrabold drop-shadow-md"
-                    >
-                      ARISE
-                    </GradientText>
+                  <div className="flex tracking-widest">
+                    <div className="hover:scale-110 cursor-pointer transition-all">
+                      <span className="title text-outline text-7xl pl-4">
+                        A
+                      </span>
+                    </div>
+                    <div className="hover:scale-110 cursor-pointer transition-all">
+                      <span className="title text-outline text-7xl">r</span>
+                    </div>
+                    <div className="hover:scale-110 cursor-pointer transition-all">
+                      <span className="title text-outline text-7xl">i</span>
+                    </div>
+                    <div className="hover:scale-110 cursor-pointer transition-all">
+                      <span className="title text-outline text-7xl">s</span>
+                    </div>
+                    <div className="hover:scale-110 cursor-pointer transition-all">
+                      <span className="title text-outline text-7xl pr-5">
+                        e
+                      </span>
+                    </div>
                   </div>
                 </Fade>
                 <span className="title text-7xl">
