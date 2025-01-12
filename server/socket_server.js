@@ -150,6 +150,10 @@ io.on("connection", (socket) => {
       const room = await roomsCollection.findOne({ roomId: id });
 
       if (room) {
+        if (room.users.includes(user)) {
+          socket.emit("join-msg", { error: "User already exist in room" });
+          return;
+        }
         socket.join(id);
         await roomsCollection.findOneAndUpdate(
           {
