@@ -6,7 +6,6 @@ import SportsEsportsRoundedIcon from "@mui/icons-material/SportsEsportsRounded";
 import Diversity3RoundedIcon from "@mui/icons-material/Diversity3Rounded";
 import TiltedScroll from "../components/TitledScroll";
 import ShinyText from "../components/ShinyText";
-import GradientText from "../components/GradientText";
 import {
   Autoplay,
   Mousewheel,
@@ -19,7 +18,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import TestPng from "../assets/test.png";
 import SunnyPic from "../assets/sunny-pic2.png";
 import InzamamPic from "../assets/inzamam-pic.jpg"
 import GithubSvg from "../assets/github-svg.svg";
@@ -27,15 +25,15 @@ import LinkedInSvg from "../assets/linkedin-svg.svg";
 
 function AboutUs() {
   const [activeDiv, setActiveDiv] = useState(0);
-  const divCount = 4; // Total number of divs
-  const delay = 2000; // Time delay for each div in milliseconds
+  const divCount = 4; 
+  const delay = 2000; 
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveDiv((prevActiveDiv) => (prevActiveDiv + 1) % divCount);
     }, delay);
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
+    return () => clearInterval(interval); 
   }, [divCount, delay]);
   return (
     <>
@@ -120,7 +118,6 @@ function AboutUs() {
 
           <div className="mt-14 flex mx-5">
             <div className="w-1/2 relative">
-              {/* work here, create stack card */}
               <div
                 className={`absolute ${
                   activeDiv === 0

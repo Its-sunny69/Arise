@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const register = createAsyncThunk("auth/register", async (userData) => {
   try {
-    const response = await fetch("http://localhost:5000/api/auth/register", {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -12,11 +12,9 @@ export const register = createAsyncThunk("auth/register", async (userData) => {
 
     if (response.ok) {
       const data = await response.json();
-      // console.log("user registered successfully", data);
       return data;
     } else {
       const errorData = await response.json();
-      // console.error("registration error", errorData); // log backend error to console
       return errorData;
     }
   } catch (error) {
@@ -27,7 +25,7 @@ export const register = createAsyncThunk("auth/register", async (userData) => {
 
 export const login = createAsyncThunk("auth/login", async (userData) => {
   try {
-    const response = await fetch("http://localhost:5000/api/auth/login", {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,22 +35,19 @@ export const login = createAsyncThunk("auth/login", async (userData) => {
 
     if (response.ok) {
       const data = await response.json();
-      // console.log("login", data);
       return data;
     } else {
       const errorData = await response.json();
-      // console.error("login error", errorData); // log backend error to console
       return errorData;
     }
   } catch (error) {
-    // console.error("Login request failed", error); // Catch and log fetch errors
     return error;
   }
 });
 
 export const AuthUser = createAsyncThunk("auth/user", async (currentToken) => {
   try {
-    const response = await fetch("http://localhost:5000/api/auth/user", {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/user`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${currentToken}`,
@@ -61,7 +56,6 @@ export const AuthUser = createAsyncThunk("auth/user", async (currentToken) => {
 
     if (response.ok) {
       const data = await response.json();
-      // console.log(data);
 
       return data;
     }
@@ -73,7 +67,7 @@ export const AuthUser = createAsyncThunk("auth/user", async (currentToken) => {
 export const getTodos = createAsyncThunk("todos/todo/get", async (userId) => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/todos/todo/get/${userId}`
+      `${import.meta.env.VITE_SERVER_URL}/api/todos/todo/get/${userId}`
     );
 
     if (response.ok) {
@@ -93,7 +87,7 @@ export const addTodo = createAsyncThunk(
   async (todoData) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/todos/todo/create",
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/todo/create`,
         {
           method: "POST",
           headers: {
@@ -105,7 +99,6 @@ export const addTodo = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        // console.log("Updated Todo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -122,7 +115,7 @@ export const updateTodo = createAsyncThunk(
   async (updatedTodo) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/todos/todo/update`,
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/todo/update`,
         {
           method: "PATCH",
           headers: {
@@ -133,7 +126,6 @@ export const updateTodo = createAsyncThunk(
       );
       if (response.ok) {
         const data = await response.json();
-        // console.log("Updated Todo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -150,7 +142,7 @@ export const checkBoxUpdate = createAsyncThunk(
   async (updatedCheckedBox) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/todos/todo/checkBoxUpdate`,
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/todo/checkBoxUpdate`,
         {
           method: "PATCH",
           headers: {
@@ -162,7 +154,6 @@ export const checkBoxUpdate = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        // console.log("Updated Checkbox", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -179,7 +170,7 @@ export const deleteTodo = createAsyncThunk(
   async (todoData) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/todos/todo/deleteTodo`,
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/todo/deleteTodo`,
         {
           method: "DELETE",
           headers: {
@@ -191,7 +182,6 @@ export const deleteTodo = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        // console.log("Deleted Todo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -233,7 +223,6 @@ const todosSlice = createSlice({
       .addCase(getTodos.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.todos = action.payload.data[0].todos;
-        // console.log("succeed", state.todos);
       })
       .addCase(getTodos.rejected, (state, action) => {
         state.status = "failed";

@@ -16,8 +16,7 @@ function Navbar() {
 
   const username = useSelector((state) => state.todos.user?.username);
 
-  const [isHoverd, setIsHovered] = useState(true);
-  const [showUnderline, setShowUnderline] = useState(false);
+  const [isHoverd, setIsHovered] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname.slice(1);
   return (

@@ -28,10 +28,8 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log("final", userData);
 
     dispatch(login(userData)).then((response) => {
-      // console.log("frontend", response);
 
       if (response.payload.token) {
         dispatch(setToken(response.payload.token));
@@ -44,7 +42,6 @@ function Login() {
         navigate("/");
       } else {
         const err = response.payload.msg;
-        // console.log("err", err);
 
         if (Array.isArray(err)) {
           setError(err);

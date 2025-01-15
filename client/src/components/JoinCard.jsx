@@ -6,7 +6,7 @@ import CopySvg from "../assets/copy-svg.svg";
 
 const JoinCard = forwardRef(
   (
-    { room, username, userId, handleJoinRoomClick, timeAgo, handleLeaveRoom },
+    { room, userId, handleJoinRoomClick, timeAgo, handleLeaveRoom },
     ref
   ) => {
     const [members, setMembers] = useState(room.users.length);
@@ -32,7 +32,6 @@ const JoinCard = forwardRef(
         });
     };
 
-    // console.log("JoinCard", members);
 
     return (
       <>

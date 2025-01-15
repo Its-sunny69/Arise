@@ -9,16 +9,12 @@ import {
   AuthUser,
 } from "../slice/todosSlice";
 import ProgressBar from "./ProgressBar";
-import AddCricleSvg from "../assets/add-circle-svg.svg";
 import AddSvg from "../assets/add-svg.svg";
 import Checkbox from "@mui/material/Checkbox";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import AddTaskRoundedIcon from "@mui/icons-material/AddTaskRounded";
-import SvgIcon from "@mui/icons-material/EditRounded";
-import { Skeleton } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
 
 const Todo = () => {
@@ -35,13 +31,6 @@ const Todo = () => {
   const error = useSelector((state) => state.todos.error);
   const currentToken = useSelector((state) => state.todos.token);
 
-  // console.log(todos);
-  // console.log(currentToken);
-
-  // const isLoggedin = !!currentToken;
-  // console.log("isLoggedin", isLoggedin);
-  // console.log("status", status)
-
   const userAuth = async () => {
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
@@ -56,24 +45,22 @@ const Todo = () => {
 
   useEffect(() => {
     if (newTodoAdded || userId) {
-      // console.log("todojsx", userId);
       dispatch(getTodos(userId));
-      setNewTodoAdded(false); // Reset the flag after dispatching
+      setNewTodoAdded(false); 
     }
   }, [newTodoAdded, userId, dispatch]);
 
   const handleOrderChange = (newOrder) => {
-    dispatch(reorderTodos(newOrder)); // Dispatch the new order to the Redux store
+    dispatch(reorderTodos(newOrder)); 
   };
 
   const handleAddTodo = (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    const todoData = { userId: userId, title: newTodo, checked: false }; // Create a new todo object
+    e.preventDefault(); 
+    const todoData = { userId: userId, title: newTodo, checked: false }; 
 
     dispatch(addTodo(todoData))
       .then((response) => {
-        // console.log("Todo Added", response.payload);
-        setNewTodo(""); // Clear the input field
+        setNewTodo(""); 
         setNewTodoAdded(true);
       })
       .catch((error) => setError(error));
@@ -88,7 +75,6 @@ const Todo = () => {
     };
     dispatch(updateTodo(updatedTodo))
       .then((response) => {
-        // console.log("UpdateTodo Response: ", response);
         handleCancelEdit();
       })
       .catch((error) => {
@@ -102,22 +88,12 @@ const Todo = () => {
     const updatedCheckedBox = { userId, todoId, currentChecked };
 
     dispatch(checkBoxUpdate(updatedCheckedBox))
-      .then((response) => {
-        // console.log("Response: ", response.payload);
-      })
-      .catch((error) => {
-        console.error("Error checked status of todo:", error);
-      });
   };
 
   const handleDeleteTodo = (todoId) => {
     const todoData = { userId, todoId };
 
     dispatch(deleteTodo(todoData))
-      .then((response) => {
-        // console.log("Response: ", response.payload);
-      })
-      .catch((error) => console.error("Error deleting todo:", error));
   };
 
   const handleUpdateClick = (todoId, todoName) => {
@@ -131,10 +107,7 @@ const Todo = () => {
   };
 
   const progressCalculator = () => {
-    // console.log(
-    //   "prgressChecked",
-    //   todos.map((todo) => todo.checked)
-    // );
+
     const count = todos.reduce((accumulator, todo) => {
       return todo.checked ? accumulator + 1 : accumulator;
     }, 0);
@@ -146,7 +119,6 @@ const Todo = () => {
     progressCalculator();
   }, [todos]);
 
-  // console.log("checkedCount", checkedCount);
   return (
     <>
       <Fade
@@ -221,13 +193,12 @@ const Todo = () => {
 
               {todos.map((todo, index) => (
                 <li
-                  key={todo._id}
+                  key={index}
                   className={`w-full grid grid-flow-row shadow-sm ${
                     index === todos.length - 1 ? "rounded-b-2xl" : ""
                   }`}
                 >
                   {editId == todo._id ? (
-                    <>
                       <div className="grid grid-cols-8 bg-gray-100">
                         <div className="col-span-1 flex justify-center items-center">
                           <Checkbox disabled />
@@ -262,9 +233,7 @@ const Todo = () => {
                           </button>
                         </div>
                       </div>
-                    </>
                   ) : (
-                    <>
                       <div
                         className={`grid grid-cols-8 hover:bg-gray-100 bg-white transition-all ${
                           index === todos.length - 1 ? "rounded-b-2xl" : ""
@@ -316,7 +285,6 @@ const Todo = () => {
                           </button>
                         </div>
                       </div>
-                    </>
                   )}
                 </li>
               ))}

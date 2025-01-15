@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { register, setToken } from "../slice/todosSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -30,9 +30,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // console.log("final", userData);
     dispatch(register(userData)).then(async (response) => {
-      // console.log(response);
 
       if (response.payload.token) {
         dispatch(setToken(response.payload.token));
@@ -45,8 +43,6 @@ function SignUp() {
         navigate("/");
       } else {
         const err = response.payload.msg;
-        // console.log("err", err);
-        // console.log("errrr", Array.isArray(err))
 
         if (Array.isArray(err)) {
           setError(err);

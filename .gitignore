@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 
 # .env file
-*.env
+client/*.env
+server/*.env

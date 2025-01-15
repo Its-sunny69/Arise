@@ -12,7 +12,6 @@ const home = async (req, res) => {
 //Registraion logic
 const register = async (req, res) => {
   try {
-    // console.log(req.body);
     const { username, email, password } = req.body;
 
     const userExist = await User.findOne({ email });

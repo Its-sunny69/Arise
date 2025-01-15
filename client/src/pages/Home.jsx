@@ -1,11 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
-import { Fade, Slide } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
 import ArrowSvg from "../assets/arrow-svg.svg";
 import SquaresBackground from "../components/SquaresBackground";
 import ShinyText from "../components/ShinyText";
-import GradientText from "../components/GradientText";
 
 function Home() {
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ function Home() {
           <SquaresBackground
             speed={0.5}
             squareSize={40}
-            direction="diagonal" // up, down, left, right, diagonal
+            direction="diagonal"
             borderColor="#d5d5d5"
             hoverFillColor="#f5f5f5"
           />

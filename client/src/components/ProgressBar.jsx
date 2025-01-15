@@ -4,8 +4,6 @@ import "../App.css";
 function ProgressBar({ label, currentValue, maxValue }) {
   const percentage = ((currentValue / maxValue) * 100).toFixed(1);
 
-  // console.log("percentage", percentage, currentValue, maxValue);
-
   return (
     <div className=" flex justify-center items-center ">
       <label htmlFor="progress-bar" className="font-bold">

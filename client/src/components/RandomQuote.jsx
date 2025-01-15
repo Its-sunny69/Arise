@@ -11,10 +11,9 @@ const RandomQuote = () => {
   const fetchQuote = async () => {
     try {
       const response = await fetch(
-        "https://api.quotable.io/quotes/random?tags=inspirational|motivational|success|life"
+        "http://api.quotable.io/quotes/random?tags=inspirational|motivational|success|life"
       );
       const data = await response.json();
-      console.log(data)
       setQuote(data[0].content);
       setAuthor(data[0].author);
       setDateAdded(data[0].dateAdded);

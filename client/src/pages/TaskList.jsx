@@ -1,7 +1,6 @@
 import React from "react";
 import Todo from "../components/Todo";
 import RandomQuote from "../components/RandomQuote";
-import { Fade } from "react-awesome-reveal";
 import ShinyText from "../components/ShinyText";
 
 

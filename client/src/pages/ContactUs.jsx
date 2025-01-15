@@ -5,7 +5,6 @@ import { Fade } from "react-awesome-reveal";
 import EmailManPng from "../assets/email-man.png";
 import EmailSvg from "../assets/email-svg.svg";
 import TwitterSvg from "../assets/twitter-svg.svg";
-import GradientText from "../components/GradientText";
 
 function ContactUs() {
   const [showRoomText, setShowRoomText] = useState(false);
@@ -13,8 +12,8 @@ function ContactUs() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowRoomText(true);
-    }, 1400); // 2-second delay for "Room"
-    return () => clearTimeout(timer); // Cleanup timeout
+    }, 1400); 
+    return () => clearTimeout(timer); 
   }, []);
 
   return (

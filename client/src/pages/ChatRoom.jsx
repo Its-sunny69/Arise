@@ -3,13 +3,12 @@ import { useParams } from "react-router-dom";
 import { useSocket } from "../context/Socket";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthUser } from "../slice/todosSlice";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import { format, isToday, isThisWeek, isYesterday } from "date-fns";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import SendSvg from "../assets/send-svg.svg";
 import CopySvg from "../assets/copy-svg.svg";
-import HomeSvg from "../assets/home-svg.svg";
 import ChatLottie from "../assets/Chat.lottie";
 import toast from "react-hot-toast";
 import RoomTodo from "../components/RoomTodo";
@@ -18,7 +17,6 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import { Skeleton, Stack } from "@mui/material";
 import ShinyText from "../components/ShinyText";
-import SplitText from "../components/SplitText";
 
 const ChatRoom = () => {
   const socket = useSocket();
@@ -40,19 +38,19 @@ const ChatRoom = () => {
   const dispatch = useDispatch();
   const currentToken = useSelector((state) => state.todos.token);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  console.log("Users", users);
   useEffect(() => {
     socket.on("room-update", (updatedRoom) => {
       if (roomId == updatedRoom.roomId) {
         setRoomData(updatedRoom);
+        
       }
     });
 
     socket.on("update-users", (users, socketRoomId) => {
       if (socketRoomId == roomId) {
         setUsers(users);
+        setIsLoading(false)
       }
     });
 
@@ -110,7 +108,6 @@ const ChatRoom = () => {
     });
 
     setMessage("");
-    // console.log(message);
   };
 
   const handleKeyDown = async (e) => {
@@ -166,14 +163,12 @@ const ChatRoom = () => {
 
     if (container) {
       const { scrollTop, scrollHeight, clientHeight } = container;
-      const isScrolledUp = scrollHeight - (scrollTop + clientHeight) > 60; // 50px up from the bottom
+      const isScrolledUp = scrollHeight - (scrollTop + clientHeight) > 60; 
       setShowScrollDownButton(isScrolledUp);
-      // console.log("showScrollDownButton", showScrollDownButton);
     }
   };
 
   useEffect(() => {
-    // console.log(containerRef.current);
     const container = containerRef.current;
     if (container) {
       container.addEventListener("scroll", handleScroll);
@@ -187,7 +182,6 @@ const ChatRoom = () => {
 
   const formatDateForHeading = (dateString) => {
     const date = new Date(dateString);
-    // console.log("date", date);
     if (isToday(date)) {
       return "Today";
     } else if (isYesterday(date)) {
@@ -201,30 +195,10 @@ const ChatRoom = () => {
 
   const cssForCurrentUser = "w-full flex justify-end";
   const cssForOtherUser = "w-full flex justify-start";
-  // console.log("messages", messages);
-
-  console.log("user", users, profile);
-
-  useEffect(() => {
-    if (!users || !profile) return;
-    setIsLoading(true);
-    setTimeout(() => {
-      const userJoined = users.some((user) => user._id === profile);
-      console.log(userJoined);
-      setIsUserJoined(userJoined);
-      setIsLoading(false);
-    }, 1500);
-  }, [users, profile]);
-
-  console.log("Profile:", profile, typeof profile);
-  console.log(
-    "User IDs:",
-    users.map((user) => typeof user._id)
-  );
 
   return (
     <>
-      {isLoading ? (
+      {(isLoading || !users.length) ? (
         <div className="p-2">
           <div className="my-4 h-7">
             <div className="w-24 bg-gray-00 px-5 py-1 rounded-full border border-gray-400 text-sm">
@@ -258,7 +232,7 @@ const ChatRoom = () => {
             </div>
           </div>
         </div>
-      ) : isUserJoined ? (
+      ) : (users.some((user) => user._id === profile)) ? (
         <div className=" p-2">
           <div className="my-4">
             <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
@@ -298,7 +272,6 @@ const ChatRoom = () => {
                     </div>
                   </div>
 
-                  {console.log("joined users", users, profile)}
                   <div className="text-center py-1 px-2 border-b-2 border-transparent border-dotted hover:border-black transition-all">
                     <p className="font-bold text-xl tracking-wider">Users</p>
                     <div>
@@ -306,9 +279,10 @@ const ChatRoom = () => {
                         {users.length ? (
                           <>
                             <li>{users[0]?.username}</li>
-                            {users.length > 1 ? (
+                            <li>,&nbsp;{users[1]?.username}</li>
+                            {users.length > 2 ? (
                               <>
-                                <li>,&nbsp;{users[1]?.username}...</li>
+                                <li>...</li>
                                 <div className="relative">
                                   <li
                                     onClick={toggleModel}

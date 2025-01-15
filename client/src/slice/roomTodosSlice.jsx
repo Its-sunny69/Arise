@@ -5,12 +5,11 @@ export const getRoomTodos = createAsyncThunk(
   async (roomId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/todos/roomtodo/get/${roomId}`
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/roomtodo/get/${roomId}`
       );
 
       if (response.ok) {
         const data = await response.json();
-        // console.log("roomdata", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -27,7 +26,7 @@ export const addRoomTodo = createAsyncThunk(
   async (todoData) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/todos/roomtodo/create",
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/roomtodo/create`,
         {
           method: "POST",
           headers: {
@@ -39,7 +38,6 @@ export const addRoomTodo = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        // console.log("Updated RoomTodo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -56,7 +54,7 @@ export const updateRoomTodo = createAsyncThunk(
   async (updatedTodo) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/todos/roomtodo/update`,
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/roomtodo/update`,
         {
           method: "PATCH",
           headers: {
@@ -67,7 +65,6 @@ export const updateRoomTodo = createAsyncThunk(
       );
       if (response.ok) {
         const data = await response.json();
-        // console.log("Updated RoomTodo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -83,9 +80,8 @@ export const roomCheckBoxUpdate = createAsyncThunk(
   "todos/roomtodo/checkBoxUpdate",
   async (updatedCheckedBox) => {
     try {
-      // console.log("redux fn", updatedCheckedBox);
       const response = await fetch(
-        `http://localhost:5000/api/todos/roomtodo/checkBoxUpdate`,
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/roomtodo/checkBoxUpdate`,
         {
           method: "PATCH",
           headers: {
@@ -97,7 +93,6 @@ export const roomCheckBoxUpdate = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        // console.log("Updated RoomCheckbox", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -114,7 +109,7 @@ export const deleteRoomTodo = createAsyncThunk(
   async (todoData) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/todos/roomtodo/deleteTodo`,
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/roomtodo/deleteTodo`,
         {
           method: "DELETE",
           headers: {
@@ -126,7 +121,6 @@ export const deleteRoomTodo = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        // console.log("Deleted RoomTodo", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -143,7 +137,7 @@ export const completedUpdate = createAsyncThunk(
   async (completeData) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/todos/roomtodo/completedUpdate`,
+        `${import.meta.env.VITE_SERVER_URL}/api/todos/roomtodo/completedUpdate`,
         {
           method: "PATCH",
           headers: {
@@ -155,7 +149,6 @@ export const completedUpdate = createAsyncThunk(
 
       if (response.ok) {
         const data = await response.json();
-        // console.log("Updated completed", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -179,10 +172,10 @@ const roomTodosSlice = createSlice({
       .addCase(getRoomTodos.fulfilled, (state, action) => {
         state.roomId = action.payload.data[0].roomId;
         state.roomTodos = action.payload.data[0].todos;
-        // console.log("roomTodos", state.roomId);
       })
       .addCase(addRoomTodo.fulfilled, (state, action) => {
-        state.roomTodos.push(action.payload);
+        const newTodo = action.payload.data.todos; 
+        state.roomTodos.push(newTodo);
       })
       .addCase(updateRoomTodo.fulfilled, (state, action) => {
         const updatedTodo = action.payload.data;
@@ -198,7 +191,21 @@ const roomTodosSlice = createSlice({
           };
         }
       })
+      .addCase(roomCheckBoxUpdate.fulfilled, (state, action) => {
+        const updatedCheckBox = action.payload.data;
 
+        const index = state.roomTodos.findIndex(
+          (todo) => todo._id == updatedCheckBox._id
+        );
+
+        if (index !== -1) {
+          state.roomTodos[index] = {
+            ...state.roomTodos[index],
+            checked: updatedCheckBox.checked,
+          };
+        }
+
+      })
       .addCase(deleteRoomTodo.fulfilled, (state, action) => {
         const todoId = action.payload.data;
 

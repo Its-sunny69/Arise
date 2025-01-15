@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from "./userModal.js";
+
 const roomSchema = new mongoose.Schema({
   roomId: String,
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

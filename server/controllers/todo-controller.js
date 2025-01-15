@@ -3,7 +3,6 @@ import Todo from "../models/todoModal.js";
 const getTodo = async (req, res) => {
   try {
     const { userId } = req.params;
-    // console.log("userIdaa", req.params);
 
     const todoData = await Todo.find({ userId });
     return res.status(201).send({
@@ -21,8 +20,6 @@ const createTodo = async (req, res) => {
     const { userId, title, checked } = req.body;
 
     const userTodos = await Todo.findOne({ userId });
-
-    // console.log("userTodos", userTodos)
 
     if (!userTodos) {
       const todoCreated = await Todo.create({

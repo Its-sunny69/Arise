@@ -12,10 +12,8 @@ import SyncRoundedIcon from "@mui/icons-material/SyncRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
-import ArrowSvg from "../assets/arrow-svg.svg";
-import { Skeleton, Stack } from "@mui/material";
+import { Skeleton  } from "@mui/material";
 import ShinyText from "../components/ShinyText";
-import GradientText from "../components/GradientText";
 
 function Room() {
   const [username, setUsername] = useState("");
@@ -36,12 +34,11 @@ function Room() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowRoomText(true);
-    }, 1400); // 2-second delay for "Room"
-    return () => clearTimeout(timer); // Cleanup timeout
+    }, 1400); 
+    return () => clearTimeout(timer); 
   }, []);
 
   const userAuth = async () => {
-    // console.log("currentToken", currentToken);
 
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
@@ -72,30 +69,24 @@ function Room() {
       const data2 = joinedRooms.filter((room) => room.roomId != id);
 
       setJoinedRooms(data2);
-      // console.log(`Deleted:${id}`);
     });
 
     socket.on("update-members", (data, id) => {
-      // console.log("update-members", data, id);
 
       createdRoomRef.current?.updateChild(data, id);
       joinRoomRef.current?.updateChild(data, id);
     });
 
     socket.on("pointsSocket", (pointsData) => {
-      // console.log("pointsData", pointsData);
       const sortedRank = pointsData.sort((a, b) => b.points - a.points);
       setRanking(sortedRank);
     });
-
-    // socket.emit("refresh", userId);
 
     return () => {
       socket.off("update-members");
       socket.off("leave-user");
       socket.off("delete");
       socket.off("pointsSocket");
-      // socket.off("refresh");
     };
   }, [socket, userId]);
 
@@ -127,9 +118,8 @@ function Room() {
   };
 
   const roomCreatedData = async (username) => {
-    // console.log("Home", username);
     try {
-      const url = `http://localhost:3002/api/rooms/${username}`;
+      const url = `${import.meta.env.VITE_SERVER_URL}/api/rooms/${username}`;
       setCreatedRoomLoading(true);
 
       const response = await fetch(url);
@@ -138,18 +128,16 @@ function Room() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      // console.log("fetch", data);
       setCreatedRooms(data);
       setCreatedRoomLoading(false);
     } catch (error) {
-      // console.log(error, "Error while fetching all created rooms");
       return error
     }
   };
 
   const roomJoinData = async (username) => {
     try {
-      const url = `http://localhost:3002/api/rooms/join/${username}`;
+      const url = `${import.meta.env.VITE_SERVER_URL}/api/rooms/join/${username}`;
       setJoinRoomLoading(true);
 
       const response = await fetch(url);
@@ -158,11 +146,9 @@ function Room() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      // console.log("joined", data);
       setJoinedRooms(data);
       setJoinRoomLoading(false);
     } catch (error) {
-      // console.log(error, "Error while fetching all joined rooms");
       return error
     }
   };
@@ -170,7 +156,7 @@ function Room() {
   const handleRoomDelete = async (roomId) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/rooms/${roomId}`,
+        `${import.meta.env.VITE_SERVER_URL}/api/rooms/${roomId}`,
         {
           method: "DELETE",
           headers: {
@@ -186,9 +172,7 @@ function Room() {
       const data = await response.json();
       setCreatedRooms(createdRooms.filter((room) => room.roomId !== roomId));
       socket.emit("delete-room", roomId, username, userId);
-      // console.log("delete-data", data);
     } catch (error) {
-      // console.log(error, "Error deleting room");
       return error
     }
   };

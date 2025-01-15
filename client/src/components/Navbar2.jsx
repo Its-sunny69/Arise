@@ -15,7 +15,6 @@ function Navbar2() {
   const dispatch = useDispatch();
 
   const userAuth = async () => {
-    // console.log("currentToken", currentToken);
 
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {

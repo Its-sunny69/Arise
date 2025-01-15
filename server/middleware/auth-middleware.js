@@ -18,7 +18,6 @@ const authMiddleware = async (req, res, next) => {
     const id = isVerified.userId;
 
     const userData = await User.findOne({ _id: id }).select({ password: 0 });
-    // console.log(userData);
 
     req.userId = userData._id;
     req.user = userData;

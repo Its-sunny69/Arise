@@ -1,12 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { TypeAnimation } from "react-type-animation";
-import { Fade, Slide } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
 import ArrowSvg from "../assets/arrow-svg.svg";
 import SquaresBackground from "../components/SquaresBackground";
 import ShinyText from "../components/ShinyText";
 import BlurText from "../components/BlurText";
-import GradientText from "../components/GradientText";
 
 function Landing() {
   const navigate = useNavigate();
@@ -19,7 +17,7 @@ function Landing() {
             <SquaresBackground
               speed={0.5}
               squareSize={40}
-              direction="diagonal" // up, down, left, right, diagonal
+              direction="diagonal" 
               borderColor="#d5d5d5"
               hoverFillColor="#f5f5f5"
             />
@@ -69,17 +67,13 @@ function Landing() {
                   </div>
                 </Fade>
                 <span className="title text-7xl">
-                  {/* <TypeAnimation
-                    sequence={["Stuck in the Cycle of Procrastination?"]}
-                    speed={30}
-                    repeat={0}
-                  /> */}
+                  
                   <BlurText
                     text="Stuck in the Cycle of Procrastination?"
                     delay={150}
                     animateBy="words"
                     direction="top"
-                    // className="text-2xl mb-8"
+                    
                   />
                 </span>
                 <Fade

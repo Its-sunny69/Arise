@@ -12,8 +12,6 @@ function Layout() {
           <Navbar />
         </div>
 
-        <div></div>
-
         {/* Main Content (Outlet) */}
         <div className="flex-1 p-4 overflow-auto">
           <Navbar2 />

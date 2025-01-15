@@ -5,9 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AuthUser } from "../slice/todosSlice";
 import toast from "react-hot-toast";
 import { TypeAnimation } from "react-type-animation";
-import { Fade, Slide } from "react-awesome-reveal";
-import { Tooltip } from "react-tooltip";
-import HomeSvg from "../assets/home-svg.svg";
+import { Fade } from "react-awesome-reveal";
 import RemoteMeetingSvg from "../assets/remote-meeting.svg";
 import MeetTheTeam from "../assets/meet-the-team.svg";
 import ShinyText from "../components/ShinyText";
@@ -39,12 +37,10 @@ const CreateJoinRoom = () => {
         toast.error(data.error, {
           position: "top-center",
         });
-        // console.log(data.error);
       } else {
         toast.success("Joined Room Successfully", {
           position: "top-center",
         });
-        // console.log(`${data.userName} joined room: ${data.roomId}`);
 
         navigate(`/chat/${data.roomId}`, {
           state: { userName: data.userName },
@@ -61,7 +57,6 @@ const CreateJoinRoom = () => {
     e.preventDefault();
     socket.emit("create-room", profile);
     socket.on("msg", (val) => {
-      // console.log(val.user + " created Room with RoomID " + val.id);
       navigate(`/chat/${val.id}`);
     });
     setInput({ ...input, userName: "", joinRoom: "" });

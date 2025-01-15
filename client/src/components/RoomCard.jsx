@@ -29,7 +29,7 @@ const RoomCard = forwardRef(
           console.error("Failed to copy text: ", error);
         });
     };
-    // console.log("RoomCard", members);
+
     return (
       <>
         <div key={room._id} className="min-h-56">

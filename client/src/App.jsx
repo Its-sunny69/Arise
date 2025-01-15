@@ -15,9 +15,7 @@ import Room from "./pages/Room";
 import WorldRank from "./pages/WorldRank";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
-import Navbar from "./components/Navbar";
 import Layout from "./components/Layout";
-import StarsBackground from "./components/StarsBackground";
 import Landing from "./pages/Landing";
 
 function App() {
@@ -27,7 +25,6 @@ function App() {
   return (
     <>
       <Toaster />
-      {/* <StarsBackground/> */}
       <BrowserRouter>
         <SocketProvider>
           <Routes>

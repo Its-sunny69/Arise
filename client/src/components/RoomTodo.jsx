@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProgressBar from "./ProgressBar";
-import { v4 as uuidv4 } from "uuid";
-import AddCricleSvg from "../assets/add-circle-svg.svg";
 import AddSvg from "../assets/add-svg.svg";
 import {
   getRoomTodos,
@@ -14,7 +12,6 @@ import {
 } from "../slice/roomTodosSlice";
 
 import { useSocket } from "../context/Socket";
-import { useParams } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
@@ -36,9 +33,8 @@ function RoomTodo({ roomData }) {
   const username = useSelector((state) => state.todos.user?.username);
   const userId = useSelector((state) => state.todos.user?._id);
   const todos = useSelector((state) => state.roomTodos.roomTodos);
-  const todoRoomId = useSelector((state) => {
-    return state.roomTodos.roomId;
-  });
+  const todosRoomId = useSelector((state) => state.roomTodos.roomId);
+  
   const socket = useSocket();
 
   useEffect(() => {
@@ -48,17 +44,18 @@ function RoomTodo({ roomData }) {
         setSocketRoomId(roomId);
       }
     });
-    socket.emit("todo", todos, todoRoomId);
+
+    if (todosRoomId == roomData.roomId) {
+      socket.emit("todo", todos, roomData.roomId);
+    }
 
     return () => {
       socket.off("addTodo");
-      socket.off("todo");
     };
   }, [todos, socket, roomData.roomId]);
 
   useEffect(() => {
     socket.on("updateTodo", (updatedTodo, roomId) => {
-      // Update the local socketTodo state with the latest data
       if (roomId == roomData.roomId) {
         setSocketTodo((prevTodos) =>
           prevTodos.map((todo) => {
@@ -66,6 +63,8 @@ function RoomTodo({ roomData }) {
               ? { ...todo, checked: updatedTodo.checked }
               : todo;
           })
+
+          
         );
       }
     });
@@ -78,7 +77,6 @@ function RoomTodo({ roomData }) {
     });
 
     return () => {
-      // socket.off("addTodo");
       socket.off("updateTodo");
       socket.off("room-progress");
     };
@@ -90,7 +88,7 @@ function RoomTodo({ roomData }) {
 
       setNewTodoAdded(false);
     }
-  }, [newTodoAdded, roomData.roomId, dispatch]);
+  }, [newTodoAdded, roomData.roomId]);
 
   useEffect(() => {
     progressCalculator();
@@ -111,7 +109,6 @@ function RoomTodo({ roomData }) {
 
     dispatch(addRoomTodo(todoData))
       .then((response) => {
-        // console.log("Todo Added", response.payload);
         setNewTodo("");
         setNewTodoAdded(true);
       })
@@ -143,7 +140,7 @@ function RoomTodo({ roomData }) {
 
     dispatch(roomCheckBoxUpdate(updatedCheckedBox))
       .then((response) => {
-        socket.emit("updateCheckbox", response.payload.data, todoRoomId);
+        socket.emit("updateCheckbox", response.payload.data, roomData.roomId);
       })
       .catch((error) => {
         console.error("Error updating checkbox status of todo:", error);
@@ -154,10 +151,6 @@ function RoomTodo({ roomData }) {
     const todoData = { roomId: roomData.roomId, todoId };
 
     dispatch(deleteRoomTodo(todoData))
-      .then((response) => {
-        // console.log("Response: ", response.payload);
-      })
-      .catch((error) => console.error("Error deleting todo:", error));
   };
 
   const handleUpdateClick = (todoId, todoName) => {
@@ -175,38 +168,34 @@ function RoomTodo({ roomData }) {
       return todo.checked?.includes(userId) ? accumulator + 1 : accumulator;
     }, 0);
 
-    // setCheckedCount(count);
+
     socket.emit("progress", userId, count, roomData.roomId, socketTodo.length);
   };
 
   const handleRanking = () => {
     let arr = {};
 
-    // Iterate over todos to calculate the count of checked items for each user
     socketTodo.forEach((todo) => {
       if (todo.checked?.length) {
         todo.checked.forEach((user) => {
           if (!arr[user]) {
-            arr[user] = 0; // Initialize the user's count if not already present
+            arr[user] = 0;
           }
-          arr[user] += 1; // Increment the count for each checkbox checked by the user
+          arr[user] += 1;
         });
       }
     });
 
-    // Update the ranking state with the new values
     setRanking((prevRanking) => {
-      // Create a copy of prevRanking and reset all counts to zero
       const updatedRanking = {};
       roomData?.users?.forEach((user) => {
         const userId = user._id;
-        const userCount = arr[userId] || 0; // Use 0 if user has no checked todos
+        const userCount = arr[userId] || 0; 
         updatedRanking[userId] = [userCount, user.username];
       });
 
-      // Sort updatedRanking by values in descending order
       const sortedRanking = Object.entries(updatedRanking)
-        .sort(([, a], [, b]) => b[0] - a[0]) // Sort by the ranking value (descending)
+        .sort(([, a], [, b]) => b[0] - a[0]) 
         .reduce((acc, [key, val]) => {
           acc[key] = val;
           return acc;

@@ -3,33 +3,28 @@ import { useSelector, useDispatch } from "react-redux";
 import { AuthUser } from "../slice/todosSlice";
 import { useSocket } from "../context/Socket";
 import { TypeAnimation } from "react-type-animation";
-import { Fade, Slide } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
 import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
-import ConfettiBackground from "../components/confettiBackground";
 import ShinyText from "../components/ShinyText";
-import GradientText from "../components/GradientText";
 
 function WorldRank() {
   const [userId, setUserId] = useState();
   const [username, setUsername] = useState();
   const [ranking, setRanking] = useState([]);
-  const [point, setPoint] = useState();
   const [showText, setShowText] = useState(false);
   const currentToken = useSelector((state) => state.todos.token);
   const dispatch = useDispatch();
   const socket = useSocket();
 
   const userAuth = async () => {
-    // console.log("currentToken", currentToken);
 
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
         setUsername(response.payload.username);
         setUserId(response.payload._id);
-        setPoint(response.payload.points);
       }
     });
   };
@@ -47,16 +42,12 @@ function WorldRank() {
 
   useEffect(() => {
     socket.on("pointsSocket", (pointsData) => {
-      // console.log("pointsData", pointsData);
       const sortedRank = pointsData.sort((a, b) => b.points - a.points);
       setRanking(sortedRank);
     });
 
-    // socket.emit("refresh", userId);
-
     return () => {
       socket.off("pointsSocket");
-      // socket.off("refresh");
     };
   }, [socket, userId]);
 
@@ -67,12 +58,9 @@ function WorldRank() {
   const handlePoints = () => {
     socket.emit("points");
   };
-  // console.log("point", point);
 
   return (
     <div className="">
-      {/* <ConfettiBackground className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none" /> */}
-      {/* <div className="relative z-10"> */}
       <div className="  p-2">
         <div className="my-4">
           <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
@@ -275,7 +263,6 @@ function WorldRank() {
           </div>
         </div>
       </div>
-      {/* </div> */}
     </div>
   );
 }
