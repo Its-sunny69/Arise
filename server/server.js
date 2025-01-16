@@ -3,7 +3,7 @@ import cors from "cors";
 import connectDb from "./database/database.js";
 import roomsCollection from "./models/roomModel.js";
 import RoomTodo from "./models/roomTodoModel.js";
-import User from "./models/userModal.js";
+import User from "./models/userModel.js";
 import router from "./router/routes.js";
 const port = 3002;
 import { createServer } from "http";

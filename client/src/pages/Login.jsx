@@ -113,11 +113,6 @@ function Login() {
               </div>
             </div>
             <form action="" onSubmit={handleSubmit} className="mt-5 w-full">
-              <div className="text-center">
-                <p className="font-bold">Guest Account</p>
-                <p>Email: Jhon@gmail.com</p>
-                <p>Password: Jhon@123</p>
-              </div>
               <div className="my-4 flex flex-col">
                 <label htmlFor="email" className="text-2xl">
                   Email

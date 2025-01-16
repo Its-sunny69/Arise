@@ -1,5 +1,5 @@
 import RoomTodo from "../models/roomTodoModel.js";
-import User from "../models/userModal.js";
+import User from "../models/userModel.js";
 
 const getTodo = async (req, res) => {
   try {

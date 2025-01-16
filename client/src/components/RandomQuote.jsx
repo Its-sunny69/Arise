@@ -5,18 +5,16 @@ import { Stack } from "@mui/material";
 const RandomQuote = () => {
   const [quote, setQuote] = useState("");
   const [author, setAuthor] = useState("");
-  const [dateAdded, setDateAdded] = useState("");
   const [loading, setLoading] = useState(true);
 
   const fetchQuote = async () => {
     try {
       const response = await fetch(
-        "https://api.quotable.io/quotes/random?tags=inspirational|motivational|success|life"
+        "https://quoteslate.vercel.app/api/quotes/random?tags=inspiration"
       );
       const data = await response.json();
-      setQuote(data[0].content);
-      setAuthor(data[0].author);
-      setDateAdded(data[0].dateAdded);
+      setQuote(data.quote);
+      setAuthor(data.author);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching the quote:", error);
@@ -60,7 +58,7 @@ const RandomQuote = () => {
         <>
           <p className="text-xl font-semibold italic">"{quote}"</p>
           <p className=" mt-2 font-medium">
-            - by {author} on {dateAdded}
+            - by {author}
           </p>
         </>
       )}

@@ -28,13 +28,11 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-//Generating JWT Token
-const JWT_SECRET = "ASXFDSTYHND";
 userSchema.methods.generateToken = async function () {
   try {
     return jwt.sign(
       { userId: this._id.toString(), email: this.email },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
   } catch (error) {

@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import jwt from "jsonwebtoken";
-import User from "../models/userModal.js";
+import User from "../models/userModel.js";
 
 const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
