@@ -291,12 +291,14 @@ function AboutUs() {
                         <a
                           href="https://www.linkedin.com/in/sunny-yadav-557676249/"
                           className="mr-1 hover:opacity-50 active:scale-95 transition-all"
+                          target="_blank"
                         >
                           <img src={LinkedInSvg} />
                         </a>
                         <a
                           href="https://github.com/Its-sunny69"
                           className="hover:opacity-50 active:scale-95 transition-all"
+                          target="_blank"
                         >
                           <img src={GithubSvg} />
                         </a>
@@ -334,14 +336,16 @@ function AboutUs() {
                       <span className="text-left">MERN Developer | </span>
                       <div className="flex ml-1">
                         <a
-                          href="https://www.linkedin.com/in/sunny-yadav-557676249/"
+                          href="https://www.linkedin.com/in/inzamam-shaikh-189678284/"
                           className="mr-1 hover:opacity-50 active:scale-95 transition-all"
+                          target="_blank"
                         >
                           <img src={LinkedInSvg} />
                         </a>
                         <a
-                          href="https://github.com/Its-sunny69"
+                          href="https://github.com/Inzamamdev"
                           className="hover:opacity-50 active:scale-95 transition-all"
+                          target="_blank"
                         >
                           <img src={GithubSvg} />
                         </a>
