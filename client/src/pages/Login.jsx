@@ -116,7 +116,7 @@ function Login() {
               <div className="text-center">
                 <p className="font-bold">Guest Account</p>
                 <p>Email: Jhon@gmail.com</p>
-                <p>Password: John@123</p>
+                <p>Password: Jhon@123</p>
               </div>
               <div className="my-4 flex flex-col">
                 <label htmlFor="email" className="text-2xl">
