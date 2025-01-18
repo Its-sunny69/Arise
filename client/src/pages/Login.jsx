@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, setToken } from "../slice/todosSlice";
@@ -15,9 +15,20 @@ function Login() {
   });
 
   const [error, setError] = useState();
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPhoneView(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   let name, value;
   const handleInput = (e) => {
@@ -30,7 +41,6 @@ function Login() {
     e.preventDefault();
 
     dispatch(login(userData)).then((response) => {
-
       if (response.payload.token) {
         dispatch(setToken(response.payload.token));
 
@@ -58,17 +68,21 @@ function Login() {
   return (
     <>
       <div className="w-full min-h-lvh flex justify-center items-center">
-        <div className=" w-[60%] my-8 flex rounded-md shadow-lg bg-green-30">
-          <div className="w-1/2 bg-slate-100 rounded-l-md flex justify-center items-center">
-            <DotLottieReact
-              src={LoginImage}
-              loop
-              autoplay
-              style={{ width: 500, height: 500 }}
-            />
-          </div>
+        <div className="sm:w-[60%] w-full mx-5 sm:mx-0 my-8 flex rounded-md shadow-lg bg-green-30">
+          {phoneView ? (
+            ""
+          ) : (
+            <div className="w-1/2 bg-slate-100 rounded-l-md flex justify-center items-center">
+              <DotLottieReact
+                src={LoginImage}
+                loop
+                autoplay
+                style={{ width: 500, height: 500 }}
+              />
+            </div>
+          )}
 
-          <div className="w-1/2 p-6 flex flex-col justify-center items-center">
+          <div className="sm:w-1/2 w-full p-6 flex flex-col justify-center items-center">
             <div className=" text-center">
               <div className="flex justify-center items-center tracking-widest">
                 <div className="hover:scale-110 cursor-pointer transition-all">
@@ -97,7 +111,7 @@ function Login() {
                   </span>
                 </div>
               </div>
-              <div className="title text-5xl font-bold my-2 drop-shadow-sm">
+              <div className="title sm:text-5xl text-4xl font-bold my-2 drop-shadow-sm">
                 <SplitText
                   text="Hello Again!"
                   delay={150}

@@ -33,15 +33,15 @@ const RoomCard = forwardRef(
     return (
       <>
         <div key={room._id} className="min-h-56">
-          <div className="shadow-md hover:shadow-lg m-2 hover:outline hover:outline-1 hover:outline-slate-200 rounded-md hover:scale-105 transition-transform">
+          <div className="shadow-md hover:shadow-lg sm:m-2 m-1 hover:outline hover:outline-1 hover:outline-slate-200 rounded-md hover:scale-105 transition-transform">
             <div className="bg-slate-100 p-4 rounded-t-md flex justify-between items-center">
               <p>
-                <span className="font-bold">Id : </span>
+                <span className="font-bold ">Id : </span>
                 {room.roomId}
               </p>
 
               <button
-                className="mx-2 hover:opacity-60 active:scale-95 transition-all"
+                className="sm:mx-2 hover:opacity-60 active:scale-95 transition-all"
                 onClick={handleCopy}
               >
                 <img src={CopySvg} className="w-5" />
@@ -53,13 +53,13 @@ const RoomCard = forwardRef(
                 <span>
                   <PeopleRoundedIcon />
                 </span>
-                <span className="ml-3">{members}</span>
+                <span className="ml-3 ">{members}</span>
               </p>
               <p className="px-4 pb-5 my-1 rounded-md">
                 <span>
                   <HistoryRoundedIcon />
                 </span>
-                <span className="ml-3">{timeAgo(room.createdAt)}</span>
+                <span className="ml-3 ">{timeAgo(room.createdAt)}</span>
               </p>
             </div>
 

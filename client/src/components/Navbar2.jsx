@@ -40,7 +40,7 @@ function Navbar2() {
     <div className="w-full">
       <div className="flex justify-center">
         <div className="w-full flex justify-between items-center">
-          <div className="my-4 flex justify-center items-center font-semibold tracking-wider">
+          <div className="sm:my-4 flex justify-center items-center font-semibold tracking-wider">
             <div>
               <DotLottieReact
                 src={profileLottie}

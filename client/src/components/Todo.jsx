@@ -129,7 +129,7 @@ const Todo = () => {
         triggerOnce
         fraction={0.5}
       >
-        <div className="my-14">
+        <div className="sm:my-14 my-10">
           <div className="my-8 text-center">
             <span className="title text-5xl">Your Today's Task</span>
           </div>
@@ -137,8 +137,8 @@ const Todo = () => {
           {error && <p>Error fetching todos: {error.message}</p>}
 
           <div className="flex justify-center items-center">
-            <div className="flex w-[80%] justify-between items-center my-4">
-              <div className="w-[40%] flex">
+            <div className="flex sm:flex-row flex-col-reverse sm:w-[80%] w-full justify-between items-center my-4">
+              <div className="sm:w-[40%] w-full flex sm:mb-0 my-1">
                 <div className="w-5/6 py-1">
                   <input
                     type="text"
@@ -162,7 +162,7 @@ const Todo = () => {
                 </div>
               </div>
 
-              <div className="w-[40%]">
+              <div className="sm:w-[40%] w-full sm:my-0 my-4">
                 <ProgressBar
                   label={"Progress"}
                   currentValue={checkedCount}
@@ -173,19 +173,19 @@ const Todo = () => {
           </div>
 
           <div className="flex justify-center items-center">
-            <ul className="w-[80%] flex flex-col justify-center items-center transition-all">
+            <ul className="sm:w-[80%] w-full flex flex-col justify-center items-center transition-all">
               <li className="w-full bg-gray-300 grid grid-flow-row gap-4 rounded-t-2xl">
-                <div className="grid grid-cols-8 my-3">
-                  <div className="col-span-1 flex justify-center items-center font-bold">
+                <div className="grid sm:grid-cols-8 grid-cols-5 my-3">
+                  <div className="sm:col-span-1 flex justify-center items-center font-bold">
                     Status
                   </div>
-                  <div className="col-span-5 flex justify-start items-center px-4 font-bold border-x border-black">
+                  <div className="sm:col-span-5 col-span-2 flex justify-start items-center px-4 font-bold border-x border-black">
                     Task
                   </div>
-                  <div className="col-span-1 flex justify-center items-center font-bold border-r border-black">
+                  <div className="sm:col-span-1 flex justify-center items-center font-bold border-r border-black">
                     Edit
                   </div>
-                  <div className="col-span-1 flex justify-center items-center font-bold">
+                  <div className="sm:col-span-1 flex justify-center items-center font-bold">
                     Delete
                   </div>
                 </div>
@@ -199,12 +199,12 @@ const Todo = () => {
                   }`}
                 >
                   {editId == todo._id ? (
-                      <div className="grid grid-cols-8 bg-gray-100">
-                        <div className="col-span-1 flex justify-center items-center">
+                      <div className="grid sm:grid-cols-8 grid-cols-5 sm:my-3 bg-gray-100">
+                        <div className="sm:col-span-1 flex justify-center items-center">
                           <Checkbox disabled />
                         </div>
 
-                        <div className="col-span-5 w-full px-4 flex justify-start items-center">
+                        <div className="sm:col-span-5 col-span-2 w-full px-4 flex justify-start items-center">
                           <input
                             type="text"
                             className="border-b border-gray-300 w-full focus:outline-none bg-gray-100"
@@ -213,7 +213,7 @@ const Todo = () => {
                           />
                         </div>
 
-                        <div className="col-span-1 flex justify-center items-center">
+                        <div className="sm:col-span-1 flex justify-center items-center">
                           <button
                             className="text-green-500 hover:scale-110 hover:text-green-400 transition-all active:scale-95"
                             onClick={() =>
@@ -224,7 +224,7 @@ const Todo = () => {
                           </button>
                         </div>
 
-                        <div className="col-span-1 flex justify-center items-center">
+                        <div className="sm:col-span-1 flex justify-center items-center">
                           <button
                             className="text-red-500 hover:scale-110 hover:text-red-400 transition-all active:scale-95"
                             onClick={handleCancelEdit}
@@ -235,11 +235,11 @@ const Todo = () => {
                       </div>
                   ) : (
                       <div
-                        className={`grid grid-cols-8 hover:bg-gray-100 bg-white transition-all ${
+                        className={`grid sm:grid-cols-8 grid-cols-5 sm:my-3 hover:bg-gray-100 bg-white transition-all ${
                           index === todos.length - 1 ? "rounded-b-2xl" : ""
                         }`}
                       >
-                        <div className="col-span-1 flex justify-center items-center">
+                        <div className="sm:col-span-1 flex justify-center items-center">
                           <Checkbox
                             checked={todo.checked ?? false}
                             onChange={() =>
@@ -249,7 +249,7 @@ const Todo = () => {
                         </div>
 
                         <div
-                          className={` flex justify-start items-center px-4 col-span-5 transition-all ${
+                          className={` flex justify-start items-center px-4 sm:col-span-5 col-span-2 transition-all ${
                             todo.checked ? "text-gray-500" : ""
                           }`}
                         >
@@ -265,7 +265,7 @@ const Todo = () => {
                           </div>
                         </div>
 
-                        <div className="col-span-1 flex justify-center items-center">
+                        <div className="sm:col-span-1 flex justify-center items-center">
                           <button
                             className="text-blue-500 hover:scale-110 hover:text-blue-400 transition-all active:scale-95"
                             onClick={() =>
@@ -276,7 +276,7 @@ const Todo = () => {
                           </button>
                         </div>
 
-                        <div className="col-span-1 flex justify-center items-center">
+                        <div className="sm:col-span-1 flex justify-center items-center">
                           <button
                             className="text-red-500 hover:scale-110 hover:text-red-400 transition-all active:scale-95"
                             onClick={() => handleDeleteTodo(todo._id)}

@@ -19,21 +19,32 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import SunnyPic from "../assets/sunny-pic2.png";
-import InzamamPic from "../assets/inzamam-pic.jpg"
+import InzamamPic from "../assets/inzamam-pic.jpg";
 import GithubSvg from "../assets/github-svg.svg";
 import LinkedInSvg from "../assets/linkedin-svg.svg";
 
 function AboutUs() {
   const [activeDiv, setActiveDiv] = useState(0);
-  const divCount = 4; 
-  const delay = 2000; 
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
+  const divCount = 4;
+  const delay = 2000;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPhoneView(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveDiv((prevActiveDiv) => (prevActiveDiv + 1) % divCount);
     }, delay);
 
-    return () => clearInterval(interval); 
+    return () => clearInterval(interval);
   }, [divCount, delay]);
   return (
     <>
@@ -50,7 +61,7 @@ function AboutUs() {
         </div>
 
         <div className="my-10">
-          <div className="title text-7xl flex justify-center items-center">
+          <div className="title sm:text-7xl text-5xl flex justify-center items-center">
             <TypeAnimation
               sequence={["About"]}
               speed={30}
@@ -59,23 +70,33 @@ function AboutUs() {
             />
 
             <Fade delay={700} duration={1000} triggerOnce fraction={0.5}>
-            <div className="flex tracking-wider">
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl pl-4">A</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl">r</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl">i</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl">s</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl pr-5">e</span>
-                  </div>
+              <div className="flex tracking-wider">
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl sm:pl-4 pl-2">
+                    A
+                  </span>
                 </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl">
+                    r
+                  </span>
+                </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl">
+                    i
+                  </span>
+                </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl">
+                    s
+                  </span>
+                </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl pr-5">
+                    e
+                  </span>
+                </div>
+              </div>
             </Fade>
           </div>
 
@@ -86,24 +107,38 @@ function AboutUs() {
             fraction={0.5}
             className="text-center"
           >
-            <div className="text-2xl text-center">
-              Your ultimate ally in conquering procrastination and unlocking
-              your full potential.
-              <br />
-              Your Partner in Productivity and Growth.
-            </div>
+            {phoneView ? (
+              <div className="text-lg text-justify my-2">
+                Your ultimate ally in conquering procrastination and unlocking
+                your full potential. Your Partner in Productivity and Growth.
+              </div>
+            ) : (
+              <div className="sm:text-2xl text-lg text-center">
+                Your ultimate ally in conquering procrastination and unlocking
+                your full potential.
+                <br />
+                Your Partner in Productivity and Growth.
+              </div>
+            )}
           </Fade>
         </div>
 
-        <Fade cascade delay={200} damping={0.1} duration={1000} triggerOnce fraction={0.5}>
-          <div className="mt-20 mx-5 flex">
-            <div className="w-1/2">
-              <div className="my-8 text-left">
-                <span className="title text-5xl">Why Arise?</span>
+        <Fade
+          cascade
+          delay={200}
+          damping={0.1}
+          duration={1000}
+          triggerOnce
+          fraction={0.5}
+        >
+          <div className="sm:mt-20 mt-10 sm:mx-5 sm:flex">
+            <div className="sm:w-1/2">
+              <div className="sm:my-8 sm:text-left text-center">
+                <span className="title sm:text-5xl text-4xl">Why Arise?</span>
               </div>
 
-              <div className="my-8 text-justify">
-                <span className="text-2xl">
+              <div className="sm:my-8 my-4 text-justify">
+                <span className="sm:text-2xl text-lg">
                   We understand that starting is often the hardest part. Arise
                   is here to help you break free from procrastination, organize
                   your goals, and turn your dreams into achievable milestones.
@@ -111,49 +146,53 @@ function AboutUs() {
               </div>
             </div>
 
-            <div className="w-1/2">
+            <div className="sm:w-1/2">
               <TiltedScroll />
             </div>
           </div>
 
-          <div className="mt-14 flex mx-5">
-            <div className="w-1/2 relative">
-              <div
-                className={`absolute ${
-                  activeDiv === 0
-                    ? "top-32 left-44 scale-[200%] shadow-lg border border-gray-800"
-                    : "top-5 left-10"
-                } w-28 h-14 rounded-sm transition-all duration-500 flex justify-center items-center bg-white border border-gray-800`}
-              >
-                Productivity
+          <div className="sm:mt-14 mt-10 flex flex-col-reverse sm:flex-row sm:mx-5">
+            {phoneView ? (
+              ""
+            ) : (
+              <div className="w-1/2 relative">
+                <div
+                  className={`absolute ${
+                    activeDiv === 0
+                      ? "top-32 left-44 scale-[200%] shadow-lg border border-gray-800"
+                      : "top-5 left-10"
+                  } w-28 h-14 rounded-sm transition-all duration-500 flex justify-center items-center bg-white border border-gray-800`}
+                >
+                  Productivity
+                </div>
+                <div
+                  className={`absolute ${
+                    activeDiv === 1
+                      ? "top-32 left-44 scale-[200%] shadow-lg border border-gray-800"
+                      : "top-6 left-11"
+                  } w-28 h-14 rounded-sm transition-all duration-500 flex justify-center items-center bg-white border border-gray-800`}
+                >
+                  Motivation
+                </div>
+                <div
+                  className={`absolute ${
+                    activeDiv === 2
+                      ? "top-32 left-44 scale-[200%] shadow-lg border border-gray-800"
+                      : "top-7 left-12"
+                  } w-28 h-14 rounded-sm transition-all duration-500 flex justify-center items-center bg-white border border-gray-800`}
+                >
+                  Focus
+                </div>
               </div>
-              <div
-                className={`absolute ${
-                  activeDiv === 1
-                    ? "top-32 left-44 scale-[200%] shadow-lg border border-gray-800"
-                    : "top-6 left-11"
-                } w-28 h-14 rounded-sm transition-all duration-500 flex justify-center items-center bg-white border border-gray-800`}
-              >
-                Motivation
-              </div>
-              <div
-                className={`absolute ${
-                  activeDiv === 2
-                    ? "top-32 left-44 scale-[200%] shadow-lg border border-gray-800"
-                    : "top-7 left-12"
-                } w-28 h-14 rounded-sm transition-all duration-500 flex justify-center items-center bg-white border border-gray-800`}
-              >
-                Focus
-              </div>
-            </div>
+            )}
 
-            <div className="w-1/2">
-              <div className="my-8 text-left">
-                <span className="title text-5xl">What We Do?</span>
+            <div className="sm:w-1/2">
+              <div className="sm:my-8 mt-2 sm:text-left text-center">
+                <span className="title sm:text-5xl text-4xl">What We Do?</span>
               </div>
 
-              <div className="my-8 text-justify">
-                <span className="text-2xl">
+              <div className="sm:my-8 my-4 text-justify">
+                <span className="sm:text-2xl text-lg">
                   We understand that starting is often the hardest part. Arise
                   is here to help you break free from procrastination, organize
                   your goals, and turn your dreams into achievable milestones.
@@ -162,21 +201,31 @@ function AboutUs() {
             </div>
           </div>
 
-          <div className="mt-20">
-            <div className="my-8 text-center">
-              <span className="title text-5xl">Our Mission</span>
+          <div className="sm:mt-20 mt-10">
+            <div className="sm:my-8 text-center">
+              <span className="title sm:text-5xl text-4xl">Our Mission</span>
             </div>
 
-            <div className="my-8 text-center">
-              <span className="text-2xl">
-                To empower individuals around the world to overcome
-                procrastination, embrace productivity,
-                <br />
-                and achieve greatness—one task at a time.
-              </span>
-            </div>
+            {phoneView ? (
+              <div className="my-4 text-justify">
+                <span className="text-lg ">
+                  To empower individuals around the world to overcome
+                  procrastination, embrace productivity, and achieve
+                  greatness—one task at a time.
+                </span>
+              </div>
+            ) : (
+              <div className="my-8 text-center">
+                <span className="text-2xl ">
+                  To empower individuals around the world to overcome
+                  procrastination, embrace productivity,
+                  <br />
+                  and achieve greatness—one task at a time.
+                </span>
+              </div>
+            )}
 
-            <div className="m-5 grid grid-cols-3 gap-5">
+            <div className="sm:m-5 grid sm:grid-cols-3 sm:gap-5 gap-3">
               <Fade
                 delay={200}
                 duration={1000}
@@ -242,9 +291,9 @@ function AboutUs() {
             </div>
           </div>
 
-          <div className="mt-20">
-            <div className="my-8 text-center">
-              <span className="title text-5xl">Our Team</span>
+          <div className="sm:mt-20 mt-10">
+            <div className="sm:my-8 my-4 text-center">
+              <span className="title sm:text-5xl text-4xl">Our Team</span>
             </div>
           </div>
 
@@ -271,21 +320,21 @@ function AboutUs() {
             className="w-full h-full"
           >
             <SwiperSlide>
-              <div className="flex bg-slate-100 rounded-md shadow-sm">
-                <div className="w-1/2 p-5">
+              <div className="flex sm:flex-row flex-col bg-slate-100 rounded-md shadow-sm">
+                <div className="sm:w-1/2 sm:p-5 p-2">
                   <img
                     src={SunnyPic}
                     alt="Image"
                     className="object-cover object-center w-full rounded-lg shadow-xl h-96 shadow-blue-gray-900/50"
                   />
                 </div>
-                <div className="w-1/2 bg-green-40">
-                  <div className="my-10 flex flex-col">
-                    <span className="title tracking-wider text-4xl text-left">
+                <div className="sm:w-1/2 bg-green-40">
+                  <div className="sm:my-10 my-5 flex flex-col">
+                    <span className="title tracking-wider sm:text-4xl text-2xl sm:mx-0 mx-2 text-left">
                       Sunny Yadav
                     </span>
 
-                    <div className="flex justify-start items-center">
+                    <div className="flex justify-start items-center sm:mx-0 mx-2">
                       <span className="text-left">Frontend Developer | </span>
                       <div className="flex ml-1">
                         <a
@@ -305,7 +354,7 @@ function AboutUs() {
                       </div>
                     </div>
 
-                    <span className="text-justify text-xl mt-5 mx-4">
+                    <span className="text-justify sm:text-xl text-lg mt-5 mx-4 my-2">
                       We specialize in building responsive, high-performance web
                       applications using React and seamless API integration.
                       With expertise in Redux, we ensure smooth data flow and
@@ -318,21 +367,21 @@ function AboutUs() {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="flex bg-slate-100 rounded-md shadow-sm">
-                <div className="w-1/2 p-5 bg-green-40">
+              <div className="flex sm:flex-row flex-col bg-slate-100 rounded-md shadow-sm">
+                <div className="sm:w-1/2 sm:p-5 p-2">
                   <img
                     src={InzamamPic}
                     alt="Image"
                     className="object-cover object-center w-full rounded-lg shadow-xl h-96 shadow-blue-gray-900/50"
                   />
                 </div>
-                <div className="w-1/2 bg-green-40">
-                  <div className="my-10 flex flex-col">
-                    <span className="title tracking-wider text-4xl text-left">
+                <div className="sm:w-1/2">
+                  <div className="sm:my-10 my-5 flex flex-col">
+                    <span className="title tracking-wider sm:text-4xl text-2xl sm:mx-0 mx-2 text-left">
                       Inzamam Shaikh
                     </span>
 
-                    <div className="flex justify-start items-center">
+                    <div className="flex justify-start items-center sm:mx-0 mx-2">
                       <span className="text-left">MERN Developer | </span>
                       <div className="flex ml-1">
                         <a
@@ -351,13 +400,9 @@ function AboutUs() {
                         </a>
                       </div>
                     </div>
-                    <span className="text-justify text-xl mt-5 mx-4">
-                      We specialize in building responsive, high-performance web
-                      applications using React and seamless API integration.
-                      With expertise in Redux, we ensure smooth data flow and
-                      exceptional user experiences. Our focus is on delivering
-                      efficient, user-friendly solutions that bring your vision
-                      to life.
+
+                    <span className="text-justify sm:text-xl text-lg mt-5 mx-4 my-2">
+                    We craft responsive, high-performance web applications using React, with seamless API integration and WebSocket support for real-time updates, WebRTC, Firebase, and DigitalOcean, we ensure scalable backends, smooth communication, and delivering exceptional, user-friendly solutions tailored to your vision. 
                     </span>
                   </div>
                 </div>

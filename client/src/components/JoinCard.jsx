@@ -37,7 +37,7 @@ const JoinCard = forwardRef(
       <>
         <div key={room._id} className="">
           {userId !== room.createdBy ? (
-            <div className="shadow-lg m-2 hover:outline hover:outline-1 hover:outline-slate-200 rounded-md hover:scale-105 transition-transform">
+            <div className="shadow-lg sm:m-2 m-1 hover:outline hover:outline-1 hover:outline-slate-200 rounded-md hover:scale-105 transition-transform">
               <div className="bg-slate-100 px-4 py-4 rounded-t-md flex justify-between">
                 <div>
                   <p>

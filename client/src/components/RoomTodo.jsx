@@ -29,13 +29,25 @@ function RoomTodo({ roomData }) {
   const [roomProgress, setRoomProgress] = useState();
   const [todoLength, setTodoLength] = useState();
   const [ranking, setRanking] = useState({});
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
+
   const dispatch = useDispatch();
   const username = useSelector((state) => state.todos.user?.username);
   const userId = useSelector((state) => state.todos.user?._id);
   const todos = useSelector((state) => state.roomTodos.roomTodos);
   const todosRoomId = useSelector((state) => state.roomTodos.roomId);
-  
+
   const socket = useSocket();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPhoneView(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     socket.on("addTodo", (todos, roomId) => {
@@ -63,8 +75,6 @@ function RoomTodo({ roomData }) {
               ? { ...todo, checked: updatedTodo.checked }
               : todo;
           })
-
-          
         );
       }
     });
@@ -150,7 +160,7 @@ function RoomTodo({ roomData }) {
   const handleDeleteTodo = (todoId) => {
     const todoData = { roomId: roomData.roomId, todoId };
 
-    dispatch(deleteRoomTodo(todoData))
+    dispatch(deleteRoomTodo(todoData));
   };
 
   const handleUpdateClick = (todoId, todoName) => {
@@ -167,7 +177,6 @@ function RoomTodo({ roomData }) {
     const count = socketTodo.reduce((accumulator, todo) => {
       return todo.checked?.includes(userId) ? accumulator + 1 : accumulator;
     }, 0);
-
 
     socket.emit("progress", userId, count, roomData.roomId, socketTodo.length);
   };
@@ -190,12 +199,12 @@ function RoomTodo({ roomData }) {
       const updatedRanking = {};
       roomData?.users?.forEach((user) => {
         const userId = user._id;
-        const userCount = arr[userId] || 0; 
+        const userCount = arr[userId] || 0;
         updatedRanking[userId] = [userCount, user.username];
       });
 
       const sortedRanking = Object.entries(updatedRanking)
-        .sort(([, a], [, b]) => b[0] - a[0]) 
+        .sort(([, a], [, b]) => b[0] - a[0])
         .reduce((acc, [key, val]) => {
           acc[key] = val;
           return acc;
@@ -221,14 +230,14 @@ function RoomTodo({ roomData }) {
 
   return (
     <>
-      <div className="p-2">
-        <div className="my-8 text-center">
-          <span className="title text-5xl">Task List</span>
+      <div className="sm:p-2">
+        <div className="sm:my-8 my-4 text-center">
+          <span className="title sm:text-5xl text-4xl">Task List</span>
         </div>
 
         <div className="flex justify-center items-center">
           {userId === roomData.createdBy && (
-            <div className="w-[30%] my-5 flex">
+            <div className="sm:w-[30%] w-full my-5 flex">
               <div className="w-5/6 py-1">
                 <input
                   type="text"
@@ -253,14 +262,14 @@ function RoomTodo({ roomData }) {
         </div>
 
         <div className="flex justify-center items-center">
-          <ul className="w-[80%] flex flex-col justify-center items-center transition-all">
+          <ul className="sm:w-[80%] w-full flex flex-col justify-center items-center transition-all">
             <li className="w-full bg-gray-300 grid grid-flow-row gap-4 rounded-t-2xl">
-              <div className="grid grid-cols-8 my-3">
-                <div className="col-span-1 px-2 flex justify-center items-center font-bold">
+              <div className="grid sm:grid-cols-8 grid-cols-5 my-3">
+                <div className="sm:col-span-1 px-2 flex justify-center items-center font-bold">
                   Status
                 </div>
                 <div
-                  className={`col-span-5 flex justify-start items-center px-4 font-bold ${
+                  className={`sm:col-span-5 col-span-2 flex justify-start items-center px-4 font-bold ${
                     userId == roomData.createdBy ? "border-x " : "border-l"
                   } border-black`}
                 >
@@ -269,10 +278,10 @@ function RoomTodo({ roomData }) {
 
                 {userId == roomData.createdBy ? (
                   <>
-                    <div className="col-span-1 flex justify-center items-center font-bold border-r border-black">
+                    <div className="sm:col-span-1 flex justify-center items-center font-bold border-r border-black">
                       Edit
                     </div>
-                    <div className="col-span-1 px-2 flex justify-center items-center font-bold">
+                    <div className="sm:col-span-1 px-2 flex justify-center items-center font-bold">
                       Delete
                     </div>
                   </>
@@ -293,12 +302,12 @@ function RoomTodo({ roomData }) {
                   >
                     {editId == todo._id ? (
                       <>
-                        <div className="grid grid-cols-8 bg-gray-100">
-                          <div className="col-span-1 flex justify-center items-center">
+                        <div className="grid sm:grid-cols-8 grid-cols-5 bg-gray-100">
+                          <div className="sm:col-span-1 flex justify-center items-center">
                             <Checkbox disabled />
                           </div>
 
-                          <div className="col-span-5 w-full px-4 flex justify-start items-center">
+                          <div className="sm:col-span-5 col-span-2 w-full px-4 flex justify-start items-center">
                             <input
                               type="text"
                               className="border-b border-gray-300 w-full focus:outline-none bg-gray-100"
@@ -307,7 +316,7 @@ function RoomTodo({ roomData }) {
                             />
                           </div>
 
-                          <div className="col-span-1 flex justify-center items-center">
+                          <div className="sm:col-span-1 flex justify-center items-center">
                             <button
                               className="text-green-500 hover:scale-110 hover:text-green-400 transition-all active:scale-95"
                               onClick={() =>
@@ -318,7 +327,7 @@ function RoomTodo({ roomData }) {
                             </button>
                           </div>
 
-                          <div className="col-span-1 flex justify-center items-center">
+                          <div className="sm:col-span-1 flex justify-center items-center">
                             <button
                               className="text-red-500 hover:scale-110 hover:text-red-400 transition-all active:scale-95"
                               onClick={handleCancelEdit}
@@ -331,11 +340,11 @@ function RoomTodo({ roomData }) {
                     ) : (
                       <>
                         <div
-                          className={`grid grid-cols-8 hover:bg-gray-100 transition-all ${
+                          className={`grid sm:grid-cols-8 grid-cols-5 hover:bg-gray-100 transition-all ${
                             index === todos.length - 1 ? "rounded-b-2xl" : ""
                           }`}
                         >
-                          <div className="col-span-1 flex justify-center items-center">
+                          <div className="sm:col-span-1 flex justify-center items-center">
                             <Checkbox
                               checked={todo.checked.includes(userId) ?? false}
                               onChange={() =>
@@ -345,7 +354,7 @@ function RoomTodo({ roomData }) {
                           </div>
 
                           <div
-                            className={` flex justify-start items-center px-4 col-span-5 transition-all ${
+                            className={` flex justify-start items-center px-4 sm:col-span-5 col-span-2 transition-all ${
                               todo.checked.includes(userId)
                                 ? "text-gray-500"
                                 : ""
@@ -364,7 +373,7 @@ function RoomTodo({ roomData }) {
                           </div>
                           {userId == roomData.createdBy ? (
                             <>
-                              <div className="col-span-1 flex justify-center items-center">
+                              <div className="sm:col-span-1 flex justify-center items-center">
                                 <button
                                   className="text-blue-500 hover:scale-110 hover:text-blue-400 transition-all active:scale-95"
                                   onClick={() =>
@@ -375,7 +384,7 @@ function RoomTodo({ roomData }) {
                                 </button>
                               </div>
 
-                              <div className="col-span-1 flex justify-center items-center">
+                              <div className="sm:col-span-1 flex justify-center items-center">
                                 <button
                                   className="text-red-500 hover:scale-110 hover:text-red-400 transition-all active:scale-95"
                                   onClick={() => handleDeleteTodo(todo._id)}
@@ -394,7 +403,9 @@ function RoomTodo({ roomData }) {
                 ))
               ) : (
                 <li className="w-full shadow-sm bg-white rounded-b-2xl">
-                  <div className="py-2 text-center rounded-b-2xl">No Task Added</div>
+                  <div className="py-2 text-center rounded-b-2xl">
+                    No Task Added
+                  </div>
                 </li>
               )}
             </div>
@@ -402,14 +413,14 @@ function RoomTodo({ roomData }) {
         </div>
       </div>
 
-      <div className="flex my-14 p-2">
-        <div className="w-1/2">
-          <div className="mb-8 text-center">
-            <span className="title text-5xl">Rank</span>
+      <div className="sm:flex flex flex-col-reverse my-14 sm:p-2">
+        <div className="sm:w-1/2 w-full">
+          <div className="sm:mb-8 my-8 text-center">
+            <span className="title sm:text-5xl text-4xl">Rank</span>
           </div>
 
           <div className="flex justify-center items-center">
-            <ul className="w-[90%] bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
+            <ul className="sm:w-[90%] w-full bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
               <li className="w-full  grid grid-flow-row gap-4 rounded-t-2xl border-b-2">
                 <div className="grid grid-cols-7 my-3">
                   <div className="col-span-1 flex justify-center items-center font-bold">
@@ -440,18 +451,42 @@ function RoomTodo({ roomData }) {
                 >
                   <div className="grid grid-cols-7">
                     <div className="relative col-span-1 flex justify-center items-center">
-                      {index === 0 && (
-                        <EmojiEventsTwoToneIcon className="absolute left-1" />
+                      {phoneView ? (
+                        <>
+                          {index === 0 && <EmojiEventsTwoToneIcon />}
+                          {index !== 0 && (
+                            <span className="px-1">{index + 1}</span>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {index === 0 && (
+                            <EmojiEventsTwoToneIcon className="absolute left-1" />
+                          )}
+                          <span className="px-1">{index + 1}</span>
+                        </>
                       )}
-                      <span className="px-1">{index + 1}</span>
                     </div>
                     <div className="relative bg-green col-span-3 flex justify-center items-center">
-                      {val[1] === username && (
-                        <p className="border absolute left-2 bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
-                          You
-                        </p>
+                      {phoneView ? (
+                        <>
+                        {val[1] === username && (
+                            <p className="border  bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
+                              You
+                            </p>
+                          )}
+                          {val[1] !== username && val[1]}
+                        </>
+                      ) : (
+                        <>
+                          {val[1] === username && (
+                            <p className="border absolute left-2 bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
+                              You
+                            </p>
+                          )}
+                          {val[1]}
+                        </>
                       )}
-                      {val[1]}
                     </div>
                     <div className="col-span-3 flex justify-center items-center">
                       {val[0]}
@@ -463,13 +498,13 @@ function RoomTodo({ roomData }) {
           </div>
         </div>
 
-        <div className="w-1/2">
-          <div className="mb-8 text-center">
-            <span className="title text-5xl">Progress</span>
+        <div className="sm:w-1/2 w-full">
+          <div className="sm:mb-8 mb-8 text-center">
+            <span className="title sm:text-5xl text-4xl">Progress</span>
           </div>
 
           <div className="flex justify-center items-center">
-            <ul className="w-[90%] bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
+            <ul className="sm:w-[90%] w-full bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
               <li className="w-full  grid grid-flow-row gap-4 rounded-t-2xl border-b-2">
                 <div className="my-3 flex justify-center items-center font-bold">
                   User's Progress

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { register, setToken } from "../slice/todosSlice";
 import { useNavigate } from "react-router-dom";
@@ -15,9 +15,20 @@ function SignUp() {
   });
 
   const [error, setError] = useState();
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPhoneView(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   let name, value;
   const handleInput = (e) => {
@@ -31,7 +42,6 @@ function SignUp() {
     e.preventDefault();
 
     dispatch(register(userData)).then(async (response) => {
-
       if (response.payload.token) {
         dispatch(setToken(response.payload.token));
 
@@ -59,17 +69,21 @@ function SignUp() {
   return (
     <>
       <div className="w-full min-h-lvh flex justify-center items-center">
-        <div className=" w-[60%] my-8 flex rounded-md shadow-lg bg-green-30">
-          <div className="w-1/2 bg-slate-100 rounded-l-md flex justify-center items-center">
-            <DotLottieReact
-              src={LoginImage}
-              loop
-              autoplay
-              style={{ width: 500, height: 500 }}
-            />
-          </div>
+        <div className="sm:w-[60%] w-full mx-5 sm:mx-0 my-8 flex rounded-md shadow-lg bg-green-30">
+          {phoneView ? (
+            ""
+          ) : (
+            <div className="w-1/2 bg-slate-100 rounded-l-md flex justify-center items-center">
+              <DotLottieReact
+                src={LoginImage}
+                loop
+                autoplay
+                style={{ width: 500, height: 500 }}
+              />
+            </div>
+          )}
 
-          <div className="w-1/2 p-6 flex flex-col justify-center items-center">
+          <div className="sm:w-1/2 w-full p-6 flex flex-col justify-center items-center">
             <div className=" text-center">
               <div className="flex justify-center items-center tracking-widest">
                 <div className="hover:scale-110 cursor-pointer transition-all">
@@ -98,7 +112,7 @@ function SignUp() {
                   </span>
                 </div>
               </div>
-              <div className="title text-5xl font-bold my-2 drop-shadow-sm">
+              <div className="title sm:text-5xl text-4xl font-bold my-2 drop-shadow-sm">
                 <SplitText
                   text="Let's Begin!"
                   delay={150}
@@ -113,7 +127,7 @@ function SignUp() {
                 />
               </div>
             </div>
-            <form action="" onSubmit={handleSubmit} className="mt-10 w-full">
+            <form action="" onSubmit={handleSubmit} className="mt-5 w-full">
               <div className="my-4 flex flex-col">
                 <label htmlFor="username" className="text-2xl">
                   Username
@@ -177,7 +191,9 @@ function SignUp() {
                   : ""}
               </div>
               <div className="my-4 flex flex-col">
-                <label htmlFor="password" className="text-2xl">Password</label>
+                <label htmlFor="password" className="text-2xl">
+                  Password
+                </label>
                 <input
                   className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
                   type="password"
@@ -209,11 +225,11 @@ function SignUp() {
               </div>
 
               <div className="flex mt-10 justify-between items-center">
-                <div className="flex">
+                <div className="flex sm:flex-row flex-col items-start sm:items-center">
                   Already an User?
                   <button
                     onClick={() => navigate("/login")}
-                    className="mx-2 text-slate-800 group hover:text-slate-400"
+                    className="sm:mx-2 text-slate-800 group hover:text-slate-400"
                   >
                     Login Here!
                     <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-black" />

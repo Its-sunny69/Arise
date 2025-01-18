@@ -26,7 +26,7 @@ const RandomQuote = () => {
   }, []);
 
   return (
-    <div className="p-4 text-center flex flex-col justify-center items-center min-h-[8rem]">
+    <div className="sm:p-4 p-2 text-center flex flex-col justify-center items-center min-h-[8rem]">
       {loading ? (
         <div className="w-full flex flex-col justify-center items-center">
           <Stack

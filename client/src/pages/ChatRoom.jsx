@@ -43,14 +43,13 @@ const ChatRoom = () => {
     socket.on("room-update", (updatedRoom) => {
       if (roomId == updatedRoom.roomId) {
         setRoomData(updatedRoom);
-        
       }
     });
 
     socket.on("update-users", (users, socketRoomId) => {
       if (socketRoomId == roomId) {
         setUsers(users);
-        setIsLoading(false)
+        setIsLoading(false);
       }
     });
 
@@ -163,7 +162,7 @@ const ChatRoom = () => {
 
     if (container) {
       const { scrollTop, scrollHeight, clientHeight } = container;
-      const isScrolledUp = scrollHeight - (scrollTop + clientHeight) > 60; 
+      const isScrolledUp = scrollHeight - (scrollTop + clientHeight) > 60;
       setShowScrollDownButton(isScrolledUp);
     }
   };
@@ -198,7 +197,7 @@ const ChatRoom = () => {
 
   return (
     <>
-      {(isLoading || !users.length) ? (
+      {isLoading || !users.length ? (
         <div className="p-2">
           <div className="my-4 h-7">
             <div className="w-24 bg-gray-00 px-5 py-1 rounded-full border border-gray-400 text-sm">
@@ -232,7 +231,7 @@ const ChatRoom = () => {
             </div>
           </div>
         </div>
-      ) : (users.some((user) => user._id === profile)) ? (
+      ) : users.some((user) => user._id === profile) ? (
         <div className=" p-2">
           <div className="my-4">
             <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
@@ -279,7 +278,12 @@ const ChatRoom = () => {
                         {users.length ? (
                           <>
                             <li>{users[0]?.username}</li>
-                            <li>,&nbsp;{users[1]?.username}</li>
+                            {users.length > 1 ? (
+                              <li>,&nbsp;{users[1]?.username}</li>
+                            ) : (
+                              ""
+                            )}
+
                             {users.length > 2 ? (
                               <>
                                 <li>...</li>
@@ -377,7 +381,7 @@ const ChatRoom = () => {
           <div className="">{roomData && <RoomTodo roomData={roomData} />}</div>
 
           {/* chat */}
-          <div className="fixed w-fit bottom-5 right-10 active:scale-95 hover:scale-105 hover:opacity-70 transition-all">
+          <div className="fixed w-fit sm:bottom-5 bottom-2 sm:right-10 right-6 active:scale-95 hover:scale-105 hover:opacity-70 transition-all">
             <button onClick={toggleChat}>
               <DotLottieReact
                 src={ChatLottie}
@@ -389,7 +393,7 @@ const ChatRoom = () => {
           </div>
 
           {isChatOpen && (
-            <div className="w-[25rem] fixed bottom-24 right-10 border rounded-lg shadow-2xl backdrop-blur-xl">
+            <div className="sm:w-[25rem] w-[20rem] fixed sm:bottom-24 bottom-20 sm:right-10 right-6 border rounded-lg shadow-2xl backdrop-blur-xl">
               <div className="flex justify-center items-center">
                 <div className="w-full flex flex-col justify-center items-center py-3 border-b rounded-t-lg">
                   <div>

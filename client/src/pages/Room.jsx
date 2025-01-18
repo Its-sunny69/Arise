@@ -12,7 +12,7 @@ import SyncRoundedIcon from "@mui/icons-material/SyncRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
-import { Skeleton  } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import ShinyText from "../components/ShinyText";
 
 function Room() {
@@ -30,16 +30,26 @@ function Room() {
   const [showRoomText, setShowRoomText] = useState(false);
   const [joinRoomLoading, setJoinRoomLoading] = useState(true);
   const [createdRoomLoading, setCreatedRoomLoading] = useState(true);
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPhoneView(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowRoomText(true);
-    }, 1400); 
-    return () => clearTimeout(timer); 
+    }, 1400);
+    return () => clearTimeout(timer);
   }, []);
 
   const userAuth = async () => {
-
     dispatch(AuthUser(currentToken)).then((response) => {
       if (response.payload) {
         setUsername(response.payload.username);
@@ -72,7 +82,6 @@ function Room() {
     });
 
     socket.on("update-members", (data, id) => {
-
       createdRoomRef.current?.updateChild(data, id);
       joinRoomRef.current?.updateChild(data, id);
     });
@@ -131,13 +140,15 @@ function Room() {
       setCreatedRooms(data);
       setCreatedRoomLoading(false);
     } catch (error) {
-      return error
+      return error;
     }
   };
 
   const roomJoinData = async (username) => {
     try {
-      const url = `${import.meta.env.VITE_SERVER_URL}/api/rooms/join/${username}`;
+      const url = `${
+        import.meta.env.VITE_SERVER_URL
+      }/api/rooms/join/${username}`;
       setJoinRoomLoading(true);
 
       const response = await fetch(url);
@@ -149,7 +160,7 @@ function Room() {
       setJoinedRooms(data);
       setJoinRoomLoading(false);
     } catch (error) {
-      return error
+      return error;
     }
   };
 
@@ -173,7 +184,7 @@ function Room() {
       setCreatedRooms(createdRooms.filter((room) => room.roomId !== roomId));
       socket.emit("delete-room", roomId, username, userId);
     } catch (error) {
-      return error
+      return error;
     }
   };
 
@@ -207,7 +218,7 @@ function Room() {
       </div>
 
       <div className="my-10">
-        <div className="title text-7xl flex justify-center items-center">
+        <div className="title sm:text-7xl text-5xl text-center sm:flex justify-center items-center">
           <TypeAnimation
             sequence={["Welcome To"]}
             speed={30}
@@ -215,34 +226,46 @@ function Room() {
             cursor={false}
           />
 
-          <Fade delay={700} duration={1000} triggerOnce fraction={0.5}>
-          <div className="flex tracking-wider">
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl pl-4">A</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl">r</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl">i</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl">s</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl pr-5">e</span>
-                  </div>
+          <div className="flex justify-center items-center">
+            <Fade delay={700} duration={1000} triggerOnce fraction={0.5}>
+              <div className="flex tracking-wider">
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl pl-4">
+                    A
+                  </span>
                 </div>
-          </Fade>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl">
+                    r
+                  </span>
+                </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl">
+                    i
+                  </span>
+                </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl">
+                    s
+                  </span>
+                </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl pr-5">
+                    e
+                  </span>
+                </div>
+              </div>
+            </Fade>
 
-          {showRoomText && (
-            <TypeAnimation
-              sequence={["Room"]}
-              speed={30}
-              repeat={0}
-              cursor={false}
-            />
-          )}
+            {showRoomText && (
+              <TypeAnimation
+                sequence={["Room"]}
+                speed={30}
+                repeat={0}
+                cursor={false}
+              />
+            )}
+          </div>
         </div>
 
         <Fade
@@ -252,15 +275,24 @@ function Room() {
           fraction={0.5}
           className="text-center"
         >
-          <div className="text-2xl text-center">
-            Take your productivity and collaboration to the next level with
-            exciting features!
-            <br />
-            Whether you're working or competing, Arise makes every effort count!
-          </div>
+          {phoneView ? (
+            <div className="text-lg text-justify my-2">
+              Take your productivity and collaboration to the next level with
+              exciting features! Whether you're working or competing, Arise
+              makes every effort count!
+            </div>
+          ) : (
+            <div className="text-2xl text-center">
+              Take your productivity and collaboration to the next level with
+              exciting features!
+              <br />
+              Whether you're working or competing, Arise makes every effort
+              count!
+            </div>
+          )}
         </Fade>
 
-        <div className="mt-16 flex justify-center items-center ">
+        <div className="sm:mt-16 mt-12 flex justify-center items-center ">
           <button
             className="font-thin group transition-all active:scale-95 border border-black py-1 px-3 hover:border-dotted shadow-lg rounded-sm bg-white"
             onClick={handleRoomClick}
@@ -276,13 +308,13 @@ function Room() {
       <div className="mt-20">
         <div>
           <div className="my-5 text-center">
-            <span className="title text-5xl"> Created Rooms </span>
+            <span className="title sm:text-5xl text-4xl"> Created Rooms </span>
           </div>
 
-          <div className="min-h-56 m-5 flex justify-center items-center">
+          <div className="min-h-56 sm:m-5 flex justify-center items-center">
             {createdRoomLoading ? (
-              <div className="w-full grid grid-cols-4 gap-3">
-                <div className="m-2 h-52 border rounded-lg flex flex-col justify-between items-center">
+              <div className="w-full grid sm:grid-cols-4  sm:gap-3 gap-2">
+                <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
                   <Skeleton
                     variant="rectangular"
                     sx={{
@@ -321,7 +353,7 @@ function Room() {
                   />
                 </div>
 
-                <div className="m-2 h-52 border rounded-lg flex flex-col justify-between items-center">
+                <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
                   <Skeleton
                     variant="rectangular"
                     sx={{
@@ -360,86 +392,92 @@ function Room() {
                   />
                 </div>
 
-                <div className="m-2 h-52 border rounded-lg flex flex-col justify-between items-center">
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{
-                      width: "100%",
-                      height: "3rem",
-                      borderRadius: "0.5rem 0.5rem 0 0",
-                    }}
-                  />
-                  <div className="w-full">
-                    <Skeleton
-                      variant="text"
-                      sx={{
-                        fontSize: "1.5rem",
-                        width: "20%",
-                        marginLeft: "0.75rem",
-                      }}
-                    />
+                {phoneView ? (
+                  ""
+                ) : (
+                  <>
+                    <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          width: "100%",
+                          height: "3rem",
+                          borderRadius: "0.5rem 0.5rem 0 0",
+                        }}
+                      />
+                      <div className="w-full">
+                        <Skeleton
+                          variant="text"
+                          sx={{
+                            fontSize: "1.5rem",
+                            width: "20%",
+                            marginLeft: "0.75rem",
+                          }}
+                        />
 
-                    <Skeleton
-                      variant="text"
-                      sx={{
-                        fontSize: "1.5rem",
-                        width: "70%",
-                        marginLeft: "0.75rem",
-                      }}
-                    />
-                  </div>
+                        <Skeleton
+                          variant="text"
+                          sx={{
+                            fontSize: "1.5rem",
+                            width: "70%",
+                            marginLeft: "0.75rem",
+                          }}
+                        />
+                      </div>
 
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{
-                      width: "100%",
-                      height: "3rem",
-                      borderRadius: "0 0 0.5rem 0.5rem",
-                    }}
-                  />
-                </div>
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          width: "100%",
+                          height: "3rem",
+                          borderRadius: "0 0 0.5rem 0.5rem",
+                        }}
+                      />
+                    </div>
 
-                <div className="m-2 h-52 border rounded-lg flex flex-col justify-between items-center">
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{
-                      width: "100%",
-                      height: "3rem",
-                      borderRadius: "0.5rem 0.5rem 0 0",
-                    }}
-                  />
-                  <div className="w-full">
-                    <Skeleton
-                      variant="text"
-                      sx={{
-                        fontSize: "1.5rem",
-                        width: "20%",
-                        marginLeft: "0.75rem",
-                      }}
-                    />
+                    <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          width: "100%",
+                          height: "3rem",
+                          borderRadius: "0.5rem 0.5rem 0 0",
+                        }}
+                      />
+                      <div className="w-full">
+                        <Skeleton
+                          variant="text"
+                          sx={{
+                            fontSize: "1.5rem",
+                            width: "20%",
+                            marginLeft: "0.75rem",
+                          }}
+                        />
 
-                    <Skeleton
-                      variant="text"
-                      sx={{
-                        fontSize: "1.5rem",
-                        width: "70%",
-                        marginLeft: "0.75rem",
-                      }}
-                    />
-                  </div>
+                        <Skeleton
+                          variant="text"
+                          sx={{
+                            fontSize: "1.5rem",
+                            width: "70%",
+                            marginLeft: "0.75rem",
+                          }}
+                        />
+                      </div>
 
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{
-                      width: "100%",
-                      height: "3rem",
-                      borderRadius: "0 0 0.5rem 0.5rem",
-                    }}
-                  />
-                </div>
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          width: "100%",
+                          height: "3rem",
+                          borderRadius: "0 0 0.5rem 0.5rem",
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             ) : createdRooms?.length ? (
-              <div className="w-full grid grid-cols-4 gap-3">
+              <div className="w-full grid sm:grid-cols-4 sm:gap-3">
                 <Fade
                   delay={200}
                   duration={1000}
@@ -467,15 +505,15 @@ function Room() {
           </div>
         </div>
 
-        <div className="mt-20">
+        <div className="sm:mt-20 mt-12">
           <div className="my-5 text-center">
-            <span className="title text-5xl"> Joined Rooms </span>
+            <span className="title sm:text-5xl text-4xl"> Joined Rooms </span>
           </div>
 
-          <div className="min-h-56 m-5 flex justify-center items-center">
+          <div className="min-h-56 sm:m-5 flex justify-center items-center">
             {joinRoomLoading ? (
-              <div className="w-full grid grid-cols-4 gap-3">
-                <div className="m-2 h-52 border rounded-lg flex flex-col justify-between items-center">
+              <div className="w-full grid sm:grid-cols-4 sm:gap-3 gap-2">
+                <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
                   <Skeleton
                     variant="rectangular"
                     sx={{
@@ -514,7 +552,7 @@ function Room() {
                   />
                 </div>
 
-                <div className="m-2 h-52 border rounded-lg flex flex-col justify-between items-center">
+                <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
                   <Skeleton
                     variant="rectangular"
                     sx={{
@@ -553,87 +591,92 @@ function Room() {
                   />
                 </div>
 
-                <div className="m-2 h-52 border rounded-lg flex flex-col justify-between items-center">
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{
-                      width: "100%",
-                      height: "3rem",
-                      borderRadius: "0.5rem 0.5rem 0 0",
-                    }}
-                  />
-                  <div className="w-full">
-                    <Skeleton
-                      variant="text"
-                      sx={{
-                        fontSize: "1.5rem",
-                        width: "20%",
-                        marginLeft: "0.75rem",
-                      }}
-                    />
+                {phoneView ? (
+                  ""
+                ) : (
+                  <>
+                    <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          width: "100%",
+                          height: "3rem",
+                          borderRadius: "0.5rem 0.5rem 0 0",
+                        }}
+                      />
+                      <div className="w-full">
+                        <Skeleton
+                          variant="text"
+                          sx={{
+                            fontSize: "1.5rem",
+                            width: "20%",
+                            marginLeft: "0.75rem",
+                          }}
+                        />
 
-                    <Skeleton
-                      variant="text"
-                      sx={{
-                        fontSize: "1.5rem",
-                        width: "70%",
-                        marginLeft: "0.75rem",
-                      }}
-                    />
-                  </div>
+                        <Skeleton
+                          variant="text"
+                          sx={{
+                            fontSize: "1.5rem",
+                            width: "70%",
+                            marginLeft: "0.75rem",
+                          }}
+                        />
+                      </div>
 
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{
-                      width: "100%",
-                      height: "3rem",
-                      borderRadius: "0 0 0.5rem 0.5rem",
-                    }}
-                  />
-                </div>
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          width: "100%",
+                          height: "3rem",
+                          borderRadius: "0 0 0.5rem 0.5rem",
+                        }}
+                      />
+                    </div>
+                    <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          width: "100%",
+                          height: "3rem",
+                          borderRadius: "0.5rem 0.5rem 0 0",
+                        }}
+                      />
+                      <div className="w-full">
+                        <Skeleton
+                          variant="text"
+                          sx={{
+                            fontSize: "1.5rem",
+                            width: "20%",
+                            marginLeft: "0.75rem",
+                          }}
+                        />
 
-                <div className="m-2 h-52 border rounded-lg flex flex-col justify-between items-center">
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{
-                      width: "100%",
-                      height: "3rem",
-                      borderRadius: "0.5rem 0.5rem 0 0",
-                    }}
-                  />
-                  <div className="w-full">
-                    <Skeleton
-                      variant="text"
-                      sx={{
-                        fontSize: "1.5rem",
-                        width: "20%",
-                        marginLeft: "0.75rem",
-                      }}
-                    />
+                        <Skeleton
+                          variant="text"
+                          sx={{
+                            fontSize: "1.5rem",
+                            width: "70%",
+                            marginLeft: "0.75rem",
+                          }}
+                        />
+                      </div>
 
-                    <Skeleton
-                      variant="text"
-                      sx={{
-                        fontSize: "1.5rem",
-                        width: "70%",
-                        marginLeft: "0.75rem",
-                      }}
-                    />
-                  </div>
-
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{
-                      width: "100%",
-                      height: "3rem",
-                      borderRadius: "0 0 0.5rem 0.5rem",
-                    }}
-                  />
-                </div>
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          width: "100%",
+                          height: "3rem",
+                          borderRadius: "0 0 0.5rem 0.5rem",
+                        }}
+                      />
+                    </div>{" "}
+                  </>
+                )}
               </div>
             ) : joinedRooms?.filter((room) => userId !== room.createdBy)
                 .length !== 0 ? (
-              <div className="w-full grid grid-cols-4 gap-3">
+              <div className="w-full grid sm:grid-cols-4 gridc sm:gap-3">
                 <Fade
                   delay={100}
                   duration={1000}
@@ -666,12 +709,12 @@ function Room() {
         </div>
       </div>
 
-      <div className="mt-20">
+      <div className="sm:mt-20 mt-12">
         <div className="my-5 text-center">
-          <span className="title text-5xl">Features</span>
+          <span className="title sm:text-5xl text-4xl">Features</span>
         </div>
 
-        <div className="m-5 grid grid-cols-4 gap-5">
+        <div className="sm:m-5 m-1 grid sm:grid-cols-4 sm:gap-5 gap-3">
           <Fade
             delay={200}
             duration={1000}

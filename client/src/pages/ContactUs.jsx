@@ -8,12 +8,23 @@ import TwitterSvg from "../assets/twitter-svg.svg";
 
 function ContactUs() {
   const [showRoomText, setShowRoomText] = useState(false);
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPhoneView(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowRoomText(true);
-    }, 1400); 
-    return () => clearTimeout(timer); 
+    }, 1400);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -31,7 +42,7 @@ function ContactUs() {
         </div>
 
         <div className="my-10">
-          <div className="title text-7xl flex justify-center items-center">
+          <div className="title sm:text-7xl text-5xl flex justify-center items-center">
             <TypeAnimation
               sequence={["Contact"]}
               speed={30}
@@ -40,23 +51,33 @@ function ContactUs() {
             />
 
             <Fade delay={500} duration={1000} triggerOnce fraction={0.5}>
-            <div className="flex tracking-wider">
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl pl-4">A</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl">r</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl">i</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl">s</span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline text-7xl pr-5">e</span>
-                  </div>
+              <div className="flex tracking-wider">
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl sm:pl-4 pl-2">
+                    A
+                  </span>
                 </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl">
+                    r
+                  </span>
+                </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl">
+                    i
+                  </span>
+                </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl">
+                    s
+                  </span>
+                </div>
+                <div className="hover:scale-110 cursor-pointer transition-all">
+                  <span className="title text-outline sm:text-7xl text-5xl sm:pr-5 pr-2">
+                    e
+                  </span>
+                </div>
+              </div>
             </Fade>
 
             {showRoomText && (
@@ -75,13 +96,22 @@ function ContactUs() {
             fraction={0.5}
             className="text-center"
           >
-            <div className="text-2xl text-center">
-              We’d love to hear from you! Whether you have feedback, questions,
-              or suggestions, feel free to reach out.
-              <br />
-              Your input helps us improve Arise and make it the best tool to
-              counter procrastination.
-            </div>
+            {phoneView ? (
+              <div className="text-lg text-justify">
+                We’d love to hear from you! Whether you have feedback,
+                questions, or suggestions, feel free to reach out. Your input
+                helps us improve Arise and make it the best tool to counter
+                procrastination.
+              </div>
+            ) : (
+              <div className="text-2xl text-center">
+                We’d love to hear from you! Whether you have feedback,
+                questions, or suggestions, feel free to reach out.
+                <br />
+                Your input helps us improve Arise and make it the best tool to
+                counter procrastination.
+              </div>
+            )}
           </Fade>
         </div>
 
@@ -92,16 +122,16 @@ function ContactUs() {
           fraction={0.5}
           className=""
         >
-          <div className="my-16 flex">
-            <div className="w-1/2 flex justify-center items-center">
-              <img src={EmailManPng} alt="image" className="w-[40%]" />
+          <div className="sm:my-16 my-10 sm:flex">
+            <div className="sm:w-1/2 flex justify-center items-center">
+              <img src={EmailManPng} alt="image" className="sm:w-[40%] w-[50%]" />
             </div>
-            <div className="w-1/2 flex flex-col">
-              <div className="title text-5xl flex justify-start items-center">
+            <div className="sm:w-1/2 flex flex-col sm:my-0 my-10">
+              <div className="title sm:text-5xl text-4xl flex sm:justify-start justify-center items-center">
                 Get In Touch
               </div>
 
-              <div className="text-xl text-left mt-8">
+              <div className="text-xl flex flex-col justify-center sm:items-start items-center sm:mt-8 mt-4">
                 <div className="flex my-1">
                   <a
                     href="https://mail.google.com/mail/?view=cm&fs=1&to=dynamosdev0@gmail.com"

@@ -14,10 +14,21 @@ const CreateJoinRoom = () => {
   const socket = useSocket();
   const [input, setInput] = useState({ joinRoom: "" });
   const [profile, setProfile] = useState();
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
   const dispatch = useDispatch();
   const currentToken = useSelector((state) => state.todos.token);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPhoneView(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   dispatch(AuthUser(currentToken)).then((response) => {
     if (response.payload) {
@@ -81,9 +92,9 @@ const CreateJoinRoom = () => {
           </div>
         </div>
 
-        <div className="my-14 flex mx-5">
-          <div className="w-1/2 flex flex-col">
-            <div className="title text-5xl flex justify-start items-center">
+        <div className="my-10 flex mx-5">
+          <div className="sm:w-1/2 flex flex-col">
+            <div className="title sm:text-5xl text-4xl flex sm:justify-start justify-center items-center">
               <TypeAnimation
                 sequence={["Start New Room"]}
                 speed={30}
@@ -99,14 +110,21 @@ const CreateJoinRoom = () => {
               fraction={0.5}
               className=""
             >
-              <div className="text-xl text-left mt-8">
-                Create a room to collaborate <br />
-                And organize tasks with your team.
-                <br />
-                Share the room code with others to join.
-              </div>
+              {phoneView ? (
+                <div className=" text-lg  text-justify mt-8">
+                  Create a room to collaborate And organize tasks with your
+                  team. Share the room code with others to join.
+                </div>
+              ) : (
+                <div className="text-xl text-left mt-8">
+                  Create a room to collaborate <br />
+                  And organize tasks with your team.
+                  <br />
+                  Share the room code with others to join.
+                </div>
+              )}
 
-              <div className="mt-16 flex justify-start items-center ">
+              <div className="sm:mt-16 mt-10 flex sm:justify-start justify-center items-center ">
                 <button
                   className="font-thin group transition-all active:scale-95 border border-black py-1 px-3 hover:border-dotted shadow-lg rounded-sm"
                   onClick={handleCreateRoom}
@@ -119,17 +137,25 @@ const CreateJoinRoom = () => {
               </div>
             </Fade>
           </div>
-          <div className="w-1/2 flex justify-center items-center">
-            <img src={RemoteMeetingSvg} alt="image" className="w-[70%]" />
-          </div>
+          {phoneView ? (
+            ""
+          ) : (
+            <div className="w-1/2 flex justify-center items-center">
+              <img src={RemoteMeetingSvg} alt="image" className="w-[70%]" />
+            </div>
+          )}
         </div>
 
-        <div className="mb-14 mt-20  flex mx-5">
-          <div className="w-1/2 flex justify-center items-center">
-            <img src={MeetTheTeam} alt="image" className="w-[70%]" />
-          </div>
-          <div className="w-1/2">
-            <div className="title text-5xl flex justify-start items-center">
+        <div className="mb-14 sm:mt-20 mt-16  flex mx-5">
+          {phoneView ? (
+            ""
+          ) : (
+            <div className="w-1/2 flex justify-center items-center">
+              <img src={MeetTheTeam} alt="image" className="w-[70%]" />
+            </div>
+          )}
+          <div className="sm:w-1/2">
+            <div className="title sm:text-5xl text-4xl flex sm:justify-start justify-center items-center">
               <TypeAnimation
                 sequence={["Enter a Room"]}
                 speed={30}
@@ -145,13 +171,17 @@ const CreateJoinRoom = () => {
               fraction={0.5}
               className=""
             >
-              <div className="text-xl text-left mt-8">
+              {phoneView ? <div className="text-lg text-justify mt-8">
+                Already have a room code?
+                Enter it below to collaborate with your team.
+              </div> : <div className="text-xl text-left mt-8">
                 Already have a room code?
                 <br />
                 Enter it below to collaborate with your team.
-              </div>
+              </div>}
+              
 
-              <div className="mt-16 flex justify-start items-center ">
+              <div className="sm:mt-16 mt-10 flex sm:justify-start justify-center items-center ">
                 <div className="w-72 flex justify-center items-cente">
                   <div className="w-5/6 flex justify-center items-center">
                     <input
