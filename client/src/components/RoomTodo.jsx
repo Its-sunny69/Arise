@@ -413,7 +413,7 @@ function RoomTodo({ roomData }) {
         </div>
       </div>
 
-      <div className="sm:flex flex flex-col-reverse my-14 sm:p-2">
+      <div className=" flex flex-col-reverse sm:flex-row my-14 sm:p-2">
         <div className="sm:w-1/2 w-full">
           <div className="sm:mb-8 my-8 text-center">
             <span className="title sm:text-5xl text-4xl">Rank</span>
@@ -499,7 +499,7 @@ function RoomTodo({ roomData }) {
         </div>
 
         <div className="sm:w-1/2 w-full">
-          <div className="sm:mb-8 mb-8 text-center">
+          <div className="mb-8 sm:my-8 text-center">
             <span className="title sm:text-5xl text-4xl">Progress</span>
           </div>
 

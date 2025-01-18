@@ -34,10 +34,21 @@ const ChatRoom = () => {
   const [showScrollDownButton, setShowScrollDownButton] = useState(false);
   const [isUserJoined, setIsUserJoined] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
   const dispatch = useDispatch();
   const currentToken = useSelector((state) => state.todos.token);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPhoneView(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     socket.on("room-update", (updatedRoom) => {
@@ -233,8 +244,8 @@ const ChatRoom = () => {
         </div>
       ) : users.some((user) => user._id === profile) ? (
         <div className=" p-2">
-          <div className="my-4">
-            <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
+          <div className="my-4 flex sm:block justify-between items-center">
+            <div className="w-fit h-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
               <ShinyText
                 text="👥 | Room"
                 disabled={false}
@@ -242,6 +253,27 @@ const ChatRoom = () => {
                 className=""
               />
             </div>
+            {phoneView ? (
+              profile == users[0]?._id ? (
+                ""
+              ) : (
+                <div className="transition-all">
+                  <div className="m-3">
+                    <button
+                      data-tooltip-id="my-tooltip"
+                      data-tooltip-content="Leave Room"
+                      data-tooltip-place="top"
+                      onClick={handleLeaveRoom}
+                    >
+                      <LogoutRoundedIcon className="w-4 text-red-500 hover:text-red-300 active:scale-95 transition-all" />
+                    </button>
+                    <Tooltip id="my-tooltip" />
+                  </div>
+                </div>
+              )
+            ) : (
+              ""
+            )}
           </div>
 
           <div className="my-10">
@@ -252,10 +284,10 @@ const ChatRoom = () => {
                     profile == users[0]?._id
                       ? "justify-around"
                       : "justify-between"
-                  } items-center bg-slate-10`}
+                  } items-center`}
                 >
                   <div
-                    className={`font-bold text-xl tracking-wider ${
+                    className={`font-bold sm:text-xl text-lg tracking-wider ${
                       profile == users[0]?._id ? "text-center" : ""
                     } py-1 px-2 border-b-2 border-transparent border-dotted hover:border-black transition-all`}
                   >
@@ -272,7 +304,7 @@ const ChatRoom = () => {
                   </div>
 
                   <div className="text-center py-1 px-2 border-b-2 border-transparent border-dotted hover:border-black transition-all">
-                    <p className="font-bold text-xl tracking-wider">Users</p>
+                    <p className="font-bold sm:text-xl text-lg tracking-wider">Users</p>
                     <div>
                       <ul className="flex">
                         {users.length ? (
@@ -330,8 +362,9 @@ const ChatRoom = () => {
                       </ul>
                     </div>
                   </div>
-
-                  {profile == users[0]?._id ? (
+                  {phoneView ? (
+                    ""
+                  ) : profile == users[0]?._id ? (
                     ""
                   ) : (
                     <div className="ml-32 transition-all">
