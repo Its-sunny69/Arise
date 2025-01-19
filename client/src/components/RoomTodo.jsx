@@ -81,7 +81,7 @@ function RoomTodo({ roomData }) {
       if (roomId == roomData.roomId) {
         setSocketTodo((prevTodos) =>
           prevTodos.map((todo) => {
-            return todo._id === updatedTodo._id
+            return todo._id === updatedTodo?._id
               ? { ...todo, checked: updatedTodo.checked }
               : todo;
           })
