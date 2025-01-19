@@ -195,23 +195,6 @@ const roomTodosSlice = createSlice({
         }
         console.log("updatetodo", JSON.stringify(state.roomTodos))
       })
-      .addCase(roomCheckBoxUpdate.fulfilled, (state, action) => {
-        const updatedCheckBox = action.payload.data;
-        console.log("checkbox", JSON.stringify(state.roomTodos))
-
-        const index = state.roomTodos?.findIndex(
-          (todo) => todo._id == updatedCheckBox._id
-        );
-
-        if (index !== -1) {
-          state.roomTodos[index] = {
-            ...state.roomTodos[index],
-            checked: updatedCheckBox.checked,
-          };
-        }
-        console.log("checkboxtodo", JSON.stringify(state.roomTodos))
-
-      })
       .addCase(deleteRoomTodo.fulfilled, (state, action) => {
         const todoId = action.payload.data;
 

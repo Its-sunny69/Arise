@@ -51,10 +51,19 @@ function RoomTodo({ roomData }) {
   }, []);
 
   useEffect(() => {
+    if (newTodoAdded || roomData.roomId) {
+      dispatch(getRoomTodos(roomData.roomId));
+
+      setNewTodoAdded(false);
+    }
+  }, [newTodoAdded, socket]);
+
+  useEffect(() => {
     socket.on("addTodo", (todos, roomId) => {
       if (roomId == roomData.roomId) {
         setSocketTodo(todos);
         setSocketRoomId(roomId);
+        
       }
     });
 
@@ -92,14 +101,6 @@ function RoomTodo({ roomData }) {
       socket.off("room-progress");
     };
   }, [todos, socketTodo]);
-
-  useEffect(() => {
-    if (newTodoAdded || roomData.roomId) {
-      dispatch(getRoomTodos(roomData.roomId));
-
-      setNewTodoAdded(false);
-    }
-  }, [newTodoAdded, roomData.roomId, socket]);
 
   useEffect(() => {
     progressCalculator();
