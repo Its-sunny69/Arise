@@ -99,7 +99,7 @@ function RoomTodo({ roomData }) {
 
       setNewTodoAdded(false);
     }
-  }, [newTodoAdded, roomData.roomId]);
+  }, [newTodoAdded, roomData.roomId, socket]);
 
   useEffect(() => {
     progressCalculator();
@@ -342,7 +342,7 @@ function RoomTodo({ roomData }) {
                       <>
                         <div
                           className={`grid sm:grid-cols-8 grid-cols-5 hover:bg-gray-100 transition-all ${
-                            index === todos.length - 1 ? "rounded-b-2xl" : ""
+                            index === todos?.length - 1 ? "rounded-b-2xl" : ""
                           }`}
                         >
                           <div className="sm:col-span-1 flex justify-center items-center">

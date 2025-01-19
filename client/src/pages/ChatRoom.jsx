@@ -203,8 +203,6 @@ const ChatRoom = () => {
     }
   };
 
-  const cssForCurrentUser = "w-full flex justify-end";
-  const cssForOtherUser = "w-full flex justify-start";
 
   return (
     <>
@@ -472,8 +470,8 @@ const ChatRoom = () => {
                           <div
                             className={
                               item.profileId == profile
-                                ? cssForCurrentUser
-                                : cssForOtherUser
+                                ? "w-full flex justify-end"
+                                : "w-full flex justify-start"
                             }
                             key={index}
                           >

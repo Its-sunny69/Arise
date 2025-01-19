@@ -172,15 +172,18 @@ const roomTodosSlice = createSlice({
       .addCase(getRoomTodos.fulfilled, (state, action) => {
         state.roomId = action.payload.data[0]?.roomId;
         state.roomTodos = action.payload.data[0]?.todos;
+        console.log("gettodo", JSON.stringify(state.roomTodos))
       })
       .addCase(addRoomTodo.fulfilled, (state, action) => {
         const newTodo = action.payload.data.todos; 
-        state.roomTodos.push(newTodo);
+        state.roomTodos?.push(newTodo);
+        console.log("addtodo", JSON.stringify(state.roomTodos))
       })
       .addCase(updateRoomTodo.fulfilled, (state, action) => {
         const updatedTodo = action.payload.data;
+        console.log("update", JSON.stringify(state.roomTodos))
 
-        const index = state.roomTodos.findIndex(
+        const index = state.roomTodos?.findIndex(
           (todo) => todo._id == updatedTodo._id
         );
         if (index !== -1) {
@@ -190,11 +193,13 @@ const roomTodosSlice = createSlice({
             checked: updatedTodo.checked,
           };
         }
+        console.log("updatetodo", JSON.stringify(state.roomTodos))
       })
       .addCase(roomCheckBoxUpdate.fulfilled, (state, action) => {
         const updatedCheckBox = action.payload.data;
+        console.log("checkbox", JSON.stringify(state.roomTodos))
 
-        const index = state.roomTodos.findIndex(
+        const index = state.roomTodos?.findIndex(
           (todo) => todo._id == updatedCheckBox._id
         );
 
@@ -204,12 +209,14 @@ const roomTodosSlice = createSlice({
             checked: updatedCheckBox.checked,
           };
         }
+        console.log("checkboxtodo", JSON.stringify(state.roomTodos))
 
       })
       .addCase(deleteRoomTodo.fulfilled, (state, action) => {
         const todoId = action.payload.data;
 
-        state.roomTodos = state.roomTodos.filter((todo) => todo._id !== todoId);
+        state.roomTodos = state.roomTodos?.filter((todo) => todo._id !== todoId);
+        console.log("deletetodo", JSON.stringify(state.roomTodos))
       });
   },
 });
