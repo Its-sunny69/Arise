@@ -170,6 +170,7 @@ function WorldRank() {
                 </li>
 
                 {ranking.map((user, index) => {
+                  if (index < 20)
                   return (
                     <li
                       key={user._id}
