@@ -298,7 +298,7 @@ function RoomTodo({ roomData }) {
                   <li
                     key={index}
                     className={`w-full grid grid-flow-row shadow-sm bg-white ${
-                      index === socketTodo.length - 1 ? "rounded-b-2xl" : ""
+                      index === socketTodo?.length - 1 ? "rounded-b-2xl" : ""
                     }`}
                   >
                     {editId == todo._id ? (
