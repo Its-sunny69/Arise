@@ -32,7 +32,7 @@ const RoomCard = forwardRef(
 
     return (
       <>
-        <div key={room._id} className="min-h-56">
+        <div key={room._id} className="">
           <div className="shadow-md hover:shadow-lg sm:m-2 m-1 hover:outline hover:outline-1 hover:outline-slate-200 rounded-md hover:scale-105 transition-transform">
             <div className="bg-slate-100 p-4 rounded-t-md flex justify-between items-center">
               <p>

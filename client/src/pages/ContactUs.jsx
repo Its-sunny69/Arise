@@ -124,7 +124,7 @@ function ContactUs() {
         >
           <div className="sm:my-16 my-10 sm:flex">
             <div className="sm:w-1/2 flex justify-center items-center">
-              <img src={EmailManPng} alt="image" className="sm:w-[40%] w-[50%]" />
+              <img src={EmailManPng} alt="image" className="lg:w-[40%] sm:w-[60%] w-[50%]" />
             </div>
             <div className="sm:w-1/2 flex flex-col sm:my-0 my-10">
               <div className="title sm:text-5xl text-4xl flex sm:justify-start justify-center items-center">

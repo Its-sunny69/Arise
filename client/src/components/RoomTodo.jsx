@@ -18,6 +18,7 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
+import { Switch } from "@mui/material";
 
 function RoomTodo({ roomData }) {
   const [newTodo, setNewTodo] = useState("");
@@ -29,7 +30,7 @@ function RoomTodo({ roomData }) {
   const [roomProgress, setRoomProgress] = useState();
   const [todoLength, setTodoLength] = useState();
   const [ranking, setRanking] = useState({});
-  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 1100);
 
   const dispatch = useDispatch();
   const username = useSelector((state) => state.todos.user?.username);
@@ -41,7 +42,7 @@ function RoomTodo({ roomData }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setPhoneView(window.innerWidth < 640);
+      setPhoneView(window.innerWidth < 1100);
     };
 
     window.addEventListener("resize", handleResize);
@@ -122,7 +123,7 @@ function RoomTodo({ roomData }) {
         setNewTodo("");
         setNewTodoAdded(true);
       })
-      .catch((error) => setError(error));
+      .catch((error) =>  console.error("Error adding todo:", error));
   };
 
   const handleUpdateTodo = (todoId, title) => {
@@ -346,6 +347,7 @@ function RoomTodo({ roomData }) {
                         >
                           <div className="sm:col-span-1 flex justify-center items-center">
                             <Checkbox
+                            control={<Switch />}
                               checked={todo.checked.includes(userId) ?? false}
                               onChange={() =>
                                 handleCheckboxChanges(todo._id, todo)
@@ -420,7 +422,7 @@ function RoomTodo({ roomData }) {
           </div>
 
           <div className="flex justify-center items-center">
-            <ul className="sm:w-[90%] w-full bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
+            <ul className="lg:w-[90%] w-full bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
               <li className="w-full  grid grid-flow-row gap-4 rounded-t-2xl border-b-2">
                 <div className="grid grid-cols-7 my-3">
                   <div className="col-span-1 flex justify-center items-center font-bold">

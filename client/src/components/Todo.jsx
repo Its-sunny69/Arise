@@ -46,21 +46,21 @@ const Todo = () => {
   useEffect(() => {
     if (newTodoAdded || userId) {
       dispatch(getTodos(userId));
-      setNewTodoAdded(false); 
+      setNewTodoAdded(false);
     }
   }, [newTodoAdded, userId, dispatch]);
 
   const handleOrderChange = (newOrder) => {
-    dispatch(reorderTodos(newOrder)); 
+    dispatch(reorderTodos(newOrder));
   };
 
   const handleAddTodo = (e) => {
-    e.preventDefault(); 
-    const todoData = { userId: userId, title: newTodo, checked: false }; 
+    e.preventDefault();
+    const todoData = { userId: userId, title: newTodo, checked: false };
 
     dispatch(addTodo(todoData))
       .then((response) => {
-        setNewTodo(""); 
+        setNewTodo("");
         setNewTodoAdded(true);
       })
       .catch((error) => setError(error));
@@ -87,13 +87,13 @@ const Todo = () => {
 
     const updatedCheckedBox = { userId, todoId, currentChecked };
 
-    dispatch(checkBoxUpdate(updatedCheckedBox))
+    dispatch(checkBoxUpdate(updatedCheckedBox));
   };
 
   const handleDeleteTodo = (todoId) => {
     const todoData = { userId, todoId };
 
-    dispatch(deleteTodo(todoData))
+    dispatch(deleteTodo(todoData));
   };
 
   const handleUpdateClick = (todoId, todoName) => {
@@ -107,7 +107,6 @@ const Todo = () => {
   };
 
   const progressCalculator = () => {
-
     const count = todos.reduce((accumulator, todo) => {
       return todo.checked ? accumulator + 1 : accumulator;
     }, 0);
@@ -137,8 +136,8 @@ const Todo = () => {
           {error && <p>Error fetching todos: {error.message}</p>}
 
           <div className="flex justify-center items-center">
-            <div className="flex sm:flex-row flex-col-reverse sm:w-[80%] w-full justify-between items-center my-4">
-              <div className="sm:w-[40%] w-full flex sm:mb-0 my-1">
+            <div className="flex sm:flex-row flex-col-reverse lg:w-[80%] w-full justify-between items-center my-4">
+              <div className="lg:w-[40%] sm:w-[48%] w-full flex sm:mb-0 my-1">
                 <div className="w-5/6 py-1">
                   <input
                     type="text"
@@ -162,7 +161,7 @@ const Todo = () => {
                 </div>
               </div>
 
-              <div className="sm:w-[40%] w-full sm:my-0 my-4">
+              <div className="lg:w-[40%] sm:w-[48%] w-full sm:my-0 my-4">
                 <ProgressBar
                   label={"Progress"}
                   currentValue={checkedCount}
@@ -173,7 +172,7 @@ const Todo = () => {
           </div>
 
           <div className="flex justify-center items-center">
-            <ul className="sm:w-[80%] w-full flex flex-col justify-center items-center transition-all">
+            <ul className="lg:w-[80%] w-full flex flex-col justify-center items-center transition-all">
               <li className="w-full bg-gray-300 grid grid-flow-row gap-4 rounded-t-2xl">
                 <div className="grid sm:grid-cols-8 grid-cols-5 my-3">
                   <div className="sm:col-span-1 flex justify-center items-center font-bold">
@@ -191,15 +190,16 @@ const Todo = () => {
                 </div>
               </li>
 
-              {todos.map((todo, index) => (
-                <li
-                  key={index}
-                  className={`w-full grid grid-flow-row shadow-sm ${
-                    index === todos.length - 1 ? "rounded-b-2xl" : ""
-                  }`}
-                >
-                  {editId == todo._id ? (
-                      <div className="grid sm:grid-cols-8 grid-cols-5 sm:my-3 bg-gray-100">
+              {todos.length ? (
+                todos.map((todo, index) => (
+                  <li
+                    key={index}
+                    className={`w-full grid grid-flow-row shadow-sm ${
+                      index === todos.length - 1 ? "rounded-b-2xl" : ""
+                    }`}
+                  >
+                    {editId == todo._id ? (
+                      <div className="grid sm:grid-cols-8 grid-cols-5  bg-gray-100">
                         <div className="sm:col-span-1 flex justify-center items-center">
                           <Checkbox disabled />
                         </div>
@@ -233,9 +233,9 @@ const Todo = () => {
                           </button>
                         </div>
                       </div>
-                  ) : (
+                    ) : (
                       <div
-                        className={`grid sm:grid-cols-8 grid-cols-5 sm:my-3 hover:bg-gray-100 bg-white transition-all ${
+                        className={`grid sm:grid-cols-8 grid-cols-5 hover:bg-gray-100 bg-white transition-all ${
                           index === todos.length - 1 ? "rounded-b-2xl" : ""
                         }`}
                       >
@@ -285,9 +285,16 @@ const Todo = () => {
                           </button>
                         </div>
                       </div>
-                  )}
+                    )}
+                  </li>
+                ))
+              ) : (
+                <li className="w-full shadow-sm bg-white rounded-b-2xl">
+                  <div className="py-2 text-center rounded-b-2xl">
+                    No Task Added
+                  </div>
                 </li>
-              ))}
+              )}
             </ul>
           </div>
         </div>

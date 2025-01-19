@@ -37,7 +37,7 @@ const JoinCard = forwardRef(
       <>
         <div key={room._id} className="">
           {userId !== room.createdBy ? (
-            <div className="shadow-lg sm:m-2 m-1 hover:outline hover:outline-1 hover:outline-slate-200 rounded-md hover:scale-105 transition-transform">
+            <div className="shadow-md sm:m-2 my-[0.3rem] sm:my-0 m-1 hover:outline hover:outline-1 hover:outline-slate-200 rounded-md hover:scale-105 transition-transform">
               <div className="bg-slate-100 px-4 py-4 rounded-t-md flex justify-between">
                 <div>
                   <p>
@@ -66,7 +66,7 @@ const JoinCard = forwardRef(
                   </span>
                   <span className="ml-3">{members}</span>
                 </p>
-                <p className="px-4 pb-5 rounded-md">
+                <p className="px-4 pb-5 my-1 rounded-md">
                   <span>
                     <HistoryRoundedIcon />
                   </span>

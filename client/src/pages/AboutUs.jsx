@@ -25,13 +25,13 @@ import LinkedInSvg from "../assets/linkedin-svg.svg";
 
 function AboutUs() {
   const [activeDiv, setActiveDiv] = useState(0);
-  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 1100);
   const divCount = 4;
   const delay = 2000;
 
   useEffect(() => {
     const handleResize = () => {
-      setPhoneView(window.innerWidth < 640);
+      setPhoneView(window.innerWidth < 1100);
     };
 
     window.addEventListener("resize", handleResize);
@@ -108,12 +108,12 @@ function AboutUs() {
             className="text-center"
           >
             {phoneView ? (
-              <div className="text-lg text-justify my-2">
+              <div className="sm:text-2xl sm:text-center text-lg sm:my-0 text-justify my-2">
                 Your ultimate ally in conquering procrastination and unlocking
                 your full potential. Your Partner in Productivity and Growth.
               </div>
             ) : (
-              <div className="sm:text-2xl text-lg text-center">
+              <div className="text-2xl text-center">
                 Your ultimate ally in conquering procrastination and unlocking
                 your full potential.
                 <br />
@@ -131,9 +131,9 @@ function AboutUs() {
           triggerOnce
           fraction={0.5}
         >
-          <div className="sm:mt-20 mt-10 sm:mx-5 sm:flex">
-            <div className="sm:w-1/2">
-              <div className="sm:my-8 sm:text-left text-center">
+          <div className="sm:mt-20 mt-10 sm:mx-5 lg:flex">
+            <div className="lg:w-1/2">
+              <div className="sm:my-8 lg:text-left text-center">
                 <span className="title sm:text-5xl text-4xl">Why Arise?</span>
               </div>
 
@@ -146,12 +146,12 @@ function AboutUs() {
               </div>
             </div>
 
-            <div className="sm:w-1/2">
+            <div className="lg:w-1/2">
               <TiltedScroll />
             </div>
           </div>
 
-          <div className="sm:mt-14 mt-10 flex flex-col-reverse sm:flex-row sm:mx-5">
+          <div className="sm:mt-14 mt-10 flex flex-col-reverse lg:flex-row sm:mx-5">
             {phoneView ? (
               ""
             ) : (
@@ -186,8 +186,8 @@ function AboutUs() {
               </div>
             )}
 
-            <div className="sm:w-1/2">
-              <div className="sm:my-8 mt-2 sm:text-left text-center">
+            <div className="lg:w-1/2">
+              <div className="sm:my-8 mt-2 lg:text-left text-center">
                 <span className="title sm:text-5xl text-4xl">What We Do?</span>
               </div>
 
@@ -201,14 +201,14 @@ function AboutUs() {
             </div>
           </div>
 
-          <div className="sm:mt-20 mt-10">
+          <div className="lg:mt-20 mt-10">
             <div className="sm:my-8 text-center">
               <span className="title sm:text-5xl text-4xl">Our Mission</span>
             </div>
 
             {phoneView ? (
-              <div className="my-4 text-justify">
-                <span className="text-lg ">
+              <div className="sm:my-8 sm:text-center my-4 text-justify">
+                <span className="sm:text-2xl text-lg ">
                   To empower individuals around the world to overcome
                   procrastination, embrace productivity, and achieve
                   greatness—one task at a time.
@@ -225,7 +225,7 @@ function AboutUs() {
               </div>
             )}
 
-            <div className="sm:m-5 grid sm:grid-cols-3 sm:gap-5 gap-3">
+            <div className="sm:m-5 grid lg:grid-cols-3 sm:gap-5 gap-3">
               <Fade
                 delay={200}
                 duration={1000}
@@ -320,21 +320,21 @@ function AboutUs() {
             className="w-full h-full"
           >
             <SwiperSlide>
-              <div className="flex sm:flex-row flex-col bg-slate-100 rounded-md shadow-sm">
-                <div className="sm:w-1/2 sm:p-5 p-2">
+              <div className="flex lg:flex-row flex-col bg-slate-100 rounded-md shadow-sm">
+                <div className="lg:w-1/2 sm:p-5 p-2">
                   <img
                     src={SunnyPic}
                     alt="Image"
                     className="object-cover object-center w-full rounded-lg shadow-xl h-96 shadow-blue-gray-900/50"
                   />
                 </div>
-                <div className="sm:w-1/2 bg-green-40">
+                <div className="lg:w-1/2 bg-green-40">
                   <div className="sm:my-10 my-5 flex flex-col">
-                    <span className="title tracking-wider sm:text-4xl text-2xl sm:mx-0 mx-2 text-left">
+                    <span className="title tracking-wider sm:text-4xl text-2xl lg:mx-0 mx-2 text-left">
                       Sunny Yadav
                     </span>
 
-                    <div className="flex justify-start items-center sm:mx-0 mx-2">
+                    <div className="flex justify-start items-center lg:mx-0 mx-2">
                       <span className="text-left">Frontend Developer | </span>
                       <div className="flex ml-1">
                         <a
@@ -367,21 +367,21 @@ function AboutUs() {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="flex sm:flex-row flex-col bg-slate-100 rounded-md shadow-sm">
-                <div className="sm:w-1/2 sm:p-5 p-2">
+              <div className="flex lg:flex-row flex-col bg-slate-100 rounded-md shadow-sm">
+                <div className="lg:w-1/2 sm:p-5 p-2">
                   <img
                     src={InzamamPic}
                     alt="Image"
                     className="object-cover object-center w-full rounded-lg shadow-xl h-96 shadow-blue-gray-900/50"
                   />
                 </div>
-                <div className="sm:w-1/2">
+                <div className="lg:w-1/2">
                   <div className="sm:my-10 my-5 flex flex-col">
-                    <span className="title tracking-wider sm:text-4xl text-2xl sm:mx-0 mx-2 text-left">
+                    <span className="title tracking-wider sm:text-4xl text-2xl lg:mx-0 mx-2 text-left">
                       Inzamam Shaikh
                     </span>
 
-                    <div className="flex justify-start items-center sm:mx-0 mx-2">
+                    <div className="flex justify-start items-center lg:mx-0 mx-2">
                       <span className="text-left">MERN Developer | </span>
                       <div className="flex ml-1">
                         <a
@@ -402,7 +402,12 @@ function AboutUs() {
                     </div>
 
                     <span className="text-justify sm:text-xl text-lg mt-5 mx-4 my-2">
-                    We craft responsive, high-performance web applications using React, with seamless API integration and WebSocket support for real-time updates, WebRTC, Firebase, and DigitalOcean, we ensure scalable backends, smooth communication, and delivering exceptional, user-friendly solutions tailored to your vision. 
+                      We craft responsive, high-performance web applications
+                      using React, with seamless API integration and WebSocket
+                      support for real-time updates, WebRTC, Firebase, and
+                      DigitalOcean, we ensure scalable backends, smooth
+                      communication, and delivering exceptional, user-friendly
+                      solutions tailored to your vision.
                     </span>
                   </div>
                 </div>

@@ -218,7 +218,7 @@ function Room() {
       </div>
 
       <div className="my-10">
-        <div className="title sm:text-7xl text-5xl text-center sm:flex justify-center items-center">
+        <div className="title sm:text-7xl text-5xl text-center lg:flex justify-center items-center">
           <TypeAnimation
             sequence={["Welcome To"]}
             speed={30}
@@ -311,9 +311,9 @@ function Room() {
             <span className="title sm:text-5xl text-4xl"> Created Rooms </span>
           </div>
 
-          <div className="min-h-56 sm:m-5 flex justify-center items-center">
+          <div className="min-h-56 lg:m-5 flex justify-center items-center">
             {createdRoomLoading ? (
-              <div className="w-full grid sm:grid-cols-4  sm:gap-3 gap-2">
+              <div className="w-full grid lg:grid-cols-4  sm:gap-3 gap-2">
                 <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
                   <Skeleton
                     variant="rectangular"
@@ -477,7 +477,7 @@ function Room() {
                 )}
               </div>
             ) : createdRooms?.length ? (
-              <div className="w-full grid sm:grid-cols-4 sm:gap-3">
+              <div className="w-full grid lg:grid-cols-4 lg:gap-3">
                 <Fade
                   delay={200}
                   duration={1000}
@@ -510,9 +510,9 @@ function Room() {
             <span className="title sm:text-5xl text-4xl"> Joined Rooms </span>
           </div>
 
-          <div className="min-h-56 sm:m-5 flex justify-center items-center">
+          <div className="min-h-60 lg:m-5 flex justify-center items-center">
             {joinRoomLoading ? (
-              <div className="w-full grid sm:grid-cols-4 sm:gap-3 gap-2">
+              <div className="w-full grid lg:grid-cols-4 sm:gap-3 gap-2">
                 <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
                   <Skeleton
                     variant="rectangular"
@@ -676,7 +676,7 @@ function Room() {
               </div>
             ) : joinedRooms?.filter((room) => userId !== room.createdBy)
                 .length !== 0 ? (
-              <div className="w-full grid sm:grid-cols-4 gridc sm:gap-3">
+              <div className="w-full grid lg:grid-cols-4 lg:gap-3 sm:gap-4">
                 <Fade
                   delay={100}
                   duration={1000}
@@ -714,7 +714,7 @@ function Room() {
           <span className="title sm:text-5xl text-4xl">Features</span>
         </div>
 
-        <div className="sm:m-5 m-1 grid sm:grid-cols-4 sm:gap-5 gap-3">
+        <div className="sm:m-5 m-1 grid lg:grid-cols-4 sm:gap-5 gap-3">
           <Fade
             delay={200}
             duration={1000}

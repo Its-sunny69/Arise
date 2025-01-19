@@ -68,7 +68,7 @@ function Login() {
   return (
     <>
       <div className="w-full min-h-lvh flex justify-center items-center">
-        <div className="sm:w-[60%] w-full mx-5 sm:mx-0 my-8 flex rounded-md shadow-lg bg-green-30">
+        <div className="lg:w-[60%] sm:w-[90%] w-full mx-5 sm:mx-0 my-8 flex rounded-md shadow-lg bg-green-30">
           {phoneView ? (
             ""
           ) : (
@@ -175,15 +175,15 @@ function Login() {
               </div>
 
               <div className="flex mt-10 justify-between items-center">
-                <div className="flex">
+                <div className="flex lg:flex-row flex-col items-start lg:items-center">
                   New User?
-                  <button
+                  <a
                     onClick={() => navigate("/signup")}
-                    className="mx-2 text-slate-800 group hover:text-slate-400"
+                    className="lg:mx-2 text-slate-800 group hover:text-slate-400 cursor-pointer"
                   >
                     Register Here!
                     <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-black" />
-                  </button>
+                  </a>
                 </div>
                 <button
                   className="font-thin group transition-all active:scale-95 border border-black py-1 px-5 hover:border-dotted shadow-lg rounded-sm bg-white"

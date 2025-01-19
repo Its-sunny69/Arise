@@ -170,8 +170,8 @@ const roomTodosSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getRoomTodos.fulfilled, (state, action) => {
-        state.roomId = action.payload.data[0].roomId;
-        state.roomTodos = action.payload.data[0].todos;
+        state.roomId = action.payload.data[0]?.roomId;
+        state.roomTodos = action.payload.data[0]?.todos;
       })
       .addCase(addRoomTodo.fulfilled, (state, action) => {
         const newTodo = action.payload.data.todos; 

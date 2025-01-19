@@ -328,7 +328,7 @@ const ChatRoom = () => {
                                   </li>
                                   {isModalVisible && (
                                     <div
-                                      className={`absolute bg-white p-2 min-w-32 rounded-lg shadow-lg border transition-all`}
+                                      className={`absolute right-0 sm:left-0 bg-white p-2 min-w-32 rounded-lg shadow-lg border transition-all`}
                                     >
                                       <div
                                         className="flex justify-end items-center cursor-pointer"
@@ -462,7 +462,7 @@ const ChatRoom = () => {
                       const isNewDate = currentDate !== previousDate;
 
                       return (
-                        <>
+                        <div key={index}>
                           {isNewDate && (
                             <p className="text-center text-sm text-gray-500 my-2">
                               {formatDateForHeading(item.timeStamp)}
@@ -494,7 +494,7 @@ const ChatRoom = () => {
                               </p>
                             </div>
                           </div>
-                        </>
+                        </div>
                       );
                     })
                   ) : (

@@ -15,14 +15,14 @@ function WorldRank() {
   const [username, setUsername] = useState();
   const [ranking, setRanking] = useState([]);
   const [showText, setShowText] = useState(false);
-  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
+  const [phoneView, setPhoneView] = useState(window.innerWidth < 1100);
   const currentToken = useSelector((state) => state.todos.token);
   const dispatch = useDispatch();
   const socket = useSocket();
 
   useEffect(() => {
     const handleResize = () => {
-      setPhoneView(window.innerWidth < 640);
+      setPhoneView(window.innerWidth < 1100);
     };
 
     window.addEventListener("resize", handleResize);
@@ -84,9 +84,9 @@ function WorldRank() {
         </div>
 
         <div className="my-10">
-          <div className="title sm:text-7xl text-5xl sm:flex text-center justify-center items-center">
+          <div className="title sm:text-7xl text-5xl lg:flex text-center justify-center items-center">
             <Fade delay={700} duration={1000} triggerOnce fraction={0.5}>
-              <div className="flex sm:justify-normal justify-center tracking-wider">
+              <div className="flex lg:justify-normal justify-center tracking-wider">
                 <div className="hover:scale-110 cursor-pointer transition-all">
                   <span className="title text-outline sm:text-7xl text-5xl pl-4">
                     A
@@ -133,7 +133,7 @@ function WorldRank() {
             className="text-center"
           >
             {phoneView ? (
-              <div className=" text-lg text-justify my-2">
+              <div className="sm:text-2xl sm:text-center sm:my-0 text-lg text-justify my-2">
                 where procrastination meets its match and determination shines
                 bright, Welcome to the World Ranking page of Arise!
               </div>
@@ -242,7 +242,7 @@ function WorldRank() {
             <span className="title sm:text-5xl text-4xl">What You Get ?</span>
           </div>
 
-          <div className="sm:m-5 grid sm:grid-cols-3 sm:gap-5 gap-3">
+          <div className="sm:m-5 grid lg:grid-cols-3 sm:gap-5 gap-3">
             <Fade
               delay={200}
               duration={1000}

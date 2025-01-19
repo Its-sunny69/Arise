@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
@@ -33,7 +33,7 @@ function Home() {
           />
         </div>
 
-        <div className="">
+        <div>
           <div className="my-4">
             <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
               <ShinyText
@@ -56,19 +56,29 @@ function Home() {
               >
                 <div className="flex tracking-widest">
                   <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl pl-4">A</span>
+                    <span className="title text-outline sm:text-7xl text-6xl pl-4">
+                      A
+                    </span>
                   </div>
                   <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl">r</span>
+                    <span className="title text-outline sm:text-7xl text-6xl">
+                      r
+                    </span>
                   </div>
                   <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl">i</span>
+                    <span className="title text-outline sm:text-7xl text-6xl">
+                      i
+                    </span>
                   </div>
                   <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl">s</span>
+                    <span className="title text-outline sm:text-7xl text-6xl">
+                      s
+                    </span>
                   </div>
                   <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl pr-5">e</span>
+                    <span className="title text-outline sm:text-7xl text-6xl pr-5">
+                      e
+                    </span>
                   </div>
                 </div>
               </Fade>
@@ -86,16 +96,19 @@ function Home() {
                 fraction={0.5}
                 className="text-center"
               >
-                {phoneView ? <span className="text-lg">
-                  Build momentum, crush distractions, and stay in control with
-                  Arise – your ultimate companion 
-                  to beat procrastination and achieve more.
-                </span> : <span className="text-2xl">
-                  Build momentum, crush distractions, and stay in control with
-                  Arise – your ultimate companion <br />
-                  to beat procrastination and achieve more.
-                </span>}
-                
+                {phoneView ? (
+                  <span className="text-lg">
+                    Build momentum, crush distractions, and stay in control with
+                    Arise – your ultimate companion to beat procrastination and
+                    achieve more.
+                  </span>
+                ) : (
+                  <span className="lg:text-2xl text-xl">
+                    Build momentum, crush distractions, and stay in control with
+                    Arise – your ultimate companion <br />
+                    to beat procrastination and achieve more.
+                  </span>
+                )}
               </Fade>
             </div>
 
