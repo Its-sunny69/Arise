@@ -1,22 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSocket } from "../context/Socket";
+import { useSocket } from "../../../context/Socket";
 import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../slice/todosSlice";
+import { AuthUser } from "../../../features/todo/todosSlice";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import { format, isToday, isThisWeek, isYesterday } from "date-fns";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import SendSvg from "../assets/send-svg.svg";
-import CopySvg from "../assets/copy-svg.svg";
-import ChatLottie from "../assets/Chat.lottie";
+import SendSvg from "../../../assets/send-svg.svg";
+import CopySvg from "../../../assets/copy-svg.svg";
+import ChatLottie from "../../../assets/Chat.lottie";
 import toast from "react-hot-toast";
-import RoomTodo from "../components/RoomTodo";
+import RoomTodo from "./RoomTodo";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import { Skeleton, Stack } from "@mui/material";
-import ShinyText from "../components/ShinyText";
+import ShinyText from "../../../shared/components/ShinyText";
 
 const ChatRoom = () => {
   const socket = useSocket();

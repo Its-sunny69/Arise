@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
 import ArrowSvg from "../assets/arrow-svg.svg";
-import SquaresBackground from "../components/SquaresBackground";
-import ShinyText from "../components/ShinyText";
-import BlurText from "../components/BlurText";
+import SquaresBackground from "../shared/components/SquaresBackground";
+import ShinyText from "../shared/components/ShinyText";
+import BlurText from "../shared/components/BlurText";
 
 function Landing() {
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);

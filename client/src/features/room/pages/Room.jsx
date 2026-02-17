@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../slice/todosSlice";
+import { AuthUser } from "../../todo/todosSlice";
 import { useNavigate } from "react-router-dom";
-import { useSocket } from "../context/Socket";
+import { useSocket } from "../../../context/Socket";
 import RoomCard from "../components/RoomCard";
-import JoinCard from "../components/JoinCard";
+import JoinCard from "../../../shared/components/JoinCard";
 import { useRef } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
@@ -13,7 +13,7 @@ import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import { Skeleton } from "@mui/material";
-import ShinyText from "../components/ShinyText";
+import ShinyText from "../../../shared/components/ShinyText";
 
 function Room() {
   const [username, setUsername] = useState("");

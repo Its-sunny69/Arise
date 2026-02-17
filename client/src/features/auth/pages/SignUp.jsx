@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { register, setToken } from "../../../features/todo/todosSlice";
 import { useNavigate } from "react-router-dom";
-import { login, setToken } from "../slice/todosSlice";
-import "@material/web/textfield/filled-text-field";
 import { toast } from "react-hot-toast";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import LoginImage from "../assets/login.lottie";
-import SplitText from "../components/SplitText";
+import LoginImage from "../../../assets/login.lottie";
+import SplitText from "../../../shared/components/SplitText";
 
-function Login() {
+function SignUp() {
   const [userData, setUserData] = useState({
+    username: "",
     email: "",
     password: "",
   });
@@ -17,8 +17,8 @@ function Login() {
   const [error, setError] = useState();
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -34,17 +34,18 @@ function Login() {
   const handleInput = (e) => {
     name = e.target.name;
     value = e.target.value;
-    setUserData((prev) => ({ ...prev, [name]: value }));
+
+    setUserData({ ...userData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(login(userData)).then((response) => {
+    dispatch(register(userData)).then(async (response) => {
       if (response.payload.token) {
         dispatch(setToken(response.payload.token));
 
-        toast.success(`Login Successfully`, {
+        toast.success(`Registered Successfully`, {
           position: "top-center",
           duration: 3000,
         });
@@ -113,7 +114,7 @@ function Login() {
               </div>
               <div className="title sm:text-5xl text-4xl font-bold my-2 drop-shadow-sm">
                 <SplitText
-                  text="Hello Again!"
+                  text="Let's Begin!"
                   delay={150}
                   animationFrom={{
                     opacity: 0,
@@ -128,15 +129,46 @@ function Login() {
             </div>
             <form action="" onSubmit={handleSubmit} className="mt-5 w-full">
               <div className="my-4 flex flex-col">
+                <label htmlFor="username" className="text-2xl">
+                  Username
+                </label>
+                <input
+                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
+                  type="text"
+                  name="username"
+                  value={userData.username}
+                  id="username"
+                  onChange={handleInput}
+                  placeholder="What you want us to call You?"
+                  required
+                />
+                {error
+                  ? error.map((element) =>
+                      element.username ? (
+                        <>
+                          <div
+                            className="text-[0.8rem] text-red-500"
+                            key={element.username}
+                          >
+                            {element.username}
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )
+                    )
+                  : ""}
+              </div>
+              <div className="my-4 flex flex-col">
                 <label htmlFor="email" className="text-2xl">
                   Email
                 </label>
                 <input
+                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
                   type="text"
                   name="email"
-                  id="email"
-                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
                   value={userData.email}
+                  id="email"
                   onChange={handleInput}
                   placeholder="Your Email"
                   required
@@ -163,25 +195,43 @@ function Login() {
                   Password
                 </label>
                 <input
+                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
                   type="password"
                   name="password"
-                  id="password"
-                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
                   value={userData.password}
+                  id="password"
                   onChange={handleInput}
                   placeholder="Your Password"
                   required
                 />
+                {error
+                  ? error.map((element) =>
+                      element.password ? (
+                        <>
+                          <div
+                            className="text-[0.8rem] text-red-500"
+                            key={element.username}
+                          >
+                            {element.password.split("\n").map((item) => (
+                              <div key={item}>{item}</div>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )
+                    )
+                  : ""}
               </div>
 
               <div className="flex mt-10 justify-between items-center">
                 <div className="flex lg:flex-row flex-col items-start lg:items-center">
-                  New User?
+                  Already an User?
                   <a
-                    onClick={() => navigate("/signup")}
-                    className="lg:mx-2 text-slate-800 group hover:text-slate-400 cursor-pointer"
+                    onClick={() => navigate("/login")}
+                    className="lg:mx-2 text-slate-600 group hover:text-slate-400 cursor-pointer"
                   >
-                    Register Here!
+                    Login Here!
                     <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-black" />
                   </a>
                 </div>
@@ -190,7 +240,7 @@ function Login() {
                   type="submit"
                 >
                   <div className="flex justify-center items-center font-medium group-hover:text-gray-600 transition-all">
-                    Login
+                    SignUP
                   </div>
                   <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-black" />
                 </button>
@@ -203,4 +253,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

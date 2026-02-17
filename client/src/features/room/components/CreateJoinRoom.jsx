@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSocket } from "../context/Socket";
+import { useSocket } from "../../../context/Socket";
 import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../slice/todosSlice";
+import { AuthUser } from "../../todo/todosSlice";
 import toast from "react-hot-toast";
 import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
-import RemoteMeetingSvg from "../assets/remote-meeting.svg";
-import MeetTheTeam from "../assets/meet-the-team.svg";
-import ShinyText from "../components/ShinyText";
+import RemoteMeetingSvg from "../../../assets/remote-meeting.svg";
+import MeetTheTeam from "../../../assets/meet-the-team.svg";
+import ShinyText from "../../../shared/components/ShinyText";
 
 const CreateJoinRoom = () => {
   const socket = useSocket();

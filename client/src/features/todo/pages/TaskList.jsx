@@ -1,7 +1,6 @@
-import React from "react";
 import Todo from "../components/Todo";
 import RandomQuote from "../components/RandomQuote";
-import ShinyText from "../components/ShinyText";
+import ShinyText from "../../../shared/components/ShinyText";
 
 
 function TaskList() {

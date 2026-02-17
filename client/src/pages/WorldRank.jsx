@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../slice/todosSlice";
+import { AuthUser } from "../features/todo/todosSlice";
 import { useSocket } from "../context/Socket";
 import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
@@ -8,7 +8,7 @@ import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
-import ShinyText from "../components/ShinyText";
+import ShinyText from "../shared/components/ShinyText";
 
 function WorldRank() {
   const [userId, setUserId] = useState();

@@ -3,7 +3,7 @@ import { useImperativeHandle } from "react";
 import toast from "react-hot-toast";
 import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
-import CopySvg from "../assets/copy-svg.svg";
+import CopySvg from "../../../assets/copy-svg.svg";
 
 const RoomCard = forwardRef(
   ({ room, timeAgo, handleCreatedRoomClick, handleRoomDelete }, ref) => {

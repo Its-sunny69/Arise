@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ProgressBar from "./ProgressBar";
-import AddSvg from "../assets/add-svg.svg";
+import ProgressBar from "../../../shared/components/ProgressBar";
+import AddSvg from "../../../assets/add-svg.svg";
 import {
   getRoomTodos,
   addRoomTodo,
@@ -9,9 +9,9 @@ import {
   roomCheckBoxUpdate,
   deleteRoomTodo,
   completedUpdate,
-} from "../slice/roomTodosSlice";
+} from "../roomTodosSlice";
 
-import { useSocket } from "../context/Socket";
+import { useSocket } from "../../../context/Socket";
 import Checkbox from "@mui/material/Checkbox";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";

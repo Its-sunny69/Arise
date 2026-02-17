@@ -7,9 +7,9 @@ import {
   deleteTodo,
   checkBoxUpdate,
   AuthUser,
-} from "../slice/todosSlice";
-import ProgressBar from "./ProgressBar";
-import AddSvg from "../assets/add-svg.svg";
+} from "../../../features/todo/todosSlice";
+import ProgressBar from "../../../shared/components/ProgressBar";
+import AddSvg from "../../../assets/add-svg.svg";
 import Checkbox from "@mui/material/Checkbox";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";

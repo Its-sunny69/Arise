@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { register, setToken } from "../slice/todosSlice";
 import { useNavigate } from "react-router-dom";
+import { login, setToken } from "../../../features/todo/todosSlice";
+import "@material/web/textfield/filled-text-field";
 import { toast } from "react-hot-toast";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import LoginImage from "../assets/login.lottie";
-import SplitText from "../components/SplitText";
+import LoginImage from "../../../assets/login.lottie";
+import SplitText from "../../../shared/components/SplitText";
 
-function SignUp() {
+function Login() {
   const [userData, setUserData] = useState({
-    username: "",
     email: "",
     password: "",
   });
@@ -17,8 +17,8 @@ function SignUp() {
   const [error, setError] = useState();
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleResize = () => {
@@ -34,18 +34,17 @@ function SignUp() {
   const handleInput = (e) => {
     name = e.target.name;
     value = e.target.value;
-
-    setUserData({ ...userData, [name]: value });
+    setUserData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(register(userData)).then(async (response) => {
+    dispatch(login(userData)).then((response) => {
       if (response.payload.token) {
         dispatch(setToken(response.payload.token));
 
-        toast.success(`Registered Successfully`, {
+        toast.success(`Login Successfully`, {
           position: "top-center",
           duration: 3000,
         });
@@ -114,7 +113,7 @@ function SignUp() {
               </div>
               <div className="title sm:text-5xl text-4xl font-bold my-2 drop-shadow-sm">
                 <SplitText
-                  text="Let's Begin!"
+                  text="Hello Again!"
                   delay={150}
                   animationFrom={{
                     opacity: 0,
@@ -129,46 +128,15 @@ function SignUp() {
             </div>
             <form action="" onSubmit={handleSubmit} className="mt-5 w-full">
               <div className="my-4 flex flex-col">
-                <label htmlFor="username" className="text-2xl">
-                  Username
-                </label>
-                <input
-                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
-                  type="text"
-                  name="username"
-                  value={userData.username}
-                  id="username"
-                  onChange={handleInput}
-                  placeholder="What you want us to call You?"
-                  required
-                />
-                {error
-                  ? error.map((element) =>
-                      element.username ? (
-                        <>
-                          <div
-                            className="text-[0.8rem] text-red-500"
-                            key={element.username}
-                          >
-                            {element.username}
-                          </div>
-                        </>
-                      ) : (
-                        ""
-                      )
-                    )
-                  : ""}
-              </div>
-              <div className="my-4 flex flex-col">
                 <label htmlFor="email" className="text-2xl">
                   Email
                 </label>
                 <input
-                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
                   type="text"
                   name="email"
-                  value={userData.email}
                   id="email"
+                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
+                  value={userData.email}
                   onChange={handleInput}
                   placeholder="Your Email"
                   required
@@ -195,43 +163,25 @@ function SignUp() {
                   Password
                 </label>
                 <input
-                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
                   type="password"
                   name="password"
-                  value={userData.password}
                   id="password"
+                  className="w-full my-2 px-4 py-1 border-black rounded-sm text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm border-1 border-b focus:border-none"
+                  value={userData.password}
                   onChange={handleInput}
                   placeholder="Your Password"
                   required
                 />
-                {error
-                  ? error.map((element) =>
-                      element.password ? (
-                        <>
-                          <div
-                            className="text-[0.8rem] text-red-500"
-                            key={element.username}
-                          >
-                            {element.password.split("\n").map((item) => (
-                              <div key={item}>{item}</div>
-                            ))}
-                          </div>
-                        </>
-                      ) : (
-                        ""
-                      )
-                    )
-                  : ""}
               </div>
 
               <div className="flex mt-10 justify-between items-center">
                 <div className="flex lg:flex-row flex-col items-start lg:items-center">
-                  Already an User?
+                  New User?
                   <a
-                    onClick={() => navigate("/login")}
-                    className="lg:mx-2 text-slate-600 group hover:text-slate-400 cursor-pointer"
+                    onClick={() => navigate("/signup")}
+                    className="lg:mx-2 text-slate-800 group hover:text-slate-400 cursor-pointer"
                   >
-                    Login Here!
+                    Register Here!
                     <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-black" />
                   </a>
                 </div>
@@ -240,7 +190,7 @@ function SignUp() {
                   type="submit"
                 >
                   <div className="flex justify-center items-center font-medium group-hover:text-gray-600 transition-all">
-                    SignUP
+                    Login
                   </div>
                   <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-black" />
                 </button>
@@ -253,4 +203,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;

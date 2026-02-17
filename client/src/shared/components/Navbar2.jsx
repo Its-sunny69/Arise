@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AuthUser } from "../slice/todosSlice";
+import { AuthUser } from "../../features/todo/todosSlice";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import profileLottie from "../assets/profile.lottie";
-import crownLottie from "../assets/crown.lottie";
+import profileLottie from "../../assets/profile.lottie";
+import crownLottie from "../../assets/crown.lottie";
 
 function Navbar2() {
     const [username, setUsername] = useState("");

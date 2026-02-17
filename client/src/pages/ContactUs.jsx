@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ShinyText from "../components/ShinyText";
+import ShinyText from "../shared/components/ShinyText";
 import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
 import EmailManPng from "../assets/email-man.png";

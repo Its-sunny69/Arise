@@ -3,19 +3,19 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import { useSelector } from "react-redux";
-import CreateJoinRoom from "./pages/CreateJoinRoom";
-import ChatRoom from "./pages/ChatRoom";
+import CreateJoinRoom from "./features/room/components/CreateJoinRoom";
+import ChatRoom from "./features/room/components/ChatRoom";
 import { SocketProvider } from "./context/Socket";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import Logout from "./pages/Logout";
+import Login from "./features/auth/pages/Login";
+import SignUp from "./features/auth/pages/SignUp";
+import Logout from "./features/auth/components/Logout";
 import { Toaster } from "react-hot-toast";
-import TaskList from "./pages/TaskList";
-import Room from "./pages/Room";
+import TaskList from "./features/todo/pages/TaskList";
+import Room from "./features/room/pages/Room";
 import WorldRank from "./pages/WorldRank";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
-import Layout from "./components/Layout";
+import Layout from "./shared/components/Layout";
 import Landing from "./pages/Landing";
 
 function App() {

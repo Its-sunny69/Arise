@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
 import ArrowSvg from "../assets/arrow-svg.svg";
-import SquaresBackground from "../components/SquaresBackground";
-import ShinyText from "../components/ShinyText";
+import SquaresBackground from "../shared/components/SquaresBackground";
+import ShinyText from "../shared/components/ShinyText";
 
 function Home() {
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);

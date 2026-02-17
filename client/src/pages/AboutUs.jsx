@@ -4,8 +4,8 @@ import { Fade } from "react-awesome-reveal";
 import PlaylistAddCheckRoundedIcon from "@mui/icons-material/PlaylistAddCheckRounded";
 import SportsEsportsRoundedIcon from "@mui/icons-material/SportsEsportsRounded";
 import Diversity3RoundedIcon from "@mui/icons-material/Diversity3Rounded";
-import TiltedScroll from "../components/TitledScroll";
-import ShinyText from "../components/ShinyText";
+import TiltedScroll from "../shared/components/TitledScroll";
+import ShinyText from "../shared/components/ShinyText";
 import {
   Autoplay,
   Mousewheel,
