@@ -28,10 +28,11 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-userSchema.methods.generateToken = async function () {
+// fix, userdata commin in response on registering.userSchema.userSchema.userSchema.
+userSchema.methods.generateToken = function () {
   try {
     return jwt.sign(
-      { userId: this._id.toString(), email: this.email },
+      { userId: this._id.toString() },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );

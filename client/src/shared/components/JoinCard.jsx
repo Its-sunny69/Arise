@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
+import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
@@ -95,5 +96,25 @@ const JoinCard = forwardRef(
     );
   }
 );
+
+JoinCard.displayName = "JoinCard";
+
+JoinCard.propTypes = {
+  room: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    roomId: PropTypes.string.isRequired,
+    createdBy: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        username: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
+  userId: PropTypes.string.isRequired,
+  handleJoinRoomClick: PropTypes.func.isRequired,
+  handleLeaveRoom: PropTypes.func.isRequired,
+  timeAgo: PropTypes.func.isRequired,
+};
 
 export default JoinCard;

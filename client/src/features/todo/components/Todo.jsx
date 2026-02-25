@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getTodos,
@@ -6,7 +6,6 @@ import {
   updateTodo,
   deleteTodo,
   checkBoxUpdate,
-  AuthUser,
 } from "../../../features/todo/todosSlice";
 import ProgressBar from "../../../shared/components/ProgressBar";
 import AddSvg from "../../../assets/add-svg.svg";
@@ -22,26 +21,14 @@ const Todo = () => {
   const [newTodoAdded, setNewTodoAdded] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
-  const [checkedCount, setCheckedCount] = useState(0);
-  const [userId, setUserId] = useState("");
 
   const dispatch = useDispatch();
-  const status = useSelector((state) => state.todos.status);
   const todos = useSelector((state) => state.todos.todos);
   const error = useSelector((state) => state.todos.error);
-  const currentToken = useSelector((state) => state.todos.token);
-
-  const userAuth = async () => {
-    dispatch(AuthUser(currentToken)).then((response) => {
-      if (response.payload) {
-        setUserId(response.payload._id);
-      }
-    });
-  };
-
-  useEffect(() => {
-    userAuth();
-  }, []);
+  const userId = useSelector((state) => state.auth.user._id);
+  const checkedCount = todos.reduce((accumulator, todo) => {
+    return todo.checked ? accumulator + 1 : accumulator;
+  }, 0);
 
   useEffect(() => {
     if (newTodoAdded || userId) {
@@ -50,20 +37,16 @@ const Todo = () => {
     }
   }, [newTodoAdded, userId, dispatch]);
 
-  const handleOrderChange = (newOrder) => {
-    dispatch(reorderTodos(newOrder));
-  };
-
   const handleAddTodo = (e) => {
     e.preventDefault();
     const todoData = { userId: userId, title: newTodo, checked: false };
 
     dispatch(addTodo(todoData))
-      .then((response) => {
+      .then(() => {
         setNewTodo("");
         setNewTodoAdded(true);
       })
-      .catch((error) => setError(error));
+      .catch((error) => console.error("Error adding todo:", error));
   };
 
   const handleUpdateTodo = (todoId, title) => {
@@ -73,8 +56,9 @@ const Todo = () => {
       title: title,
       checked: false,
     };
+    // console.log("handleUpdateTodo - updatedTodo:", updatedTodo);
     dispatch(updateTodo(updatedTodo))
-      .then((response) => {
+      .then(() => {
         handleCancelEdit();
       })
       .catch((error) => {
@@ -86,6 +70,11 @@ const Todo = () => {
     const currentChecked = todo.checked;
 
     const updatedCheckedBox = { userId, todoId, currentChecked };
+
+    // console.log(
+    //   "handleCheckboxChanges - updatedCheckedBox:",
+    //   updatedCheckedBox,
+    // );
 
     dispatch(checkBoxUpdate(updatedCheckedBox));
   };
@@ -106,18 +95,6 @@ const Todo = () => {
     setEditValue("");
   };
 
-  const progressCalculator = () => {
-    const count = todos.reduce((accumulator, todo) => {
-      return todo.checked ? accumulator + 1 : accumulator;
-    }, 0);
-
-    setCheckedCount(count);
-  };
-
-  useEffect(() => {
-    progressCalculator();
-  }, [todos]);
-
   return (
     <>
       <Fade
@@ -130,7 +107,7 @@ const Todo = () => {
       >
         <div className="sm:my-14 my-10">
           <div className="my-8 text-center">
-            <span className="title text-5xl">Your Today's Task</span>
+            <span className="title text-5xl">Your Today&apos;s Task</span>
           </div>
 
           {error && <p>Error fetching todos: {error.message}</p>}
@@ -193,7 +170,7 @@ const Todo = () => {
               {todos.length ? (
                 todos.map((todo, index) => (
                   <li
-                    key={index}
+                    key={todo._id}
                     className={`w-full grid grid-flow-row shadow-sm ${
                       index === todos.length - 1 ? "rounded-b-2xl" : ""
                     }`}
@@ -201,7 +178,7 @@ const Todo = () => {
                     {editId == todo._id ? (
                       <div className="grid sm:grid-cols-8 grid-cols-5  bg-gray-100">
                         <div className="sm:col-span-1 flex justify-center items-center">
-                          <Checkbox disabled />
+                          <Checkbox checked={todo.checked ?? false} disabled />
                         </div>
 
                         <div className="sm:col-span-5 col-span-2 w-full px-4 flex justify-start items-center">

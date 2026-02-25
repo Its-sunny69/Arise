@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../../context/Socket";
-import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../../../features/todo/todosSlice";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import { format, isToday, isThisWeek, isYesterday } from "date-fns";
@@ -11,7 +10,7 @@ import SendSvg from "../../../assets/send-svg.svg";
 import CopySvg from "../../../assets/copy-svg.svg";
 import ChatLottie from "../../../assets/Chat.lottie";
 import toast from "react-hot-toast";
-import RoomTodo from "./RoomTodo";
+import RoomTodo from "../components/RoomTodo";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
@@ -21,7 +20,7 @@ import ShinyText from "../../../shared/components/ShinyText";
 const ChatRoom = () => {
   const socket = useSocket();
   const { roomId } = useParams();
-  const [roomData, setRoomData] = useState([]);
+  const [roomData, setRoomData] = useState(null);
   const [profile, setProfile] = useState("");
   const [profileName, setProfileName] = useState("");
   const [users, setUsers] = useState([]);
@@ -32,12 +31,11 @@ const ChatRoom = () => {
   const messagesEndRef = useRef(null);
   const containerRef = useRef(null);
   const [showScrollDownButton, setShowScrollDownButton] = useState(false);
-  const [isUserJoined, setIsUserJoined] = useState(false);
+  // const [isUserJoined, setIsUserJoined] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
-  const dispatch = useDispatch();
-  const currentToken = useSelector((state) => state.todos.token);
+  const currentUser = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,6 +49,9 @@ const ChatRoom = () => {
   }, []);
 
   useEffect(() => {
+    setProfile(currentUser?._id);
+    setProfileName(currentUser?.username);
+
     socket.on("room-update", (updatedRoom) => {
       if (roomId == updatedRoom.roomId) {
         setRoomData(updatedRoom);
@@ -61,13 +62,6 @@ const ChatRoom = () => {
       if (socketRoomId == roomId) {
         setUsers(users);
         setIsLoading(false);
-      }
-    });
-
-    dispatch(AuthUser(currentToken)).then((response) => {
-      if (response.payload) {
-        setProfile(response.payload._id);
-        setProfileName(response.payload.username);
       }
     });
 
@@ -83,7 +77,7 @@ const ChatRoom = () => {
       }
     });
 
-    socket.on("delete", (id) => {
+    socket.on("delete", () => {
       navigate("/join-room");
     });
 
@@ -409,7 +403,7 @@ const ChatRoom = () => {
           </div>
 
           {/* Todo and Rank */}
-          <div className="">{roomData && <RoomTodo roomData={roomData} />}</div>
+          <div className="">{roomData?.roomId && <RoomTodo roomData={roomData} />}</div>
 
           {/* chat */}
           <div className="fixed w-fit sm:bottom-5 bottom-2 sm:right-10 right-6 active:scale-95 hover:scale-105 hover:opacity-70 transition-all">

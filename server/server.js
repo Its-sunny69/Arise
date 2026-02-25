@@ -20,6 +20,10 @@ server.listen(port, () => {
   console.log(`Server is running on ${port}`);
 });
 
+app.get("/", (req, res) => {
+  res.send(`Server is running on port ${port}`);
+});
+
 connectDb()
   .then(() => {
     console.log("connected for rooms");
@@ -30,7 +34,7 @@ connectDb()
 
 app.get("/api/rooms/:createdBy", async (req, res) => {
   const { createdBy } = req.params;
-  
+
   try {
     const rooms = await roomsCollection
       .find({ createdBy: createdBy })
@@ -88,13 +92,9 @@ app.delete("/api/rooms/:roomId", async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Hii");
-});
-
 const io = new Server(server, {
   cors: {
-    origin: ["https://arise-hazel.vercel.app", "http://localhost:5173"],
+    origin: ["https://arise-hazel.vercel.app", "http://localhost:5173", "http://localhost:3002"],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -147,7 +147,7 @@ io.on("connection", (socket) => {
           {
             $push: { users: user },
             $set: { [`progress.${user}`]: 0 },
-          }
+          },
         );
 
         const updatedRoom = await roomsCollection
@@ -163,7 +163,7 @@ io.on("connection", (socket) => {
           io.to(updatedRoom.roomId).emit(
             "update-members",
             updatedRoom.users.length,
-            updatedRoom.roomId
+            updatedRoom.roomId,
           );
         }
       } else {
@@ -190,14 +190,14 @@ io.on("connection", (socket) => {
           },
           {
             new: true,
-          }
+          },
         );
 
         if (updatedMessage) {
           io.to(updatedMessage.roomId).emit(
             "updated-msg",
             updatedMessage.message,
-            roomId
+            roomId,
           );
         }
       }
@@ -221,7 +221,7 @@ io.on("connection", (socket) => {
           },
           {
             new: true,
-          }
+          },
         )
         .populate("users");
 
@@ -231,7 +231,7 @@ io.on("connection", (socket) => {
         io.to(leaveUser.roomId).emit(
           "update-members",
           leaveUser.users.length,
-          leaveUser.roomId
+          leaveUser.roomId,
         );
 
         socket.leave(id);
@@ -283,14 +283,14 @@ io.on("connection", (socket) => {
           { $set: { [`progress.${userId}`]: count } },
           {
             new: true,
-          }
+          },
         );
         if (progress) {
           io.to(roomId).emit(
             "room-progress",
             progress.progress,
             roomId,
-            todoLength
+            todoLength,
           );
         }
       }

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 import ProgressBar from "../../../shared/components/ProgressBar";
 import AddSvg from "../../../assets/add-svg.svg";
 import {
@@ -33,8 +34,8 @@ function RoomTodo({ roomData }) {
   const [phoneView, setPhoneView] = useState(window.innerWidth < 1100);
 
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.todos.user?.username);
-  const userId = useSelector((state) => state.todos.user?._id);
+  const username = useSelector((state) => state.auth.user.username);
+  const userId = useSelector((state) => state.auth.user._id);
   const todos = useSelector((state) => state.roomTodos.roomTodos);
   const todosRoomId = useSelector((state) => state.roomTodos.roomId);
 
@@ -56,14 +57,13 @@ function RoomTodo({ roomData }) {
 
       setNewTodoAdded(false);
     }
-  }, [newTodoAdded, socket]);
+  }, [newTodoAdded, socket, dispatch, roomData.roomId]);
 
   useEffect(() => {
     socket.on("addTodo", (todos, roomId) => {
       if (roomId == roomData.roomId) {
         setSocketTodo(todos);
         setSocketRoomId(roomId);
-        
       }
     });
 
@@ -74,7 +74,7 @@ function RoomTodo({ roomData }) {
     return () => {
       socket.off("addTodo");
     };
-  }, [todos, socket, roomData.roomId]);
+  }, [todos, socket, todosRoomId, roomData.roomId]);
 
   useEffect(() => {
     socket.on("updateTodo", (updatedTodo, roomId) => {
@@ -84,8 +84,16 @@ function RoomTodo({ roomData }) {
             return todo._id === updatedTodo?._id
               ? { ...todo, checked: updatedTodo.checked }
               : todo;
-          })
+          }),
         );
+
+        const newUpdatedTodo = {
+          roomId: roomId,
+          todoId: updatedTodo._id,
+          title: updatedTodo.title,
+          checked: updatedTodo.checked,
+        };
+        dispatch(updateRoomTodo(newUpdatedTodo));
       }
     });
 
@@ -120,11 +128,11 @@ function RoomTodo({ roomData }) {
     const todoData = { roomId: roomData.roomId, title: newTodo };
 
     dispatch(addRoomTodo(todoData))
-      .then((response) => {
+      .then(() => {
         setNewTodo("");
         setNewTodoAdded(true);
       })
-      .catch((error) =>  console.error("Error adding todo:", error));
+      .catch((error) => console.error("Error adding todo:", error));
   };
 
   const handleUpdateTodo = (todoId, title) => {
@@ -135,7 +143,7 @@ function RoomTodo({ roomData }) {
       checked: [],
     };
     dispatch(updateRoomTodo(updatedTodo))
-      .then((response) => {
+      .then(() => {
         handleCancelEdit();
       })
       .catch((error) => {
@@ -197,7 +205,7 @@ function RoomTodo({ roomData }) {
       }
     });
 
-    setRanking((prevRanking) => {
+    setRanking(() => {
       const updatedRanking = {};
       roomData?.users?.forEach((user) => {
         const userId = user._id;
@@ -218,11 +226,11 @@ function RoomTodo({ roomData }) {
 
   const completed = () => {
     const completed = socketTodo.every((todo) =>
-      todo.checked?.includes(userId)
+      todo.checked?.includes(userId),
     );
     if (completed) {
       const completeData = { roomId: roomData.roomId, userId: userId };
-      dispatch(completedUpdate(completeData)).then((response) => {
+      dispatch(completedUpdate(completeData)).then(() => {
         socket.emit("points");
       });
     }
@@ -348,7 +356,7 @@ function RoomTodo({ roomData }) {
                         >
                           <div className="sm:col-span-1 flex justify-center items-center">
                             <Checkbox
-                            control={<Switch />}
+                              control={<Switch />}
                               checked={todo.checked.includes(userId) ?? false}
                               onChange={() =>
                                 handleCheckboxChanges(todo._id, todo)
@@ -438,9 +446,9 @@ function RoomTodo({ roomData }) {
                 </div>
               </li>
 
-              {rankingEntries.map(([_, val], index) => (
+              {rankingEntries.map(([userId, val], index) => (
                 <li
-                  key={index}
+                  key={userId}
                   className={`w-full grid grid-flow-row hover:opacity-70 py-2 ${
                     index === rankingEntries.length - 1 ? "rounded-b-2xl" : ""
                   } ${
@@ -473,7 +481,7 @@ function RoomTodo({ roomData }) {
                     <div className="relative bg-green col-span-3 flex justify-center items-center">
                       {phoneView ? (
                         <>
-                        {val[1] === username && (
+                          {val[1] === username && (
                             <p className="border  bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
                               You
                             </p>
@@ -510,7 +518,7 @@ function RoomTodo({ roomData }) {
             <ul className="sm:w-[90%] w-full bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
               <li className="w-full  grid grid-flow-row gap-4 rounded-t-2xl border-b-2">
                 <div className="my-3 flex justify-center items-center font-bold">
-                  User's Progress
+                  User&apos;s Progress
                 </div>
               </li>
               {roomData.users?.map((user, index) => {
@@ -541,5 +549,18 @@ function RoomTodo({ roomData }) {
     </>
   );
 }
+
+RoomTodo.propTypes = {
+  roomData: PropTypes.shape({
+    roomId: PropTypes.string.isRequired,
+    createdBy: PropTypes.string.isRequired,
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+      }),
+    ),
+  }).isRequired,
+};
 
 export default RoomTodo;

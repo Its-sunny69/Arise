@@ -1,41 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { AuthUser } from "../../features/todo/todosSlice";
+import { useSelector } from "react-redux";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import profileLottie from "../../assets/profile.lottie";
 import crownLottie from "../../assets/crown.lottie";
 
 function Navbar2() {
-    const [username, setUsername] = useState("");
-  const [point, setPoint] = useState();
-  const currentToken = useSelector((state) => state.todos.token);
+  const user = useSelector((state) => state.auth.user);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const capitalizeString = (str) => {
+    const firstLetter = str.charAt(0).toUpperCase();
+    const remainingLetters = str.slice(1);
 
-  const userAuth = async () => {
+    const finalStr = firstLetter + remainingLetters;
 
-    dispatch(AuthUser(currentToken)).then((response) => {
-      if (response.payload) {
-        setUsername(response.payload.username);
-        setPoint(response.payload.points);
-      }
-    });
+    return finalStr;
   };
-
-  useEffect(() => {
-    userAuth();
-  }, []);
-
-    const capitalizeString = (str) => {
-        const firstLetter = str.charAt(0).toUpperCase();
-        const remainingLetters = str.slice(1);
-    
-        const finalStr = firstLetter + remainingLetters;
-    
-        return finalStr;
-      };
   return (
     <div className="w-full">
       <div className="flex justify-center">
@@ -50,7 +28,7 @@ function Navbar2() {
               />
             </div>
             <span className="text-xl font-bold">
-              {capitalizeString(username)}
+              {capitalizeString(user.username)}
             </span>
           </div>
         </div>
@@ -62,7 +40,7 @@ function Navbar2() {
               autoplay
               style={{ width: 50, height: 50 }}
             />
-            <span className="text-xl font-bold">{point}</span>
+            <span className="text-xl font-bold">{user.points}</span>
           </div>
         </div>
       </div>

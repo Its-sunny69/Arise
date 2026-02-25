@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { NavLink, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChecklistRoundedIcon from "@mui/icons-material/ChecklistRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
@@ -24,6 +24,9 @@ function Navbar() {
 
   const location = useLocation();
   const currentPath = location.pathname.slice(1);
+  const { logout } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -34,6 +37,11 @@ function Navbar() {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   return (
     <>
@@ -263,7 +271,7 @@ function Navbar() {
                       </div>
 
                       <NavLink
-                        to="/logout"
+                        onClick={handleLogout}
                         className={`mx-1 my-1 p-2 w-full flex ${
                           isHoverd ? "justify-start" : "justify-center"
                         } items-center text-center hover:bg-red-100  group rounded-sm transition-all`}
@@ -508,7 +516,7 @@ function Navbar() {
                   </div>
 
                   <NavLink
-                    to="/logout"
+                    onClick={handleLogout}
                     className={`mx-1 my-1 p-2 w-full flex ${
                       isHoverd ? "justify-start" : "justify-center"
                     } items-center text-center hover:bg-red-100  group rounded-sm transition-all`}

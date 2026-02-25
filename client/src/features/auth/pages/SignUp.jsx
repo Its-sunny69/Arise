@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { register, setToken } from "../../../features/todo/todosSlice";
+import { register, setToken } from "../../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
@@ -30,10 +30,9 @@ function SignUp() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  let name, value;
   const handleInput = (e) => {
-    name = e.target.name;
-    value = e.target.value;
+    let name = e.target.name;
+    let value = e.target.value;
 
     setUserData({ ...userData, [name]: value });
   };
@@ -50,7 +49,7 @@ function SignUp() {
           duration: 3000,
         });
 
-        navigate("/");
+        navigate("/home");
       } else {
         const err = response.payload.msg;
 

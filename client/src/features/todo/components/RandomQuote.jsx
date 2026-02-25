@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Skeleton from "@mui/material/Skeleton";
 import { Stack } from "@mui/material";
 
@@ -10,7 +10,7 @@ const RandomQuote = () => {
   const fetchQuote = async () => {
     try {
       const response = await fetch(
-        "https://quoteslate.vercel.app/api/quotes/random?tags=inspiration"
+        "https://quoteslate.vercel.app/api/quotes/random?tags=inspiration",
       );
       const data = await response.json();
       setQuote(data.quote);
@@ -56,10 +56,8 @@ const RandomQuote = () => {
         </div>
       ) : (
         <>
-          <p className="text-xl font-semibold italic">"{quote}"</p>
-          <p className=" mt-2 font-medium">
-            - by {author}
-          </p>
+          <p className="text-xl font-semibold italic">&ldquo;{quote}&rdquo;</p>
+          <p className=" mt-2 font-medium">- by {author}</p>
         </>
       )}
     </div>

@@ -17,11 +17,13 @@ const authMiddleware = async (req, res, next) => {
     const isVerified = jwt.verify(token, process.env.JWT_SECRET);
     const id = isVerified.userId;
 
-    const userData = await User.findOne({ _id: id }).select({ password: 0 });
+    console.log("Decoded token:", isVerified); // Debugging line to check the decoded token
 
-    req.userId = userData._id;
-    req.user = userData;
-    req.token = token;
+    // const userData = await User.findOne({ _id: id }).select({ password: 0 });
+
+    req.userId = id;
+    // req.user = userData;
+    // req.token = token;
 
     next();
   } catch (err) {

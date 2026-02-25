@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../features/todo/todosSlice";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useSocket } from "../context/Socket";
 import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
@@ -11,13 +10,10 @@ import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import ShinyText from "../shared/components/ShinyText";
 
 function WorldRank() {
-  const [userId, setUserId] = useState();
-  const [username, setUsername] = useState();
   const [ranking, setRanking] = useState([]);
   const [showText, setShowText] = useState(false);
   const [phoneView, setPhoneView] = useState(window.innerWidth < 1100);
-  const currentToken = useSelector((state) => state.todos.token);
-  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.user);
   const socket = useSocket();
 
   useEffect(() => {
@@ -28,19 +24,6 @@ function WorldRank() {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const userAuth = async () => {
-    dispatch(AuthUser(currentToken)).then((response) => {
-      if (response.payload) {
-        setUsername(response.payload.username);
-        setUserId(response.payload._id);
-      }
-    });
-  };
-
-  useEffect(() => {
-    userAuth();
   }, []);
 
   useEffect(() => {
@@ -59,7 +42,7 @@ function WorldRank() {
     return () => {
       socket.off("pointsSocket");
     };
-  }, [socket, userId]);
+  }, [socket, currentUser._id]);
 
   useEffect(() => {
     handlePoints();
@@ -171,67 +154,67 @@ function WorldRank() {
 
                 {ranking.map((user, index) => {
                   if (index < 20)
-                  return (
-                    <li
-                      key={user._id}
-                      className={`w-full grid grid-flow-row hover:opacity-70 py-2 ${
-                        index === ranking.length - 1 ? "rounded-b-2xl" : ""
-                      } ${
-                        index === 0
-                          ? "bg-green-200 text-green-700 font-bold"
-                          : ""
-                      } ${
-                        user.username === username
-                          ? "bg-blue-100 text-blue-700 font-bold"
-                          : ""
-                      }`}
-                    >
-                      <div className="grid grid-cols-7">
-                        <div className="col-span-1 relative flex justify-center items-center">
-                          {phoneView ? (
-                            <>
-                              {index === 0 && <EmojiEventsTwoToneIcon />}
+                    return (
+                      <li
+                        key={user._id}
+                        className={`w-full grid grid-flow-row hover:opacity-70 py-2 ${
+                          index === ranking.length - 1 ? "rounded-b-2xl" : ""
+                        } ${
+                          index === 0
+                            ? "bg-green-200 text-green-700 font-bold"
+                            : ""
+                        } ${
+                          user.username === currentUser.username
+                            ? "bg-blue-100 text-blue-700 font-bold"
+                            : ""
+                        }`}
+                      >
+                        <div className="grid grid-cols-7">
+                          <div className="col-span-1 relative flex justify-center items-center">
+                            {phoneView ? (
+                              <>
+                                {index === 0 && <EmojiEventsTwoToneIcon />}
 
-                              {index !== 0 && (
+                                {index !== 0 && (
+                                  <span className="px-1">{index + 1}</span>
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                {index === 0 && (
+                                  <EmojiEventsTwoToneIcon className="absolute left-6" />
+                                )}
+                                {user.username === currentUser.username && (
+                                  <p className="border absolute left-4 bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
+                                    You
+                                  </p>
+                                )}
                                 <span className="px-1">{index + 1}</span>
-                              )}
-                            </>
-                          ) : (
-                            <>
-                              {index === 0 && (
-                                <EmojiEventsTwoToneIcon className="absolute left-6" />
-                              )}
-                              {user.username === username && (
-                                <p className="border absolute left-4 bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
-                                  You
-                                </p>
-                              )}
-                              <span className="px-1">{index + 1}</span>
-                            </>
-                          )}
+                              </>
+                            )}
+                          </div>
+                          <div className="col-span-3 flex justify-center items-center">
+                            {phoneView ? (
+                              <>
+                                {user.username === currentUser.username && (
+                                  <p className="border bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
+                                    You
+                                  </p>
+                                )}
+                                {user.username !== currentUser.username && (
+                                  <>{user.username}</>
+                                )}
+                              </>
+                            ) : (
+                              <>{user.username}</>
+                            )}
+                          </div>
+                          <div className="col-span-3 flex justify-center items-center">
+                            {currentUser.points}
+                          </div>
                         </div>
-                        <div className="col-span-3 flex justify-center items-center">
-                          {phoneView ? (
-                            <>
-                              {user.username === username && (
-                                <p className="border bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
-                                  You
-                                </p>
-                              )}
-                              {user.username !== username && (
-                                <>{user.username}</>
-                              )}
-                            </>
-                          ) : (
-                            <>{user.username}</>
-                          )}
-                        </div>
-                        <div className="col-span-3 flex justify-center items-center">
-                          {user.points}
-                        </div>
-                      </div>
-                    </li>
-                  );
+                      </li>
+                    );
                 })}
               </ul>
             </div>

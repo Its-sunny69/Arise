@@ -31,11 +31,10 @@ const register = async (req, res) => {
       points: 0,
     });
 
-    return res.status(201).send({
+    const token = await userCreated.generateToken();
+    return res.status(201).json({
       msg: "Registerd Successfully",
-      data: userCreated,
-      token: await userCreated.generateToken(),
-      userId: userCreated._id.toString(),
+      token: token,
     });
   } catch (error) {
     console.error("Error in Registration Logic", error);
@@ -48,19 +47,18 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const userExist = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-    if (!userExist) {
+    if (!user) {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }
 
-    const isPasswordMatched = await userExist.comparePassword(password);
+    const isPasswordMatched = await user.comparePassword(password);
 
     if (isPasswordMatched) {
       res.status(200).json({
         msg: "Login successfully",
-        token: await userExist.generateToken(),
-        userId: userExist._id.toString(),
+        token: await user.generateToken(),
       });
     } else {
       res.status(401).json({ msg: "Invalid Email or Password" });
@@ -71,10 +69,21 @@ const login = async (req, res) => {
   }
 };
 
-//user authentication logic
+//get user data logic
 const user = async (req, res) => {
   try {
-    const userData = await req.user;
+    const userId = await req.userId;
+
+    const userData = await User.findOne({ _id: userId }).select({
+      password: 0,
+      email: 0,
+      __v: 0,
+    });
+
+    if (!userData) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
     return res.status(200).json(userData);
   } catch (error) {
     console.error(error);

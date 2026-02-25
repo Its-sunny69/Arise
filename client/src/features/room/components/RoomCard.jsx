@@ -1,5 +1,6 @@
 import { forwardRef, useState } from "react";
 import { useImperativeHandle } from "react";
+import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
@@ -83,5 +84,19 @@ const RoomCard = forwardRef(
     );
   }
 );
+
+RoomCard.propTypes = {
+  room: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    roomId: PropTypes.string.isRequired,
+    users: PropTypes.array.isRequired,
+    createdAt: PropTypes.string.isRequired,
+  }).isRequired,
+  timeAgo: PropTypes.func.isRequired,
+  handleCreatedRoomClick: PropTypes.func.isRequired,
+  handleRoomDelete: PropTypes.func.isRequired,
+};
+
+RoomCard.displayName = "RoomCard";
 
 export default RoomCard;

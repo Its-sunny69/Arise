@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../../context/Socket";
-import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../../todo/todosSlice";
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
@@ -13,11 +12,9 @@ import ShinyText from "../../../shared/components/ShinyText";
 const CreateJoinRoom = () => {
   const socket = useSocket();
   const [input, setInput] = useState({ joinRoom: "" });
-  const [profile, setProfile] = useState();
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
-  const dispatch = useDispatch();
-  const currentToken = useSelector((state) => state.todos.token);
+  const profile = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,12 +26,6 @@ const CreateJoinRoom = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  dispatch(AuthUser(currentToken)).then((response) => {
-    if (response.payload) {
-      setProfile(response.payload._id);
-    }
-  });
 
   const handleInput = (e) => {
     const { name, value } = e.target;

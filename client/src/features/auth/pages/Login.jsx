@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login, setToken } from "../../../features/todo/todosSlice";
+import { login, setToken } from "../../../features/auth/authSlice";
 import "@material/web/textfield/filled-text-field";
 import { toast } from "react-hot-toast";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
@@ -30,10 +30,9 @@ function Login() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  let name, value;
   const handleInput = (e) => {
-    name = e.target.name;
-    value = e.target.value;
+    let name = e.target.name;
+    let value = e.target.value;
     setUserData((prev) => ({ ...prev, [name]: value }));
   };
 

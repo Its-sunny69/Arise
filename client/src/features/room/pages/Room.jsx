@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { AuthUser } from "../../todo/todosSlice";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../../context/Socket";
 import RoomCard from "../components/RoomCard";
@@ -14,22 +13,27 @@ import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import { Skeleton } from "@mui/material";
 import ShinyText from "../../../shared/components/ShinyText";
+import { timeAgo } from "../../../shared/utils/timeAgo";
+import {
+  getCreatedRooms,
+  getJoinedRooms,
+  deleteRoom,
+  removeJoinedRoomById,
+  removeDeletedRoom,
+} from "../roomSlice";
 
 function Room() {
-  const [username, setUsername] = useState("");
-  const [userId, setUserId] = useState();
-  const [createdRooms, setCreatedRooms] = useState([]);
-  const [joinedRooms, setJoinedRooms] = useState([]);
-  const currentToken = useSelector((state) => state.todos.token);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const { createdRooms, joinedRooms, createdRoomsLoading, joinedRoomsLoading } =
+    useSelector((state) => state.room);
+
   const socket = useSocket();
   const navigate = useNavigate();
   const createdRoomRef = useRef();
   const joinRoomRef = useRef();
 
   const [showRoomText, setShowRoomText] = useState(false);
-  const [joinRoomLoading, setJoinRoomLoading] = useState(true);
-  const [createdRoomLoading, setCreatedRoomLoading] = useState(true);
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
   useEffect(() => {
@@ -49,36 +53,24 @@ function Room() {
     return () => clearTimeout(timer);
   }, []);
 
-  const userAuth = async () => {
-    dispatch(AuthUser(currentToken)).then((response) => {
-      if (response.payload) {
-        setUsername(response.payload.username);
-        roomCreatedData(response.payload._id);
-        roomJoinData(response.payload._id);
-        setUserId(response.payload._id);
-      }
-    });
-  };
+  useEffect(() => {
+    if (!user?._id) {
+      return;
+    }
+
+    dispatch(getCreatedRooms(user._id));
+    dispatch(getJoinedRooms(user._id));
+  }, [dispatch, user?._id]);
 
   useEffect(() => {
-    userAuth();
-  }, []);
-
-  useEffect(() => {
-    socket.on("leave-user", (users, user, id) => {
-      if (user == userId) {
-        setJoinedRooms((prev) => prev.filter((room) => room.roomId !== id));
+    socket.on("leave-user", (_users, leaveUserId, roomId) => {
+      if (leaveUserId === user._id) {
+        dispatch(removeJoinedRoomById(roomId));
       }
     });
 
-    socket.on("delete", (id, user) => {
-      if (user == userId) {
-        const data = createdRooms.filter((room) => room.roomId != id);
-        setCreatedRooms(data);
-      }
-      const data2 = joinedRooms.filter((room) => room.roomId != id);
-
-      setJoinedRooms(data2);
+    socket.on("delete", (roomId) => {
+      dispatch(removeDeletedRoom(roomId));
     });
 
     socket.on("update-members", (data, id) => {
@@ -86,10 +78,9 @@ function Room() {
       joinRoomRef.current?.updateChild(data, id);
     });
 
-    socket.on("pointsSocket", (pointsData) => {
-      const sortedRank = pointsData.sort((a, b) => b.points - a.points);
-      setRanking(sortedRank);
-    });
+    // socket.on("pointsSocket", (pointsData) => {
+    //   const sortedRank = pointsData.sort((a, b) => b.points - a.points);
+    // });
 
     return () => {
       socket.off("update-members");
@@ -97,92 +88,12 @@ function Room() {
       socket.off("delete");
       socket.off("pointsSocket");
     };
-  }, [socket, userId]);
-
-  const timeAgo = (date) => {
-    const now = Date.now();
-
-    const seconds = Math.floor((now - date) / 1000);
-
-    let interval = Math.floor(seconds / 31536000);
-    if (interval >= 1) return `${interval} year${interval > 1 ? "s" : ""} ago`;
-
-    interval = Math.floor(seconds / 2592000);
-    if (interval >= 1) return `${interval} month${interval > 1 ? "s" : ""} ago`;
-
-    interval = Math.floor(seconds / 86400);
-    if (interval >= 1) return `${interval} day${interval > 1 ? "s" : ""} ago`;
-
-    interval = Math.floor(seconds / 3600);
-    if (interval >= 1) {
-      return interval === 1 ? "an hour ago" : `${interval} hours ago`;
-    }
-
-    interval = Math.floor(seconds / 60);
-    if (interval >= 1) {
-      return interval === 1 ? "a minute ago" : `${interval} minutes ago`;
-    }
-
-    return seconds === 1 ? "a second ago" : `${seconds} seconds ago`;
-  };
-
-  const roomCreatedData = async (username) => {
-    try {
-      const url = `${import.meta.env.VITE_SERVER_URL}/api/rooms/${username}`;
-      setCreatedRoomLoading(true);
-
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setCreatedRooms(data);
-      setCreatedRoomLoading(false);
-    } catch (error) {
-      return error;
-    }
-  };
-
-  const roomJoinData = async (username) => {
-    try {
-      const url = `${
-        import.meta.env.VITE_SERVER_URL
-      }/api/rooms/join/${username}`;
-      setJoinRoomLoading(true);
-
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setJoinedRooms(data);
-      setJoinRoomLoading(false);
-    } catch (error) {
-      return error;
-    }
-  };
+  }, [dispatch, socket, user._id]);
 
   const handleRoomDelete = async (roomId) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/api/rooms/${roomId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setCreatedRooms(createdRooms.filter((room) => room.roomId !== roomId));
-      socket.emit("delete-room", roomId, username, userId);
+      await dispatch(deleteRoom(roomId)).unwrap();
+      socket.emit("delete-room", roomId, user.username, user._id);
     } catch (error) {
       return error;
     }
@@ -201,7 +112,7 @@ function Room() {
   };
 
   const handleLeaveRoom = (roomId) => {
-    socket.emit("leave-room", userId, roomId);
+    socket.emit("leave-room", user._id, roomId);
   };
 
   return (
@@ -278,7 +189,7 @@ function Room() {
           {phoneView ? (
             <div className="text-lg text-justify my-2">
               Take your productivity and collaboration to the next level with
-              exciting features! Whether you're working or competing, Arise
+              exciting features! Whether you&apos;re working or competing, Arise
               makes every effort count!
             </div>
           ) : (
@@ -286,7 +197,7 @@ function Room() {
               Take your productivity and collaboration to the next level with
               exciting features!
               <br />
-              Whether you're working or competing, Arise makes every effort
+              Whether you&apos;re working or competing, Arise makes every effort
               count!
             </div>
           )}
@@ -312,7 +223,7 @@ function Room() {
           </div>
 
           <div className="min-h-56 lg:m-5 flex justify-center items-center">
-            {createdRoomLoading ? (
+            {createdRoomsLoading === "pending" ? (
               <div className="w-full grid lg:grid-cols-4  sm:gap-3 gap-2">
                 <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
                   <Skeleton
@@ -511,7 +422,7 @@ function Room() {
           </div>
 
           <div className="min-h-60 lg:m-5 flex justify-center items-center">
-            {joinRoomLoading ? (
+            {joinedRoomsLoading === "pending" ? (
               <div className="w-full grid lg:grid-cols-4 sm:gap-3 gap-2">
                 <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
                   <Skeleton
@@ -674,7 +585,7 @@ function Room() {
                   </>
                 )}
               </div>
-            ) : joinedRooms?.filter((room) => userId !== room.createdBy)
+            ) : joinedRooms?.filter((room) => user._id !== room.createdBy)
                 .length !== 0 ? (
               <div className="w-full grid lg:grid-cols-4 lg:gap-3 sm:gap-4">
                 <Fade
@@ -687,13 +598,13 @@ function Room() {
                   className="grid"
                 >
                   {joinedRooms
-                    ?.filter((room) => userId !== room.createdBy)
+                    ?.filter((room) => user._id !== room.createdBy)
                     .map((room) => (
                       <JoinCard
                         key={room._id}
                         room={room}
-                        username={username}
-                        userId={userId}
+                        username={user.username}
+                        userId={user._id}
                         ref={joinRoomRef}
                         timeAgo={timeAgo}
                         handleJoinRoomClick={handleJoinRoomClick}
