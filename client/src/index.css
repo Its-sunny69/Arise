@@ -1,4 +1,9 @@
+@import "./shared/styles/fonts/clash-display.css";
+@import "./shared/styles/fonts/merriweather-sans.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
   

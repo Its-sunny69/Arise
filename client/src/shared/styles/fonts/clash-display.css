@@ -1,0 +1,83 @@
+@font-face {
+  font-family: "ClashDisplay-Extralight";
+  src:
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Extralight.woff2") format("woff2"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Extralight.woff") format("woff"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Extralight.ttf") format("truetype"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Extralight.eot") format("embedded-opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ClashDisplay-Light";
+  src:
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Light.woff2") format("woff2"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Light.woff") format("woff"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Light.ttf") format("truetype"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Light.eot") format("embedded-opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ClashDisplay-Regular";
+  src:
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Regular.woff2") format("woff2"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Regular.woff") format("woff"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Regular.ttf") format("truetype"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Regular.eot") format("embedded-opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ClashDisplay-Medium";
+  src:
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Medium.woff2") format("woff2"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Medium.woff") format("woff"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Medium.ttf") format("truetype"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Medium.eot") format("embedded-opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ClashDisplay-Semibold";
+  src:
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Semibold.woff2") format("woff2"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Semibold.woff") format("woff"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Semibold.ttf") format("truetype"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Semibold.eot") format("embedded-opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ClashDisplay-Bold";
+  src:
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Bold.woff2") format("woff2"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Bold.woff") format("woff"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Bold.ttf") format("truetype"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Bold.eot") format("embedded-opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ClashDisplay-Variable";
+  src:
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Variable.woff2") format("woff2"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Variable.woff") format("woff"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Variable.ttf") format("truetype"),
+    url("../../../assets/fonts/title/clash-display/ClashDisplay-Variable.eot") format("embedded-opentype");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}

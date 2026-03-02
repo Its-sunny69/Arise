@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 19.9853 209.5 72.53">
+	<path class="arise-custom-svg" d="M 59 90 V 56.136 C 58.66 46.48 51.225 39 42 39 c -9.389 0 -17 7.611 -17 17 s 7.611 17 17 17 h 8.5 v 17 H 42 C 23.222 90 8 74.778 8 56 s 15.222 -34 34 -34 c 18.61 0 33.433 14.994 34 33.875 V 90 H 59 z" stroke="#000" stroke-width="1" fill="none"/>
+	<path class="arise-custom-svg" d="M 59 90 V 55.74 C 59.567 36.993 74.39 22 93 22 c 18.778 0 34 15.222 34 34 h -17 c 0 -9.389 -7.611 -17 -17 -17 c -9.225 0 -16.66 7.48 -17 17.136 V 90 H 59 z" stroke="#000" stroke-width="1" fill="none"/>
+	<path class="arise-custom-svg" d="M 118.5 22 a 8.5 8.5 0 1 1 -8.477 9.067 v -1.134 c 0.283 -4.42 3.966 -7.933 8.477 -7.933 z" stroke="#000" stroke-width="1" fill="none"/>
+	<path class="arise-custom-svg" d="M 179 73 s -17 1 -17 -17 s 17 -17 17 -17 c 9 0 17 7 17 17 h -17 v 17 h 34 V 56 c 0 -19 -13 -34 -34 -34 c -18.778 0 -34 15.222 -34 34 s 15.222 34 34 34 V 73 z" stroke="#000" stroke-width="1" fill="none"/>
+	<path class="arise-custom-svg" d="M 110 45 h 17 V 90 H 110 V 45 Z" stroke="#000" stroke-width="1" fill="none"/>
+	<path class="arise-custom-svg" d="M 110 56 a 34 34 0 0 1 35 -34 h 17 V 39 H 145 A 17 17 0 0 0 127 56 Z" stroke="#000" stroke-width="1" fill="none"/>
+	<path class="arise-custom-svg" d="M 162 56 A 34 34 0 0 1 127 90 H 110 V 73 h 17 a 17 17 0 0 0 18 -17 Z" stroke="#000" stroke-width="1" fill="none"/>
+	<path class="arise-custom-svg" d="M 59 22 L 76 22 L 76 90 L 59 90 L 59 22 Z" stroke="#000" stroke-width="1" fill="none"/>
+</svg>

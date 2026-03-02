@@ -1,0 +1,167 @@
+@font-face {
+  font-family: "MerriweatherSans-Light";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Light.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Light.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Light.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Light.eot") format("embedded-opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-LightItalic";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-LightItalic.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-LightItalic.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-LightItalic.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-LightItalic.eot") format("embedded-opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-Regular";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Regular.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Regular.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Regular.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Regular.eot") format("embedded-opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-Italic";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Italic.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Italic.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Italic.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Italic.eot") format("embedded-opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-Medium";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Medium.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Medium.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Medium.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Medium.eot") format("embedded-opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-MediumItalic";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-MediumItalic.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-MediumItalic.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-MediumItalic.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-MediumItalic.eot") format("embedded-opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-SemiBold";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-SemiBold.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-SemiBold.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-SemiBold.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-SemiBold.eot") format("embedded-opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-SemiBoldItalic";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-SemiBoldItalic.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-SemiBoldItalic.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-SemiBoldItalic.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-SemiBoldItalic.eot") format("embedded-opentype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-Bold";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Bold.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Bold.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Bold.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Bold.eot") format("embedded-opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-BoldItalic";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-BoldItalic.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-BoldItalic.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-BoldItalic.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-BoldItalic.eot") format("embedded-opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-ExtraBold";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-ExtraBold.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-ExtraBold.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-ExtraBold.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-ExtraBold.eot") format("embedded-opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-ExtraBoldItalic";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-ExtraBoldItalic.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-ExtraBoldItalic.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-ExtraBoldItalic.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-ExtraBoldItalic.eot") format("embedded-opentype");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-Variable";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Variable.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Variable.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Variable.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-Variable.eot") format("embedded-opentype");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MerriweatherSans-VariableItalic";
+  src:
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-VariableItalic.woff2") format("woff2"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-VariableItalic.woff") format("woff"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-VariableItalic.ttf") format("truetype"),
+    url("../../../assets/fonts/body/merriweather-sans/MerriweatherSans-VariableItalic.eot") format("embedded-opentype");
+  font-weight: 300 800;
+  font-style: italic;
+  font-display: swap;
+}
