@@ -1,552 +1,251 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import ChecklistRoundedIcon from "@mui/icons-material/ChecklistRounded";
-import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
-import MilitaryTechRoundedIcon from "@mui/icons-material/MilitaryTechRounded";
-import ImportContactsRoundedIcon from "@mui/icons-material/ImportContactsRounded";
-import PermContactCalendarRoundedIcon from "@mui/icons-material/PermContactCalendarRounded";
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import MenuOpenRoundedIcon from "@mui/icons-material/MenuOpenRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+  About,
+  Contact,
+  Home,
+  Rank,
+  Room,
+  SideBar,
+  Task,
+  User,
+  Logout,
+} from "../../assets/icons";
+import Logo from "../../assets/logo.svg";
+import { motion } from "motion/react";
 
 function Navbar() {
-  const currentToken = useSelector((state) => state.todos.token);
-  const isLoggedIn = !!currentToken;
+  const [isOpened, setIsOpened] = useState(true);
 
-  const username = useSelector((state) => state.todos.user?.username);
-
-  const [isHoverd, setIsHovered] = useState(false);
-  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
-  const [isNavVisibe, setIsNavVisible] = useState(false);
-
-  const location = useLocation();
-  const currentPath = location.pathname.slice(1);
+  const user = useSelector((state) => state.auth.user);
   const { logout } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setPhoneView(window.innerWidth < 640);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
   };
 
+  // console.log("user in navbar", user);
+
   return (
-    <>
-      {phoneView ? (
-        <div className="relative bg-green-40 flex justify-center items-center transition-all">
-          <div className="bg-red-40">
-            <button
-              className="active:scale-95 transition-all"
-              onClick={() => setIsNavVisible(!isNavVisibe)}
+    <motion.div
+      className="borde h-full overflow-y-auto border-gray-200"
+      initial={false}
+      animate={{ width: isOpened ? 220 : 75 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+    >
+      <motion.nav className="flex h-full w-full flex-col items-stretch justify-start overflow-x-hidden px-3 transition-all duration-300">
+        <div className="relative flex h-24 items-center justify-end py-6">
+          {isOpened && (
+            <motion.div
+              className="pointer-events-none absolute left-0 right-16 flex items-center justify-start space-x-2 overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
             >
-              {!isNavVisibe ? (
-                <MenuOpenRoundedIcon fontSize="large" />
-              ) : (
-                <CloseRoundedIcon fontSize="large" className="text-red-600" />
-              )}
+              <img src={Logo} alt="arise" className="w-7" />
+              <hr className="h-8 w-0.5 border-none bg-black" />
+              <motion.p className="text-lg font-extrabold tracking-wide">
+                ARISE
+              </motion.p>
+            </motion.div>
+          )}
+
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => setIsOpened(!isOpened)}
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full p-3 transition-all hover:bg-[#e7f3ff] hover:opacity-80"
+            >
+              <motion.img
+                src={SideBar}
+                alt="sidebar-menu-icon"
+                className="h-6 w-6 shrink-0"
+                animate={{ rotate: isOpened ? 0 : 180 }}
+                transition={{ duration: 0.3 }}
+              />
             </button>
           </div>
-          {isNavVisibe ? (
-            <div
-              className={`${
-                isHoverd
-                  ? "w-40 outline-1 outline-dashed"
-                  : "w-14 border border-black"
-              } shadow-lg rounded-md absolute top-20 right-0 z-20 animate-fade-up transition-all duration-300 bg-slate-50`}
-            >
-              <ul
-                className=" bg-slate-5 h-full flex flex-col justify-between items-center rounded-md transition-all"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              >
-                <div className="w-full m-2 px-2 flex flex-col justify-center items-center">
-                  <NavLink
-                    to="/home"
-                    className={({ isActive }) =>
-                      `mx-1 my-1 p-2 w-full flex ${
-                        isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                      }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-200  group rounded-sm transition-all`
-                    }
-                  >
-                    <HomeRoundedIcon className="text-gray-800" />
-                    <div
-                      className={`mx-2 ${
-                        isHoverd ? "flex" : "hidden"
-                      } flex-col justify-center items-center active:scale-95 transition-all`}
-                    >
-                      <span
-                        className={` ${
-                          isHoverd ? "block animate-fade" : "hidden"
-                        } transition-all delay-500 `}
-                      >
-                        Home
-                      </span>
-
-                      <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                    </div>
-                  </NavLink>
-
-                  <NavLink
-                    to="/task-list"
-                    className={({ isActive }) =>
-                      `mx-1 my-1 p-2 w-full flex ${
-                        isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                      }
-                    ${
-                      isHoverd ? "justify-start " : "justify-center"
-                    } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                    }
-                  >
-                    <ChecklistRoundedIcon className="text-gray-800" />
-
-                    <div
-                      className={`mx-2 ${
-                        isHoverd ? "flex" : "hidden"
-                      } flex-col justify-center items-center active:scale-95 transition-all`}
-                    >
-                      <span
-                        className={` ${
-                          isHoverd ? "block animate-fade" : "hidden"
-                        } transition-all delay-500`}
-                      >
-                        Task
-                      </span>
-
-                      <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                    </div>
-                  </NavLink>
-
-                  <NavLink
-                    to="/room"
-                    className={({ isActive }) =>
-                      `mx-1 my-1 p-2 w-full flex ${
-                        isActive ||
-                        currentPath == "join-room" ||
-                        currentPath.includes("chat")
-                          ? "bg-slate-200 px-5 rounded-sm"
-                          : ""
-                      }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                    }
-                  >
-                    <GroupsRoundedIcon className="text-gray-800" />
-                    <div
-                      className={`mx-2 ${
-                        isHoverd ? "flex" : "hidden"
-                      } flex-col justify-center items-center active:scale-95 transition-all`}
-                    >
-                      <span
-                        className={` ${
-                          isHoverd ? "block animate-fade" : "hidden"
-                        } transition-all delay-500`}
-                      >
-                        Room
-                      </span>
-
-                      <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                    </div>
-                  </NavLink>
-
-                  <NavLink
-                    to="/world-rank"
-                    className={({ isActive }) =>
-                      `mx-1 my-1 p-2 w-full flex ${
-                        isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                      }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                    }
-                  >
-                    <MilitaryTechRoundedIcon className="text-gray-800" />
-                    <div
-                      className={`mx-2 ${
-                        isHoverd ? "flex" : "hidden"
-                      } flex-col justify-center items-center active:scale-95 transition-all`}
-                    >
-                      <span
-                        className={` ${
-                          isHoverd ? "block animate-fade" : "hidden"
-                        } transition-all delay-500`}
-                      >
-                        Rank
-                      </span>
-
-                      <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                    </div>
-                  </NavLink>
-
-                  <NavLink
-                    to="aboutus"
-                    className={({ isActive }) =>
-                      `mx-1 my-1 p-2 w-full flex ${
-                        isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                      }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                    }
-                  >
-                    <ImportContactsRoundedIcon className="text-gray-800" />
-                    <div
-                      className={`mx-2 ${
-                        isHoverd ? "flex" : "hidden"
-                      } flex-col justify-center items-center active:scale-95 transition-all`}
-                    >
-                      <span
-                        className={` ${
-                          isHoverd ? "block animate-fade" : "hidden"
-                        } transition-all delay-500`}
-                      >
-                        About
-                      </span>
-
-                      <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                    </div>
-                  </NavLink>
-
-                  <NavLink
-                    to="contactus"
-                    className={({ isActive }) =>
-                      `mx-1 my-1 p-2 w-full flex ${
-                        isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                      }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                    }
-                  >
-                    <PermContactCalendarRoundedIcon className="text-gray-800" />
-                    <div
-                      className={`mx-2 ${
-                        isHoverd ? "flex" : "hidden"
-                      } flex-col justify-center items-center active:scale-95 transition-all`}
-                    >
-                      <span
-                        className={` ${
-                          isHoverd ? "block animate-fade" : "hidden"
-                        } transition-all delay-500`}
-                      >
-                        Contact
-                      </span>
-
-                      <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                    </div>
-                  </NavLink>
-                </div>
-                <div className=" w-full m-2 px-2 flex flex-col justify-center items-center">
-                  {isLoggedIn ? (
-                    <>
-                      <div
-                        className={`mx-1 my-1 p-2 w-full flex ${
-                          isHoverd ? "justify-start" : "justify-center"
-                        } items-center text-center rounded-sm transition-all`}
-                      >
-                        <PersonRoundedIcon className="text-gray-800" />
-                        <span
-                          className={`ml-2 ${
-                            isHoverd ? "block animate-fade" : "hidden"
-                          } transition-all delay-500`}
-                        >
-                          {username}
-                        </span>
-                      </div>
-
-                      <NavLink
-                        onClick={handleLogout}
-                        className={`mx-1 my-1 p-2 w-full flex ${
-                          isHoverd ? "justify-start" : "justify-center"
-                        } items-center text-center hover:bg-red-100  group rounded-sm transition-all`}
-                      >
-                        <LogoutRoundedIcon className="text-red-600" />
-                        <div
-                          className={`mx-2 ${
-                            isHoverd ? "flex" : "hidden"
-                          } flex-col justify-center items-center active:scale-95 transition-all`}
-                        >
-                          <span
-                            className={` ${
-                              isHoverd ? "block animate-fade" : "hidden"
-                            } transition-all text-red-600 delay-500`}
-                          >
-                            Logout
-                          </span>
-
-                          <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-red-600" />
-                        </div>
-                      </NavLink>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </ul>
-            </div>
-          ) : (
-            ""
-          )}
         </div>
-      ) : (
-        <div
-          className={`${
-            isHoverd
-              ? "w-40 outline-1 outline-dashed"
-              : "w-14 border border-black"
-          } h-full shadow-lg rounded-md transition-all duration-300 bg-slate-50`}
+
+        <hr className="h-0.5 bg-neutral-200" />
+
+        <ul
+          className={`borde borde-red-500 flex flex-col items-start justify-center gap-2 py-6`}
         >
-          <ul
-            className=" bg-slate-5 h-full flex flex-col justify-between items-center rounded-md transition-all"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            <div className="w-full m-2 px-2 flex flex-col justify-center items-center">
-              <NavLink
-                to="/home"
-                className={({ isActive }) =>
-                  `mx-1 my-1 p-2 w-full flex ${
-                    isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                  }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-200  group rounded-sm transition-all`
-                }
-              >
-                <HomeRoundedIcon className="text-gray-800" />
-                <div
-                  className={`mx-2 ${
-                    isHoverd ? "flex" : "hidden"
-                  } flex-col justify-center items-center active:scale-95 transition-all`}
+          <li className={`${isOpened ? "w-full" : "w-fit"}`}>
+            <NavLink
+              to="/home"
+              className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? "#e7f3ff" : "",
+              })}
+            >
+              <img src={Home} alt="home-icon" className="w-6" />
+
+              {isOpened && (
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <span
-                    className={` ${
-                      isHoverd ? "block animate-fade" : "hidden"
-                    } transition-all delay-500 `}
-                  >
-                    Home
-                  </span>
-
-                  <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                </div>
-              </NavLink>
-
-              <NavLink
-                to="/task-list"
-                className={({ isActive }) =>
-                  `mx-1 my-1 p-2 w-full flex ${
-                    isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                  }
-                    ${
-                      isHoverd ? "justify-start " : "justify-center"
-                    } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                }
-              >
-                <ChecklistRoundedIcon className="text-gray-800" />
-
-                <div
-                  className={`mx-2 ${
-                    isHoverd ? "flex" : "hidden"
-                  } flex-col justify-center items-center active:scale-95 transition-all`}
-                >
-                  <span
-                    className={` ${
-                      isHoverd ? "block animate-fade" : "hidden"
-                    } transition-all delay-500`}
-                  >
-                    Task
-                  </span>
-
-                  <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                </div>
-              </NavLink>
-
-              <NavLink
-                to="/room"
-                className={({ isActive }) =>
-                  `mx-1 my-1 p-2 w-full flex ${
-                    isActive ||
-                    currentPath == "join-room" ||
-                    currentPath.includes("chat")
-                      ? "bg-slate-200 px-5 rounded-sm"
-                      : ""
-                  }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                }
-              >
-                <GroupsRoundedIcon className="text-gray-800" />
-                <div
-                  className={`mx-2 ${
-                    isHoverd ? "flex" : "hidden"
-                  } flex-col justify-center items-center active:scale-95 transition-all`}
-                >
-                  <span
-                    className={` ${
-                      isHoverd ? "block animate-fade" : "hidden"
-                    } transition-all delay-500`}
-                  >
-                    Room
-                  </span>
-
-                  <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                </div>
-              </NavLink>
-
-              <NavLink
-                to="/world-rank"
-                className={({ isActive }) =>
-                  `mx-1 my-1 p-2 w-full flex ${
-                    isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                  }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                }
-              >
-                <MilitaryTechRoundedIcon className="text-gray-800" />
-                <div
-                  className={`mx-2 ${
-                    isHoverd ? "flex" : "hidden"
-                  } flex-col justify-center items-center active:scale-95 transition-all`}
-                >
-                  <span
-                    className={` ${
-                      isHoverd ? "block animate-fade" : "hidden"
-                    } transition-all delay-500`}
-                  >
-                    Rank
-                  </span>
-
-                  <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                </div>
-              </NavLink>
-
-              <NavLink
-                to="aboutus"
-                className={({ isActive }) =>
-                  `mx-1 my-1 p-2 w-full flex ${
-                    isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                  }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                }
-              >
-                <ImportContactsRoundedIcon className="text-gray-800" />
-                <div
-                  className={`mx-2 ${
-                    isHoverd ? "flex" : "hidden"
-                  } flex-col justify-center items-center active:scale-95 transition-all`}
-                >
-                  <span
-                    className={` ${
-                      isHoverd ? "block animate-fade" : "hidden"
-                    } transition-all delay-500`}
-                  >
-                    About
-                  </span>
-
-                  <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                </div>
-              </NavLink>
-
-              <NavLink
-                to="contactus"
-                className={({ isActive }) =>
-                  `mx-1 my-1 p-2 w-full flex ${
-                    isActive ? "bg-slate-200 px-5 rounded-sm" : ""
-                  }
-                  ${
-                    isHoverd ? "justify-start" : "justify-center"
-                  } items-center text-center hover:bg-slate-100  group rounded-sm transition-all`
-                }
-              >
-                <PermContactCalendarRoundedIcon className="text-gray-800" />
-                <div
-                  className={`mx-2 ${
-                    isHoverd ? "flex" : "hidden"
-                  } flex-col justify-center items-center active:scale-95 transition-all`}
-                >
-                  <span
-                    className={` ${
-                      isHoverd ? "block animate-fade" : "hidden"
-                    } transition-all delay-500`}
-                  >
-                    Contact
-                  </span>
-
-                  <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-gray-800" />
-                </div>
-              </NavLink>
-            </div>
-            <div className=" w-full m-2 px-2 flex flex-col justify-center items-center">
-              {isLoggedIn ? (
-                <>
-                  <div
-                    className={`mx-1 my-1 p-2 w-full flex ${
-                      isHoverd ? "justify-start" : "justify-center"
-                    } items-center text-center rounded-sm transition-all`}
-                  >
-                    <PersonRoundedIcon className="text-gray-800" />
-                    <span
-                      className={`ml-2 ${
-                        isHoverd ? "block animate-fade" : "hidden"
-                      } transition-all delay-500`}
-                    >
-                      {username}
-                    </span>
-                  </div>
-
-                  <NavLink
-                    onClick={handleLogout}
-                    className={`mx-1 my-1 p-2 w-full flex ${
-                      isHoverd ? "justify-start" : "justify-center"
-                    } items-center text-center hover:bg-red-100  group rounded-sm transition-all`}
-                  >
-                    <LogoutRoundedIcon className="text-red-600" />
-                    <div
-                      className={`mx-2 ${
-                        isHoverd ? "flex" : "hidden"
-                      } flex-col justify-center items-center active:scale-95 transition-all`}
-                    >
-                      <span
-                        className={` ${
-                          isHoverd ? "block animate-fade" : "hidden"
-                        } transition-all text-red-600 delay-500`}
-                      >
-                        Logout
-                      </span>
-
-                      <hr className="w-0 group-hover:w-full h-0.5 animate-fade animate-delay-300 transition-all duration-500 bg-red-600" />
-                    </div>
-                  </NavLink>
-                </>
-              ) : (
-                ""
+                  Home
+                </motion.span>
               )}
-            </div>
-          </ul>
+            </NavLink>
+          </li>
+
+          <li className={`${isOpened ? "w-full" : "w-fit"}`}>
+            <NavLink
+              to="/task-list"
+              className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? "#e7f3ff" : "",
+              })}
+            >
+              <img src={Task} alt="task-icon" className="w-6" />
+
+              {isOpened && (
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Task
+                </motion.span>
+              )}
+            </NavLink>
+          </li>
+
+          <li className={`${isOpened ? "w-full" : "w-fit"}`}>
+            <NavLink
+              to="/room"
+              className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? "#e7f3ff" : "",
+              })}
+            >
+              <img src={Room} alt="room-icon" className="w-6" />
+
+              {isOpened && (
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Room
+                </motion.span>
+              )}
+            </NavLink>
+          </li>
+
+          <li className={`${isOpened ? "w-full" : "w-fit"}`}>
+            <NavLink
+              to="/world-rank"
+              className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? "#e7f3ff" : "",
+              })}
+            >
+              <img src={Rank} alt="rank-icon" className="w-6" />
+
+              {isOpened && (
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Rank
+                </motion.span>
+              )}
+            </NavLink>
+          </li>
+
+          <li className={`${isOpened ? "w-full" : "w-fit"}`}>
+            <NavLink
+              to="/aboutus"
+              className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? "#e7f3ff" : "",
+              })}
+            >
+              <img src={About} alt="about-icon" className="w-6" />
+
+              {isOpened && (
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  About
+                </motion.span>
+              )}
+            </NavLink>
+          </li>
+
+          <li className={`${isOpened ? "w-full" : "w-fit"}`}>
+            <NavLink
+              to="/contactus"
+              className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? "#e7f3ff" : "",
+              })}
+            >
+              <img src={Contact} alt="contact-icon" className="w-6" />
+
+              {isOpened && (
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Contact
+                </motion.span>
+              )}
+            </NavLink>
+          </li>
+        </ul>
+
+        <hr className="h-0.5 bg-neutral-200" />
+
+        <div className={`flex flex-col items-start justify-center gap-2 py-6`}>
+          <div
+            className={`flex items-center rounded-full ${isOpened ? "w-full justify-start space-x-4 px-4 py-3" : "w-fit justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
+          >
+            <img src={User} alt="user-icon" className="w-6" />
+
+            {isOpened && (
+              <motion.span
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {user?.username}
+              </motion.span>
+            )}
+          </div>
+
+          <button
+            className={`flex items-center rounded-full ${isOpened ? "w-full justify-start space-x-4 px-4 py-3" : "w-fit justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-red-100 hover:opacity-80 active:scale-95`}
+            onClick={handleLogout}
+          >
+            <img src={Logout} alt="logout-icon" className="w-6" />
+
+            {isOpened && (
+              <motion.span
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                Logout
+              </motion.span>
+            )}
+          </button>
         </div>
-      )}
-    </>
+      </motion.nav>
+    </motion.div>
   );
 }
 

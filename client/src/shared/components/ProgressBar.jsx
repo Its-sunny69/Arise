@@ -21,7 +21,7 @@ function ProgressBar({ label, currentValue, maxValue }) {
           {percentage}%
         </div>
         <div
-          className="flex w-full h-2 bg-gray-200 rounded-full overflow-hidden transition-all duration-500"
+          className="flex w-full h-2 bg-white rounded-full overflow-hidden transition-all duration-500"
           role="progressbar"
           aria-valuenow={percentage}
           aria-valuemin="0"

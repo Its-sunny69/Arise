@@ -1,0 +1,35 @@
+@font-face {
+  font-family: "Clinton";
+  src: url("../../../assets/fonts/body/clinton/ClintonSemibold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clinton";
+  src: url("../../../assets/fonts/body/clinton/ClintonBold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clinton";
+  src: url("../../../assets/fonts/body/clinton/clintonbolditalic.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clinton";
+  src: url("../../../assets/fonts/body/clinton/ClintonExtraBold.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}

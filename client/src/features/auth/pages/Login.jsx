@@ -48,7 +48,7 @@ function Login() {
           duration: 3000,
         });
 
-        navigate("/");
+        navigate("/home");
       } else {
         const err = response.payload.msg;
 

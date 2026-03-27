@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
-import Navbar2 from "./Navbar2";
+import { motion } from "motion/react";
+import PhoneNavbar from "./PhoneNavbar";
+import Noise from "./Noise";
+import ColorBends from "@/components/ColorBends";
 
 function Layout() {
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
@@ -17,32 +20,31 @@ function Layout() {
   }, []);
 
   return (
-    <>
-      <div className="w-full h-screen flex flex-row">
-        {/* Navbar */}
+    <div
+      className={`borde flex h-screen w-full ${phoneView ? "flex-col" : "flex-row"} relative border-gray-200 bg-gray-50 p-2`}
+    >
+      <Noise
+        patternSize={250}
+        patternScaleX={2}
+        patternScaleY={2}
+        patternRefreshInterval={2}
+        patternAlpha={15}
+      />
 
-        {!phoneView ? (
-          <div className="p-4 transition-all">
-            <Navbar />
-          </div>
-        ) : (
-          ""
-        )}
-
-        {/* Main Content (Outlet) */}
-        <div className="flex-1 sm:p-4 p-2 overflow-auto">
-          {phoneView ? (
-            <div className="flex">
-               <Navbar2 /> <Navbar />
-            </div>
-          ) : (
-            <Navbar2 />
-          )}
-
-          <Outlet />
+      {phoneView ? (
+        <div className="borde sticky top-0 z-10 flex items-center justify-center border border-red-400">
+          <PhoneNavbar />
         </div>
+      ) : (
+        <motion.div className="borde-2 border-black pr-2 transition-all duration-500">
+          <Navbar />
+        </motion.div>
+      )}
+
+      <div className="h-full w-full overflow-hidden">
+        <Outlet />
       </div>
-    </>
+    </div>
   );
 }
 

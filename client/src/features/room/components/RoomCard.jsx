@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import CopySvg from "../../../assets/copy-svg.svg";
+import { Clock, Copy, Delete, People } from "@/assets/icons";
 
 const RoomCard = forwardRef(
   ({ room, timeAgo, handleCreatedRoomClick, handleRoomDelete }, ref) => {
@@ -34,55 +35,55 @@ const RoomCard = forwardRef(
     return (
       <>
         <div key={room._id} className="">
-          <div className="shadow-md hover:shadow-lg sm:m-2 m-1 hover:outline hover:outline-1 hover:outline-slate-200 rounded-md hover:scale-105 transition-transform">
-            <div className="bg-slate-100 p-4 rounded-t-md flex justify-between items-center">
-              <p>
-                <span className="font-bold ">Id : </span>
-                {room.roomId}
-              </p>
+          <div className="m-1 transition-transform duration-300 will-change-transform hover:scale-105 sm:m-2">
+            <div className="card-bg relative -z-10 flex min-h-64 min-w-72 flex-col overflow-hidden rounded-xl border-2 border-white shadow-[0px_0px_14px_6px_#ffffff3b] backdrop-blur-lg">
+              <div className="absolute inset-0 -z-[5] rounded-xl bg-gradient-to-t from-white to-transparent"></div>
 
-              <button
-                className="sm:mx-2 hover:opacity-60 active:scale-95 transition-all"
-                onClick={handleCopy}
-              >
-                <img src={CopySvg} className="w-5" />
-              </button>
-            </div>
-            
-            <div className="bg-white">
-              <p className="px-4 pt-5 my-1 rounded-md">
-                <span>
-                  <PeopleRoundedIcon />
-                </span>
-                <span className="ml-3 ">{members}</span>
-              </p>
-              <p className="px-4 pb-5 my-1 rounded-md">
-                <span>
-                  <HistoryRoundedIcon />
-                </span>
-                <span className="ml-3 ">{timeAgo(room.createdAt)}</span>
-              </p>
-            </div>
+              <div className="flex items-center justify-between border-b-2 border-white p-2">
+                <p className="rounded-lg bg-neutral-200 px-2 py-1 text-sm font-bold">
+                  <span>Id : </span>
+                  {room.roomId}
+                </p>
 
-            <div className=" flex justify-between rounded-b-md">
-              <button
-                className="w-1/2 text-black  bg-slate-100 font-bold rounded-bl-md text-sm px-4 py-3 hover:outline-dotted hover:outline-2 hover:outline-blue-500 hover:text-blue-500 active:scale-95 transition-transform hover:z-10"
-                onClick={() => handleCreatedRoomClick(room.roomId)}
-              >
-                Join
-              </button>
-              <button
-                className="w-1/2 text-black bg-slate-100 font-bold rounded-br-md text-sm px-4 py-2 hover:outline-dotted hover:outline-2 hover:outline-red-500 hover:text-red-500 active:scale-95 transition-transform hover:z-10"
-                onClick={() => handleRoomDelete(room.roomId)}
-              >
-                Delete
-              </button>
+                <button
+                  className="rounded-lg p-2 transition-all hover:bg-neutral-200 active:scale-95"
+                  onClick={handleCopy}
+                >
+                  <img src={Copy} className="w-5" />
+                </button>
+              </div>
+
+              <div className="flex flex-1 flex-col items-start justify-center gap-1 p-4">
+                <p className="my-1 flex items-center gap-4">
+                  <img src={People} alt="People" className="w-7" />
+                  <span>{members}</span>
+                </p>
+                <p className="my-1 flex items-center gap-4">
+                  <img src={Clock} alt="Clock" className="w-7" />
+                  <span>{timeAgo(room.createdAt)}</span>
+                </p>
+              </div>
+
+              <div className="flex w-full items-center justify-between rounded-b-md">
+                <button
+                  className="m-2 flex-1 rounded-xl bg-black px-4 py-3 text-sm font-bold text-white shadow-[0px_0px_14px_6px_#ffffff1f] transition-all hover:z-10 hover:text-blue-500 hover:opacity-95 hover:outline-dotted hover:outline-2 hover:outline-offset-2 hover:outline-blue-400 active:scale-95"
+                  onClick={() => handleCreatedRoomClick(room.roomId)}
+                >
+                  Step In
+                </button>
+                <button
+                  className="m-2 ml-0 rounded-xl p-2 transition-all hover:z-10 hover:bg-red-100 active:scale-95"
+                  onClick={() => handleRoomDelete(room.roomId)}
+                >
+                  <img src={Delete} alt="Delete" className="w-7" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </>
     );
-  }
+  },
 );
 
 RoomCard.propTypes = {

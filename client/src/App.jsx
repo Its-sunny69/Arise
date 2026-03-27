@@ -3,8 +3,8 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import { useDispatch, useSelector } from "react-redux";
-import CreateJoinRoom from "./features/room/components/CreateJoinRoom";
-import ChatRoom from "./features/room/components/ChatRoom";
+import CreateJoinRoom from "./features/room/pages/CreateJoinRoom";
+import ChatRoom from "./features/room/pages/ChatRoom";
 import { SocketProvider } from "./context/Socket";
 import Login from "./features/auth/pages/Login";
 import SignUp from "./features/auth/pages/SignUp";
@@ -44,12 +44,13 @@ function App() {
               <Route element={<Layout />}>
                 <Route path="/home" element={<Home />} />
                 <Route path="/task-list" element={<TaskList />} />
-                <Route path="/room" element={<Room />} />
+                <Route path="/room" element={<Room />}>
+                  <Route path="create-join" element={<CreateJoinRoom />} />
+                  <Route path="chat/:roomId" element={<ChatRoom />} />
+                </Route>
                 <Route path="/world-rank" element={<WorldRank />} />
                 <Route path="/aboutus" element={<AboutUs />} />
                 <Route path="/contactus" element={<ContactUs />} />
-                <Route path="/join-room" element={<CreateJoinRoom />} />
-                <Route path="/chat/:roomId" element={<ChatRoom />} />
               </Route>
             </Route>
           </Routes>

@@ -94,7 +94,7 @@ app.delete("/api/rooms/:roomId", async (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: ["https://arise-hazel.vercel.app", "http://localhost:5173", "http://localhost:3002"],
+    origin: ["https://arise-hazel.vercel.app", "http://localhost:5173", "http://localhost:3002", "http://192.168.1.2:5173"],
     methods: ["GET", "POST"],
     credentials: true,
   },

@@ -1,6 +1,8 @@
 body {
-  font-family: "MerriweatherSans-Variable";
-  font-weight: 400;
+  font-family: "Clinton";
+  font-weight: 600;
+  background: #f7fbff;
+  color: #0c0c0c;
 }
 
 progress {
@@ -10,7 +12,7 @@ progress {
   border-radius: 2rem;
 
   &::-webkit-progress-bar {
-    background-color: rgb(200, 229, 255);
+    background-color: rgb(131, 156, 177);
     border-radius: 2rem;
   }
 
@@ -34,15 +36,67 @@ progress {
 }
 
 *::-webkit-scrollbar-track {
-  background: #ffffff;
-  border-radius: 1rem;
+  background: #ffffff00;
+  border-radius: 9999px;
+  margin-block: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cecece;
-  border-radius: 1rem;
+  background: #bcbddc;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #979797;
+  background: #9e9ac8;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.bg-gradient {
+  /* The background color of your page/container */
+  background-color: #f7fbff;
+
+  /* The gradient creating the soft half-circle */
+  background-image: radial-gradient(
+    ellipse 60% 60% at top center,
+    #00bfff 0%,
+    #57cdff 25%,
+    #80dcff 52%,
+    #e7f3ff 90%,
+    #f7fbff 130%
+  );
+
+  /* Example dimensions (adjust these to fit your layout) */
+  width: 100%;
+  min-height: 400px;
+}
+
+.inner-shadow-title {
+  box-shadow: inset 0px 0px 7px 1px #f7fbff;
+}
+.inner-shadow-button {
+  box-shadow: inset 0px 0px 7px 1px #f7fbff;
+}
+.inner-shadow-bg {
+  box-shadow: inset 0px 0px 25px 0px #f7fbff;
+}
+
+/* css for home page */
+.gradient-bg {
+  background:
+    radial-gradient(at 20% 30%, #e6edf6 0%, transparent 60%),
+    radial-gradient(at 80% 20%, #f2e7e2 0%, transparent 60%),
+    radial-gradient(at 70% 80%, #c7d4ea 0%, transparent 65%),
+    radial-gradient(at 30% 70%, #d9e3f2 0%, transparent 65%),
+    linear-gradient(135deg, #f4f7fb, #dde6f3);
+}
+
+.card-bg {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.7),
+    rgba(230, 237, 246, 0.6)
+  );
 }

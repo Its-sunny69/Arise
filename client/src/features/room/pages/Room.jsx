@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import { useSocket } from "../../../context/Socket";
 import RoomCard from "../components/RoomCard";
-import JoinCard from "../../../shared/components/JoinCard";
+import JoinCard from "../components/JoinCard";
 import { useRef } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
@@ -21,6 +21,10 @@ import {
   removeJoinedRoomById,
   removeDeletedRoom,
 } from "../roomSlice";
+import GradientButton from "@/shared/components/GradientButton";
+import { ComputerBackground, GirlJoiningHands } from "@/assets/images";
+import { compute } from "three/src/nodes/gpgpu/ComputeNode";
+import CardScroll from "@/shared/components/CardScroll";
 
 function Room() {
   const dispatch = useDispatch();
@@ -100,25 +104,50 @@ function Room() {
   };
 
   const handleRoomClick = () => {
-    navigate("/join-room");
+    navigate("create-join");
   };
 
   const handleCreatedRoomClick = (roomId) => {
-    navigate(`/chat/${roomId}`);
+    navigate(`chat/${roomId}`);
   };
 
   const handleJoinRoomClick = (roomId) => {
-    navigate(`/chat/${roomId}`);
+    navigate(`chat/${roomId}`);
   };
 
   const handleLeaveRoom = (roomId) => {
     socket.emit("leave-room", user._id, roomId);
   };
 
+  const cards = [
+    {
+      title: "Real-Time Updates",
+      body: "Stay perfectly synced with your team as every task and change reflects instantly.",
+      image: ComputerBackground,
+    },
+    {
+      title: "Track Progress",
+      body: "Monitor tasks with ease and keep your goals in sight.",
+      image: ComputerBackground,
+    },
+    {
+      title: "Point System",
+      body: "Get rewarded for your efforts and contributions with an engaging points system.",
+      image: ComputerBackground,
+    },
+    {
+      title: "Leaderboards",
+      body: "Celebrate success with Room Leaderboards and compete on a global scale with the Global Leaderboard.",
+      image: ComputerBackground,
+    },
+  ];
+
   return (
-    <div className="  p-2">
-      <div className="my-4">
-        <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
+    <>
+      <Outlet />
+      <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
+      <div className="my-20 sm:my-10">
+        <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
           <ShinyText
             text="👥 | Arise Room"
             disabled={false}
@@ -128,104 +157,41 @@ function Room() {
         </div>
       </div>
 
-      <div className="my-10">
-        <div className="title sm:text-7xl text-5xl text-center lg:flex justify-center items-center">
-          <TypeAnimation
-            sequence={["Welcome To"]}
-            speed={30}
-            repeat={0}
-            cursor={false}
-          />
+      <div className="my-20 grid grid-cols-7 border border-black sm:my-10">
+        <div className="col-span-5 flex flex-col items-start justify-center">
+          <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
+            Welcome,
+            <br />
+            To Arise Room
+          </p>
+          <p className="text-cente mt-6">
+            Take your productivity and collaboration to the next level with
+            exciting features! Whether you&apos;re working or competing, Arise
+            makes every effort count!
+          </p>
 
-          <div className="flex justify-center items-center">
-            <Fade delay={700} duration={1000} triggerOnce fraction={0.5}>
-              <div className="flex tracking-wider">
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl pl-4">
-                    A
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl">
-                    r
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl">
-                    i
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl">
-                    s
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl pr-5">
-                    e
-                  </span>
-                </div>
-              </div>
-            </Fade>
-
-            {showRoomText && (
-              <TypeAnimation
-                sequence={["Room"]}
-                speed={30}
-                repeat={0}
-                cursor={false}
-              />
-            )}
+          <div className="z-10 mt-20 flex items-center justify-start sm:mt-24">
+            <GradientButton text="Create or Join" onClick={handleRoomClick} />
           </div>
         </div>
 
-        <Fade
-          delay={200}
-          duration={1000}
-          triggerOnce
-          fraction={0.5}
-          className="text-center"
-        >
-          {phoneView ? (
-            <div className="text-lg text-justify my-2">
-              Take your productivity and collaboration to the next level with
-              exciting features! Whether you&apos;re working or competing, Arise
-              makes every effort count!
-            </div>
-          ) : (
-            <div className="text-2xl text-center">
-              Take your productivity and collaboration to the next level with
-              exciting features!
-              <br />
-              Whether you&apos;re working or competing, Arise makes every effort
-              count!
-            </div>
-          )}
-        </Fade>
-
-        <div className="sm:mt-16 mt-12 flex justify-center items-center ">
-          <button
-            className="font-thin group transition-all active:scale-95 border border-black py-1 px-3 hover:border-dotted shadow-lg rounded-sm bg-white"
-            onClick={handleRoomClick}
-          >
-            <div className="flex justify-center items-center font-medium group-hover:text-gray-600 transition-all">
-              Create or Join Room
-            </div>
-            <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-black" />
-          </button>
+        <div className="pointer-events-none col-span-2 bg-green-400">
+          <img src={GirlJoiningHands} alt="" className="h-full w-full" />
         </div>
       </div>
 
-      <div className="mt-20">
+      <div className="my-20 border border-black sm:my-10">
         <div>
           <div className="my-5 text-center">
-            <span className="title sm:text-5xl text-4xl"> Created Rooms </span>
+            <span className="font-title text-3xl font-bold sm:text-6xl">
+              Created Rooms
+            </span>
           </div>
 
-          <div className="min-h-56 lg:m-5 flex justify-center items-center">
+          <div className="flex min-h-56 items-center justify-center lg:m-5">
             {createdRoomsLoading === "pending" ? (
-              <div className="w-full grid lg:grid-cols-4  sm:gap-3 gap-2">
-                <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+              <div className="grid w-full gap-2 sm:gap-3 lg:grid-cols-3">
+                <div className="m-1 flex h-52 flex-col items-center justify-between rounded-lg border sm:m-2">
                   <Skeleton
                     variant="rectangular"
                     sx={{
@@ -264,7 +230,7 @@ function Room() {
                   />
                 </div>
 
-                <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                <div className="m-1 flex h-52 flex-col items-center justify-between rounded-lg border sm:m-2">
                   <Skeleton
                     variant="rectangular"
                     sx={{
@@ -307,7 +273,7 @@ function Room() {
                   ""
                 ) : (
                   <>
-                    <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                    <div className="m-1 flex h-52 flex-col items-center justify-between rounded-lg border sm:m-2">
                       <Skeleton
                         variant="rectangular"
                         sx={{
@@ -346,7 +312,7 @@ function Room() {
                       />
                     </div>
 
-                    <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                    <div className="m-1 flex h-52 flex-col items-center justify-between rounded-lg border sm:m-2">
                       <Skeleton
                         variant="rectangular"
                         sx={{
@@ -388,7 +354,7 @@ function Room() {
                 )}
               </div>
             ) : createdRooms?.length ? (
-              <div className="w-full grid lg:grid-cols-4 lg:gap-3">
+              <div className="grid w-full lg:grid-cols-3 lg:gap-3">
                 <Fade
                   delay={200}
                   duration={1000}
@@ -416,15 +382,17 @@ function Room() {
           </div>
         </div>
 
-        <div className="sm:mt-20 mt-12">
+        <div className="mt-20 sm:mt-10">
           <div className="my-5 text-center">
-            <span className="title sm:text-5xl text-4xl"> Joined Rooms </span>
+            <span className="font-title text-3xl font-bold sm:text-6xl">
+              Joined Rooms
+            </span>
           </div>
 
-          <div className="min-h-60 lg:m-5 flex justify-center items-center">
+          <div className="flex min-h-60 items-center justify-center lg:m-5">
             {joinedRoomsLoading === "pending" ? (
-              <div className="w-full grid lg:grid-cols-4 sm:gap-3 gap-2">
-                <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+              <div className="grid w-full gap-2 sm:gap-3 lg:grid-cols-3">
+                <div className="m-1 flex h-52 flex-col items-center justify-between rounded-lg border sm:m-2">
                   <Skeleton
                     variant="rectangular"
                     sx={{
@@ -463,7 +431,7 @@ function Room() {
                   />
                 </div>
 
-                <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                <div className="m-1 flex h-52 flex-col items-center justify-between rounded-lg border sm:m-2">
                   <Skeleton
                     variant="rectangular"
                     sx={{
@@ -506,7 +474,7 @@ function Room() {
                   ""
                 ) : (
                   <>
-                    <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                    <div className="m-1 flex h-52 flex-col items-center justify-between rounded-lg border sm:m-2">
                       <Skeleton
                         variant="rectangular"
                         sx={{
@@ -544,7 +512,7 @@ function Room() {
                         }}
                       />
                     </div>
-                    <div className="sm:m-2 m-1 h-52 border rounded-lg flex flex-col justify-between items-center">
+                    <div className="m-1 flex h-52 flex-col items-center justify-between rounded-lg border sm:m-2">
                       <Skeleton
                         variant="rectangular"
                         sx={{
@@ -587,7 +555,7 @@ function Room() {
               </div>
             ) : joinedRooms?.filter((room) => user._id !== room.createdBy)
                 .length !== 0 ? (
-              <div className="w-full grid lg:grid-cols-4 lg:gap-3 sm:gap-4">
+              <div className="grid w-full sm:gap-4 lg:grid-cols-3 lg:gap-3">
                 <Fade
                   delay={100}
                   duration={1000}
@@ -620,12 +588,14 @@ function Room() {
         </div>
       </div>
 
-      <div className="sm:mt-20 mt-12">
+      <div className="my-20 border border-black sm:my-10">
         <div className="my-5 text-center">
-          <span className="title sm:text-5xl text-4xl">Features</span>
+          <span className="font-title text-3xl font-bold sm:text-6xl">
+            Features
+          </span>
         </div>
 
-        <div className="sm:m-5 m-1 grid lg:grid-cols-4 sm:gap-5 gap-3">
+        {/* <div className="m-1 grid gap-3 sm:m-5 sm:gap-5 lg:grid-cols-4">
           <Fade
             delay={200}
             duration={1000}
@@ -635,15 +605,15 @@ function Room() {
             damping={0.2}
             className="grid"
           >
-            <div className="flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-              <div className=" flex flex-col justify-center mb-2 items-center">
-                <div className="flex justify-center items-center">
+            <div className="flex flex-col rounded-md border bg-slate-100 p-4 shadow-sm transition-all hover:scale-105 hover:shadow-md hover:outline-dashed hover:outline-1">
+              <div className="mb-2 flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center">
                   <SyncRoundedIcon
-                    className="text-gray-800 mb-4"
+                    className="mb-4 text-gray-800"
                     style={{ width: "4rem", height: "4rem" }}
                   />
                 </div>
-                <span className="title tracking-wider text-xl">
+                <span className="title text-xl tracking-wider">
                   Real-Time Updates
                 </span>
               </div>
@@ -653,15 +623,15 @@ function Room() {
               </span>
             </div>
 
-            <div className="flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-              <div className=" flex flex-col justify-center mb-2 items-center">
-                <div className="flex justify-center items-center">
+            <div className="flex flex-col rounded-md border bg-slate-100 p-4 shadow-sm transition-all hover:scale-105 hover:shadow-md hover:outline-dashed hover:outline-1">
+              <div className="mb-2 flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center">
                   <BarChartRoundedIcon
-                    className="text-gray-800 mb-4"
+                    className="mb-4 text-gray-800"
                     style={{ width: "4rem", height: "4rem" }}
                   />
                 </div>
-                <span className="title tracking-wider text-xl">
+                <span className="title text-xl tracking-wider">
                   Track Progress
                 </span>
               </div>
@@ -670,15 +640,15 @@ function Room() {
               </span>
             </div>
 
-            <div className="flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-              <div className=" flex flex-col justify-center mb-2 items-center">
-                <div className="flex justify-center items-center">
+            <div className="flex flex-col rounded-md border bg-slate-100 p-4 shadow-sm transition-all hover:scale-105 hover:shadow-md hover:outline-dashed hover:outline-1">
+              <div className="mb-2 flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center">
                   <AutoAwesomeRoundedIcon
-                    className="text-gray-800 mb-4"
+                    className="mb-4 text-gray-800"
                     style={{ width: "4rem", height: "4rem" }}
                   />
                 </div>
-                <span className="title tracking-wider text-xl">
+                <span className="title text-xl tracking-wider">
                   Point System
                 </span>
               </div>
@@ -688,15 +658,15 @@ function Room() {
               </span>
             </div>
 
-            <div className="flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-              <div className=" flex flex-col justify-center mb-2 items-center">
-                <div className="flex justify-center items-center">
+            <div className="flex flex-col rounded-md border bg-slate-100 p-4 shadow-sm transition-all hover:scale-105 hover:shadow-md hover:outline-dashed hover:outline-1">
+              <div className="mb-2 flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center">
                   <EmojiEventsRoundedIcon
-                    className="text-gray-800 mb-4"
+                    className="mb-4 text-gray-800"
                     style={{ width: "4rem", height: "4rem" }}
                   />
                 </div>
-                <span className="title tracking-wider text-xl">
+                <span className="title text-xl tracking-wider">
                   Leaderboards
                 </span>
               </div>
@@ -706,9 +676,14 @@ function Room() {
               </span>
             </div>
           </Fade>
+        </div> */}
+
+        <div>
+          <CardScroll data={cards} textSectionDirection="left" />
         </div>
       </div>
     </div>
+    </>
   );
 }
 

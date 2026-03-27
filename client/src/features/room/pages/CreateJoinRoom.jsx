@@ -59,7 +59,7 @@ const CreateJoinRoom = () => {
     e.preventDefault();
     socket.emit("create-room", profile);
     socket.on("msg", (val) => {
-      navigate(`/chat/${val.id}`);
+      navigate(`../chat/${val.id}`);
     });
     setInput({ ...input, userName: "", joinRoom: "" });
   };
@@ -68,7 +68,7 @@ const CreateJoinRoom = () => {
     e.preventDefault();
     socket.emit("join-room", profile, input.joinRoom);
   };
-
+// work here.........
   return (
     <>
       <div className=" p-2">
