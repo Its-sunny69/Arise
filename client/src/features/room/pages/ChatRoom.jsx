@@ -16,6 +16,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import { Skeleton, Stack } from "@mui/material";
 import ShinyText from "../../../shared/components/ShinyText";
+import { Admin, Cancel, Logout, People, Send } from "@/assets/icons";
 
 const ChatRoom = () => {
   const socket = useSocket();
@@ -197,21 +198,20 @@ const ChatRoom = () => {
     }
   };
 
-
   return (
     <>
       {isLoading || !users.length ? (
-        <div className="p-2">
+        <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
           <div className="my-4 h-7">
-            <div className="w-24 bg-gray-00 px-5 py-1 rounded-full border border-gray-400 text-sm">
+            <div className="bg-gray-00 w-24 rounded-full border border-gray-400 px-5 py-1 text-sm">
               <Skeleton
                 variant="text"
                 sx={{ fontSize: "1.5rem", width: "100%", marginY: "0px" }}
               />
             </div>
           </div>
-          <div className="w-full my-10 h-16 flex justify-between items-center">
-            <div className="w-full py-1 px-2">
+          <div className="my-10 flex h-16 w-full items-center justify-between">
+            <div className="w-full px-2 py-1">
               <Stack
                 spacing={-1}
                 sx={{
@@ -235,9 +235,9 @@ const ChatRoom = () => {
           </div>
         </div>
       ) : users.some((user) => user._id === profile) ? (
-        <div className=" p-2">
-          <div className="my-4 flex sm:block justify-between items-center">
-            <div className="w-fit h-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
+        <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
+          <div className="my-20 flex justify-between sm:my-10">
+            <div className="h-fit w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
               <ShinyText
                 text="👥 | Room"
                 disabled={false}
@@ -245,6 +245,17 @@ const ChatRoom = () => {
                 className=""
               />
             </div>
+
+            <div className="rounded-lg bg-neutral-200 px-2 py-1 text-sm font-bold">
+              Room ID: {roomData?.roomId}
+              <button
+                className="mx-2 transition-all hover:opacity-60 active:scale-95"
+                onClick={handleCopy}
+              >
+                <img src={CopySvg} className="w-4" />
+              </button>
+            </div>
+
             {phoneView ? (
               profile == users[0]?._id ? (
                 ""
@@ -257,7 +268,7 @@ const ChatRoom = () => {
                       data-tooltip-place="top"
                       onClick={handleLeaveRoom}
                     >
-                      <LogoutRoundedIcon className="w-4 text-red-500 hover:text-red-300 active:scale-95 transition-all" />
+                      <LogoutRoundedIcon className="w-4 text-red-500 transition-all hover:text-red-300 active:scale-95" />
                     </button>
                     <Tooltip id="my-tooltip" />
                   </div>
@@ -268,37 +279,21 @@ const ChatRoom = () => {
             )}
           </div>
 
-          <div className="my-10">
+          <div className="my-20 sm:my-10">
             {roomData && users.length ? (
               <>
-                <div
-                  className={`w-full flex ${
-                    profile == users[0]?._id
-                      ? "justify-around"
-                      : "justify-between"
-                  } items-center`}
-                >
-                  <div
-                    className={`font-bold sm:text-xl text-lg tracking-wider ${
-                      profile == users[0]?._id ? "text-center" : ""
-                    } py-1 px-2 border-b-2 border-transparent border-dotted hover:border-black transition-all`}
-                  >
-                    Admin: {users[0]?.username}
-                    <div className="font-normal text-sm">
-                      Room ID: {roomData.roomId}
-                      <button
-                        className="mx-2 hover:opacity-60 active:scale-95 transition-all"
-                        onClick={handleCopy}
-                      >
-                        <img src={CopySvg} className="w-4" />
-                      </button>
-                    </div>
+                <div className="flex w-full items-center gap-2">
+                  <div className="flex flex-1 items-center gap-2 px-2 py-1 text-lg font-bold tracking-wider transition-all sm:text-xl">
+                    <img src={Admin} alt="Admin" className="w-7" />
+                    <span>{users[0]?.username}</span>
                   </div>
 
-                  <div className="text-center py-1 px-2 border-b-2 border-transparent border-dotted hover:border-black transition-all">
-                    <p className="font-bold sm:text-xl text-lg tracking-wider">Users</p>
+                  <div className="flex items-center gap-2 px-2 py-1 text-center transition-all">
+                    <p className="text-lg font-bold tracking-wider sm:text-xl">
+                      <img src={People} alt="People" className="w-7" />
+                    </p>
                     <div>
-                      <ul className="flex">
+                      <ul className="relative flex items-center">
                         {users.length ? (
                           <>
                             <li>{users[0]?.username}</li>
@@ -310,39 +305,43 @@ const ChatRoom = () => {
 
                             {users.length > 2 ? (
                               <>
-                                <li>...</li>
-                                <div className="relative">
-                                  <li
-                                    onClick={toggleModel}
-                                    className="text-blue-500 cursor-pointer hover:text-blue-300 hover:underline transition-all"
+                                <li className="text-sm">...</li>
+                                <li
+                                  onClick={toggleModel}
+                                  className="cursor-pointer text-sm text-blue-500 transition-all hover:text-blue-300 hover:underline"
+                                >
+                                  more
+                                </li>
+                                {isModalVisible && (
+                                  <div
+                                    className={`absolute right-0 top-10 min-w-32 rounded-lg border-2 border-white bg-white/50 shadow-[0px_0px_14px_6px_#ffffff1f] backdrop-blur-lg transition-all sm:left-0`}
                                   >
-                                    more
-                                  </li>
-                                  {isModalVisible && (
-                                    <div
-                                      className={`absolute right-0 sm:left-0 bg-white p-2 min-w-32 rounded-lg shadow-lg border transition-all`}
-                                    >
-                                      <div
-                                        className="flex justify-end items-center cursor-pointer"
+                                    <div className="flex cursor-pointer items-center justify-end border-b-2 border-white p-2">
+                                      <button
+                                        className="transition-all hover:scale-110 hover:opacity-75 active:scale-95"
                                         onClick={toggleModel}
                                       >
                                         {
-                                          <CloseRoundedIcon className="text-red-500 hover:text-red-300 transition-all" />
+                                          <img
+                                            src={Cancel}
+                                            alt="Cancel"
+                                            className="w-7"
+                                          />
                                         }
-                                      </div>
-                                      <div className="my-1">
-                                        {users?.map((user) => (
-                                          <li
-                                            key={user._id}
-                                            className="hover:bg-slate-200 rounded-sm"
-                                          >
-                                            {user.username}
-                                          </li>
-                                        ))}
-                                      </div>
+                                      </button>
                                     </div>
-                                  )}
-                                </div>
+                                    <div className="my-1">
+                                      {users?.map((user) => (
+                                        <li
+                                          key={user._id}
+                                          className="px-4 py-2"
+                                        >
+                                          {user.username}
+                                        </li>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
                               </>
                             ) : (
                               ""
@@ -359,25 +358,21 @@ const ChatRoom = () => {
                   ) : profile == users[0]?._id ? (
                     ""
                   ) : (
-                    <div className="ml-32 transition-all">
-                      <div className="m-3">
-                        <button
-                          data-tooltip-id="my-tooltip"
-                          data-tooltip-content="Leave Room"
-                          data-tooltip-place="top"
-                          onClick={handleLeaveRoom}
-                        >
-                          <LogoutRoundedIcon className="w-4 text-red-500 hover:text-red-300 active:scale-95 transition-all" />
-                        </button>
-                        <Tooltip id="my-tooltip" />
-                      </div>
-                    </div>
+                    <button
+                      className="rounded-xl p-2 transition-all hover:z-10 hover:bg-red-100 active:scale-95"
+                      data-tooltip-id="my-tooltip"
+                      data-tooltip-content="Leave Room"
+                      data-tooltip-place="top"
+                      onClick={handleLeaveRoom}
+                    >
+                      <img src={Logout} alt="Leave" className="w-7" />
+                    </button>
                   )}
                 </div>
               </>
             ) : (
-              <div className="w-full h-16 flex justify-between items-center">
-                <div className="w-full py-1 px-2">
+              <div className="flex h-16 w-full items-center justify-between">
+                <div className="w-full px-2 py-1">
                   <Stack
                     spacing={-1}
                     sx={{
@@ -403,10 +398,12 @@ const ChatRoom = () => {
           </div>
 
           {/* Todo and Rank */}
-          <div className="">{roomData?.roomId && <RoomTodo roomData={roomData} />}</div>
+          <div className="my-20 sm:my-10">
+            {roomData?.roomId && <RoomTodo roomData={roomData} />}
+          </div>
 
           {/* chat */}
-          <div className="fixed w-fit sm:bottom-5 bottom-2 sm:right-10 right-6 active:scale-95 hover:scale-105 hover:opacity-70 transition-all">
+          <div className="fixed bottom-2 right-6 w-fit transition-all hover:scale-105 hover:opacity-70 active:scale-95 sm:bottom-5 sm:right-10">
             <button onClick={toggleChat}>
               <DotLottieReact
                 src={ChatLottie}
@@ -418,117 +415,116 @@ const ChatRoom = () => {
           </div>
 
           {isChatOpen && (
-            <div className="sm:w-[25rem] w-[20rem] fixed sm:bottom-24 bottom-20 sm:right-10 right-6 border rounded-lg shadow-2xl backdrop-blur-xl">
-              <div className="flex justify-center items-center">
-                <div className="w-full flex flex-col justify-center items-center py-3 border-b rounded-t-lg">
-                  <div>
-                    <p className="font-bold text-xl">Chats</p>
+            <div className="fixed bottom-20 right-6 w-[20rem] rounded-xl bg-gradient-to-r from-[#9ecae1] to-[#4292c6] p-[1.5px] shadow-[0_0_20px_rgba(66,146,198,0.2)] sm:bottom-24 sm:right-10 sm:w-[25rem]">
+              <div className="chat-gradient gap-1 rounded-xl">
+                <div className="flex items-center justify-center">
+                  <div className="flex w-full flex-col items-center justify-center rounded-t-lg border-b-2 border-white py-3">
+                    <div>
+                      <p className="font-title text-2xl font-bold">Chats</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="w-full h-80 relative flex flex-col justify-center items-center">
-                <div
-                  className=" w-full px-3  overflow-y-auto"
-                  ref={containerRef}
-                >
-                  {messages?.length == 0 ? (
-                    <div className="flex flex-col justify-center items-center text-slate-300">
-                      No Messages Yet
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  {messages ? (
-                    messages.map((item, index) => {
-                      const currentDate = new Date(
-                        item.timeStamp
-                      ).toDateString();
+                <div className="relative flex h-80 w-full flex-col items-center justify-center">
+                  <div
+                    className="w-full overflow-y-auto px-3"
+                    ref={containerRef}
+                  >
+                    {messages?.length == 0 ? (
+                      <div className="flex flex-col items-center justify-center text-slate-300">
+                        No Messages Yet
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {messages ? (
+                      messages.map((item, index) => {
+                        const currentDate = new Date(
+                          item.timeStamp,
+                        ).toDateString();
 
-                      const previousDate =
-                        index > 0
-                          ? new Date(
-                              messages[index - 1].timeStamp
-                            ).toDateString()
-                          : null;
+                        const previousDate =
+                          index > 0
+                            ? new Date(
+                                messages[index - 1].timeStamp,
+                              ).toDateString()
+                            : null;
 
-                      const isNewDate = currentDate !== previousDate;
+                        const isNewDate = currentDate !== previousDate;
 
-                      return (
-                        <div key={index}>
-                          {isNewDate && (
-                            <p className="text-center text-sm text-gray-500 my-2">
-                              {formatDateForHeading(item.timeStamp)}
-                            </p>
-                          )}
+                        return (
+                          <div key={index}>
+                            {isNewDate && (
+                              <p className="my-2 text-center text-sm text-gray-500">
+                                {formatDateForHeading(item.timeStamp)}
+                              </p>
+                            )}
 
-                          <div
-                            className={
-                              item.profileId == profile
-                                ? "w-full flex justify-end"
-                                : "w-full flex justify-start"
-                            }
-                            key={index}
-                          >
                             <div
-                              key={item.timeStamp}
-                              className=" bg-slate-300 w-fit max-w-[100%] my-3 py-1 px-2 rounded-lg flex flex-col"
+                              className={
+                                item.profileId === profile
+                                  ? "flex w-full justify-end"
+                                  : "flex w-full justify-start"
+                              }
+                              key={index}
                             >
-                              {profile !== item.profileId && (
-                                <p className="text-[0.65rem] flex justify-start pr-5 text-slate-600">
-                                  {item.profileName}
+                              <div
+                                key={item.timeStamp}
+                                className={`my-3 flex w-fit max-w-[100%] flex-col rounded-lg ${item.profileId === profile ? 'bg-[#a8e8ff]' : 'bg-[#dadaeb]'} px-2 py-1`}
+                              >
+                                {profile !== item.profileId && (
+                                  <p className="flex justify-start pr-5 text-[0.65rem] text-slate-600">
+                                    {item.profileName}
+                                  </p>
+                                )}
+                                <p className="whitespace-pre-wrap break-words p-1 text-sm leading-4">
+                                  {item.msg}
                                 </p>
-                              )}
-                              <p className="break-words whitespace-pre-wrap p-1 leading-4">
-                                {item.msg}
-                              </p>
-                              <p className="text-[0.65rem] flex justify-end pl-5 text-slate-600">
-                                {item.timeStamp.split(", ")[3]}
-                              </p>
+                                <p className="flex justify-end pl-5 text-[0.65rem] text-slate-600">
+                                  {item.timeStamp.split(", ")[3]}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <p>Loading Messages...</p>
-                  )}
+                        );
+                      })
+                    ) : (
+                      <p>Loading Messages...</p>
+                    )}
 
-                  <div ref={messagesEndRef} />
+                    <div ref={messagesEndRef} />
+                  </div>
+
+                  {showScrollDownButton && (
+                    <button
+                      className="absolute bottom-1 right-5 rounded-full border border-slate-200 bg-slate-100 p-1 text-gray-700"
+                      onClick={chatScrollDown}
+                    >
+                      <KeyboardDoubleArrowDownRoundedIcon />
+                    </button>
+                  )}
                 </div>
 
-                {showScrollDownButton && (
-                  <button
-                    className="bg-slate-100 border border-slate-200 text-gray-700 rounded-full p-1 absolute bottom-1 right-5"
-                    onClick={chatScrollDown}
-                  >
-                    <KeyboardDoubleArrowDownRoundedIcon />
-                  </button>
-                )}
-              </div>
-
-              <div className="w-full flex overflow-y-auto justify-center items-center py-2  rounded-b-lg">
-                <div className="w-full mx-2 flex bg-gray-200 shadow-sm rounded-md hover:outline-dotted hover:outline-1">
-                  <div className="w-full py-1">
+                <div className="flex w-full items-center justify-center overflow-y-auto rounded-b-lg p-2">
+                  <div className="flex w-full gap-2 rounded-full border-2 border-blue-400 bg-white/40 py-1 pl-4 pr-1 text-sm shadow-[0px_0px_14px_6px_#ffffff1f] transition-all focus-within:outline-dotted focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-gray-400">
                     <input
                       type="text"
-                      className="w-full px-4 py-1 bg-transparent text-gray-950 focus:outline-none"
+                      className="w-full bg-transparent outline-none"
                       onChange={(e) => setMessage(e.target.value)}
                       value={message}
                       onKeyDown={handleKeyDown}
                       placeholder="Type..."
                     />
-                  </div>
-                  <div className="px-2 flex justify-center items-center">
+
                     <button
-                      className="group active:scale-95"
+                      className="flex items-center justify-center rounded-full bg-black p-2 text-sm font-medium text-white shadow-sm transition-all hover:opacity-70 active:scale-95 group"
                       onClick={() => {
                         handleMessages();
                         chatScrollDown();
                       }}
                     >
                       <img
-                        src={SendSvg}
-                        className="w-7 -rotate-45 group-hover:rotate-0 group-hover:hover:opacity-70 group-hover:scale-110 transition-all"
+                        src={Send}
+                        className="w-7 -rotate-45 transition-all group-hover:rotate-0"
                       />
                     </button>
                   </div>
@@ -538,9 +534,9 @@ const ChatRoom = () => {
           )}
         </div>
       ) : (
-        <div className=" p-2">
+        <div className="p-2">
           <div className="my-4">
-            <div className="w-fit px-5 py-1 rounded-full border border-red-400 text-sm">
+            <div className="w-fit rounded-full border border-red-400 px-5 py-1 text-sm">
               <ShinyText
                 text="❌ | Access Denied"
                 disabled={false}
@@ -551,22 +547,22 @@ const ChatRoom = () => {
           </div>
 
           <div className="my-10">
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col items-center justify-center">
               <p className="title text-5xl">Wrong Way To Access</p>
-              <p className="text-xl text-center">
+              <p className="text-center text-xl">
                 Please Join the Room to get the access in a Right Way :&#40;
                 <br />
                 Go to Join Room and Enter the code.
               </p>
-              <div className="mt-16 flex justify-center items-center ">
+              <div className="mt-16 flex items-center justify-center">
                 <button
-                  className="font-thin group transition-all active:scale-95 border border-black py-1 px-3 hover:border-dotted shadow-lg rounded-sm bg-white"
+                  className="group rounded-sm border border-black bg-white px-3 py-1 font-thin shadow-lg transition-all hover:border-dotted active:scale-95"
                   onClick={() => navigate("/join-room")}
                 >
-                  <div className="flex justify-center items-center font-medium group-hover:text-gray-600 transition-all">
+                  <div className="flex items-center justify-center font-medium transition-all group-hover:text-gray-600">
                     Join Room
                   </div>
-                  <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-black" />
+                  <hr className="h-0.5 w-0 bg-black transition-all duration-500 group-hover:w-full" />
                 </button>
               </div>
             </div>

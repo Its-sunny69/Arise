@@ -16,6 +16,7 @@ import People from "./people.svg";
 import Clock from "./clock.svg";
 import Admin from "./admin.svg";
 import Leave from "./leave.svg";
+import Send from "./send.svg";
 
 export {
   Home,
@@ -36,4 +37,5 @@ export {
   Clock,
   Admin,
   Leave,
+  Send,
 };

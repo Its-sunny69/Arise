@@ -100,3 +100,22 @@ progress {
     rgba(230, 237, 246, 0.6)
   );
 }
+
+.chat-gradient {
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      #eff6ff 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      #deebf7 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      #fdfdfd 0%,
+      #f7fbff 100%
+    );
+}

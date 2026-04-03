@@ -8,6 +8,8 @@ import { Fade } from "react-awesome-reveal";
 import RemoteMeetingSvg from "../../../assets/remote-meeting.svg";
 import MeetTheTeam from "../../../assets/meet-the-team.svg";
 import ShinyText from "../../../shared/components/ShinyText";
+import GradientButton from "@/shared/components/GradientButton";
+import { GirlInChatRoom, GirlJoiningChat } from "@/assets/images";
 
 const CreateJoinRoom = () => {
   const socket = useSocket();
@@ -44,7 +46,7 @@ const CreateJoinRoom = () => {
           position: "top-center",
         });
 
-        navigate(`/chat/${data.roomId}`, {
+        navigate(`/room/chat/${data.roomId}`, {
           state: { userName: data.userName },
         });
       }
@@ -59,7 +61,7 @@ const CreateJoinRoom = () => {
     e.preventDefault();
     socket.emit("create-room", profile);
     socket.on("msg", (val) => {
-      navigate(`../chat/${val.id}`);
+      navigate(`/room/chat/${val.id}`);
     });
     setInput({ ...input, userName: "", joinRoom: "" });
   };
@@ -68,137 +70,85 @@ const CreateJoinRoom = () => {
     e.preventDefault();
     socket.emit("join-room", profile, input.joinRoom);
   };
-// work here.........
+  // work here.........
   return (
-    <>
-      <div className=" p-2">
-        <div className="my-4">
-          <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
-            <ShinyText
-              text=" 👥 | Create Or Join Room"
-              disabled={false}
-              speed={3}
-              className=""
-            />
+    <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
+      <div className="my-20 sm:my-10">
+        <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
+          <ShinyText
+            text=" 👥 | Create Or Join Room"
+            disabled={false}
+            speed={3}
+            className=""
+          />
+        </div>
+      </div>
+
+      <div className="my-20 grid grid-cols-7 gap-4 border border-black sm:my-10">
+        <div className="col-span-4 flex flex-col items-start justify-center">
+          <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
+            Create,
+            <br />A New Room
+          </p>
+          <p className="text-cente mt-6">
+            Create a room to collaborate And organize tasks with your team.
+            Share the room code with others to join.
+          </p>
+
+          <div className="z-10 mt-20 flex items-center justify-start sm:mt-24">
+            <GradientButton text="Create New Room" onClick={handleCreateRoom} />
           </div>
         </div>
 
-        <div className="my-10 flex mx-5">
-          <div className="sm:w-1/2 flex flex-col">
-            <div className="title sm:text-5xl text-4xl flex sm:justify-start justify-center items-center">
-              <TypeAnimation
-                sequence={["Start New Room"]}
-                speed={30}
-                repeat={0}
-                cursor={false}
-              />
-            </div>
+        <div className="pointer-events-none col-span-3">
+          <img
+            src={GirlInChatRoom}
+            alt="Girl in Chat Room"
+            className="h-full w-full"
+          />
+        </div>
+      </div>
 
-            <Fade
-              delay={200}
-              duration={1000}
-              triggerOnce
-              fraction={0.5}
-              className=""
-            >
-              {phoneView ? (
-                <div className=" text-lg  text-justify mt-8">
-                  Create a room to collaborate And organize tasks with your
-                  team. Share the room code with others to join.
-                </div>
-              ) : (
-                <div className="text-xl text-left mt-8">
-                  Create a room to collaborate <br />
-                  And organize tasks with your team.
-                  <br />
-                  Share the room code with others to join.
-                </div>
-              )}
-
-              <div className="sm:mt-16 mt-10 flex sm:justify-start justify-center items-center ">
-                <button
-                  className="font-thin group transition-all active:scale-95 border border-black py-1 px-3 hover:border-dotted shadow-lg rounded-sm"
-                  onClick={handleCreateRoom}
-                >
-                  <div className="flex justify-center items-center font-medium group-hover:text-gray-600 gap-2 transition-all">
-                    Create New Room
-                  </div>
-                  <hr className="w-0 group-hover:w-full h-0.5 transition-all duration-500 bg-black" />
-                </button>
-              </div>
-            </Fade>
-          </div>
-          {phoneView ? (
-            ""
-          ) : (
-            <div className="w-1/2 flex justify-center items-center">
-              <img src={RemoteMeetingSvg} alt="image" className="w-[70%]" />
-            </div>
-          )}
+      <div className="my-20 grid grid-cols-7 gap-4 border border-black sm:my-10">
+        <div className="pointer-events-none col-span-3">
+          <img src={GirlJoiningChat} alt="Girl Joining Chat" className="h-full w-full" />
         </div>
 
-        <div className="mb-14 sm:mt-20 mt-16  flex mx-5">
-          {phoneView ? (
-            ""
-          ) : (
-            <div className="w-1/2 flex justify-center items-center">
-              <img src={MeetTheTeam} alt="image" className="w-[70%]" />
-            </div>
-          )}
-          <div className="sm:w-1/2">
-            <div className="title sm:text-5xl text-4xl flex sm:justify-start justify-center items-center">
-              <TypeAnimation
-                sequence={["Enter a Room"]}
-                speed={30}
-                repeat={0}
-                cursor={false}
+        <div className="col-span-4 flex flex-col items-start justify-center">
+          <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
+            Join,
+            <br />
+            An Existing Room
+          </p>
+          <p className="text-cente mt-6">
+            Already have a room code?
+            <br />
+            Enter it below to collaborate with your team.
+          </p>
+
+          <div className="z-10 mt-20 flex items-center justify-start sm:mt-24">
+            <div className="flex w-full gap-2 rounded-full border-2 border-white bg-white/40 py-2 pl-4 pr-2 shadow-[0px_0px_14px_6px_#ffffff1f] transition-all focus-within:outline-dotted focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-gray-400">
+              <input
+                type="text"
+                className="w-full bg-transparent outline-none"
+                placeholder="Enter Room ID"
+                name="joinRoom"
+                onChange={handleInput}
+                value={input.joinRoom}
               />
+
+              <button
+                className="flex items-center justify-center rounded-full bg-black px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:opacity-70 active:scale-95"
+                type="submit"
+                onClick={handleJoinRoom}
+              >
+                Join
+              </button>
             </div>
-
-            <Fade
-              delay={200}
-              duration={1000}
-              triggerOnce
-              fraction={0.5}
-              className=""
-            >
-              {phoneView ? <div className="text-lg text-justify mt-8">
-                Already have a room code?
-                Enter it below to collaborate with your team.
-              </div> : <div className="text-xl text-left mt-8">
-                Already have a room code?
-                <br />
-                Enter it below to collaborate with your team.
-              </div>}
-              
-
-              <div className="sm:mt-16 mt-10 flex sm:justify-start justify-center items-center ">
-                <div className="w-72 flex justify-center items-cente">
-                  <div className="w-5/6 flex justify-center items-center">
-                    <input
-                      type="text"
-                      className="w-full px-4 py-1 border-black rounded-tl-lg text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50"
-                      placeholder="Enter Room ID"
-                      name="joinRoom"
-                      onChange={handleInput}
-                      value={input.joinRoom}
-                    />
-                  </div>
-                  <div className="w-1/6 flex justify-center items-center">
-                    <button
-                      className="w-full flex items-center bg-black text-sm font-medium text-white rounded-tr-lg justify-center px-4 py-[6px] hover:opacity-70 shadow-sm active:scale-95 transition-all"
-                      onClick={handleJoinRoom}
-                    >
-                      Join
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </Fade>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

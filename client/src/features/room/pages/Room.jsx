@@ -157,7 +157,7 @@ function Room() {
         </div>
       </div>
 
-      <div className="my-20 grid grid-cols-7 border border-black sm:my-10">
+      <div className="my-20 grid grid-cols-7 sm:my-10">
         <div className="col-span-5 flex flex-col items-start justify-center">
           <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
             Welcome,
@@ -175,12 +175,12 @@ function Room() {
           </div>
         </div>
 
-        <div className="pointer-events-none col-span-2 bg-green-400">
+        <div className="pointer-events-none col-span-2">
           <img src={GirlJoiningHands} alt="" className="h-full w-full" />
         </div>
       </div>
 
-      <div className="my-20 border border-black sm:my-10">
+      <div className="my-20 sm:my-10">
         <div>
           <div className="my-5 text-center">
             <span className="font-title text-3xl font-bold sm:text-6xl">
@@ -588,7 +588,7 @@ function Room() {
         </div>
       </div>
 
-      <div className="my-20 border border-black sm:my-10">
+      <div className="my-20 sm:my-10">
         <div className="my-5 text-center">
           <span className="font-title text-3xl font-bold sm:text-6xl">
             Features

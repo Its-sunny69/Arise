@@ -51,7 +51,7 @@ function WorldRank() {
   const handlePoints = () => {
     socket.emit("points");
   };
-
+// work on rank page...
   return (
     <div className="">
       <div className="  p-2">

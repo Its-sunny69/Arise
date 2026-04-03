@@ -20,6 +20,7 @@ import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
 import { Switch } from "@mui/material";
+import { Cancel, Correct, Delete, Edit } from "@/assets/icons";
 
 function RoomTodo({ roomData }) {
   const [newTodo, setNewTodo] = useState("");
@@ -239,208 +240,235 @@ function RoomTodo({ roomData }) {
   const rankingEntries = Object.entries(ranking);
 
   return (
-    <>
-      <div className="sm:p-2">
-        <div className="sm:my-8 my-4 text-center">
-          <span className="title sm:text-5xl text-4xl">Task List</span>
-        </div>
+    <div className="my-10 sm:my-14">
+      <div className="my-8 text-center">
+        <span className="font-title text-5xl">Task List</span>
+      </div>
 
-        <div className="flex justify-center items-center">
-          {userId === roomData.createdBy && (
-            <div className="sm:w-[30%] w-full my-5 flex">
-              <div className="w-5/6 py-1">
+      {userId === roomData.createdBy && (
+        <div className="my-5 flex items-center justify-center">
+          <div className="flex w-full sm:w-[30%]">
+            {/* <div className="w-5/6 py-1">
                 <input
                   type="text"
-                  className="w-full px-4 py-1 border-black rounded-tl-lg text-gray-800 focus:outline-dotted focus:bg-slate-100 bg-slate-50 shadow-sm"
+                  className="w-full rounded-tl-lg border-black bg-slate-50 px-4 py-1 text-gray-800 shadow-sm focus:bg-slate-100 focus:outline-dotted"
                   value={newTodo}
                   onChange={(e) => setNewTodo(e.target.value)}
                   placeholder="Add New Task"
                   required
                 />
-              </div>
-              <div className="w-1/6 flex justify-center items-center group">
+              </div> */}
+            <div className="my-1 flex w-full rounded-full">
+              <div className="flex w-full gap-2 rounded-full border-2 border-white bg-white/40 py-2 pl-4 pr-2 shadow-[0px_0px_14px_6px_#ffffff1f] transition-all focus-within:outline-dotted focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-gray-400">
+                <input
+                  type="text"
+                  className="w-full bg-transparent outline-none"
+                  value={newTodo}
+                  onChange={(e) => setNewTodo(e.target.value)}
+                  placeholder="Add New Task"
+                  required
+                />
+
                 <button
-                  className="w-full flex items-center bg-black text-sm font-medium text-white rounded-tr-lg justify-center py-[5.6px] hover:opacity-70 shadow-sm active:scale-95 transition-all"
+                  className="flex items-center justify-center rounded-full bg-black px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:opacity-70 active:scale-95"
                   type="submit"
                   onClick={newTodo.trim().length > 0 ? handleAddTodo : () => {}}
                 >
-                  <img src={AddSvg} className="transition-all py-1" />
+                  Add
                 </button>
               </div>
             </div>
-          )}
-        </div>
 
-        <div className="flex justify-center items-center">
-          <ul className="sm:w-[80%] w-full flex flex-col justify-center items-center transition-all">
-            <li className="w-full bg-gray-300 grid grid-flow-row gap-4 rounded-t-2xl">
-              <div className="grid sm:grid-cols-8 grid-cols-5 my-3">
-                <div className="sm:col-span-1 px-2 flex justify-center items-center font-bold">
-                  Status
-                </div>
-                <div
-                  className={`sm:col-span-5 col-span-2 flex justify-start items-center px-4 font-bold ${
-                    userId == roomData.createdBy ? "border-x " : "border-l"
-                  } border-black`}
+            {/* <div className="group flex w-1/6 items-center justify-center">
+                <button
+                  className="flex w-full items-center justify-center rounded-tr-lg bg-black py-[5.6px] text-sm font-medium text-white shadow-sm transition-all hover:opacity-70 active:scale-95"
+                  type="submit"
+                  onClick={newTodo.trim().length > 0 ? handleAddTodo : () => {}}
                 >
-                  Task
-                </div>
+                  <img src={AddSvg} className="py-1 transition-all" />
+                </button>
+              </div> */}
+          </div>
+        </div>
+      )}
 
-                {userId == roomData.createdBy ? (
-                  <>
-                    <div className="sm:col-span-1 flex justify-center items-center font-bold border-r border-black">
-                      Edit
-                    </div>
-                    <div className="sm:col-span-1 px-2 flex justify-center items-center font-bold">
-                      Delete
-                    </div>
-                  </>
-                ) : (
-                  ""
-                )}
+      <div className="flex items-center justify-center">
+        <ul className="flex w-full flex-col items-center justify-center rounded-xl border-2 border-white shadow-[0px_0px_14px_6px_#ffffff1f] transition-all lg:w-[80%]">
+          <li className="grid w-full grid-flow-row gap-4 rounded-t-xl border-b-2 border-white bg-[#cce4f1]">
+            <div className="grid grid-cols-5 sm:grid-cols-8">
+              <div className="flex items-center justify-center p-2 font-bold sm:col-span-1">
+                Status
               </div>
-            </li>
+              <div
+                className={`col-span-2 ${userId === roomData.createdBy ? "border-x-2 sm:col-span-5" : "border-l-2 sm:col-span-7"} flex items-center justify-start border-white p-2 px-4 font-bold`}
+              >
+                Task
+              </div>
 
-            <div className="w-full">
-              {socketTodo.length ? (
-                socketTodo.map((todo, index) => (
-                  <li
-                    key={index}
-                    className={`w-full grid grid-flow-row shadow-sm bg-white ${
-                      index === socketTodo?.length - 1 ? "rounded-b-2xl" : ""
+              {userId == roomData.createdBy ? (
+                <>
+                  <div className="flex items-center justify-center border-r-2 border-white p-2 font-bold sm:col-span-1">
+                    Edit
+                  </div>
+                  <div className="flex items-center justify-center p-2 font-bold sm:col-span-1">
+                    Delete
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+          </li>
+
+          <div className="w-full">
+            {socketTodo && socketTodo.length ? (
+              socketTodo.map((todo, index) => (
+                <li
+                  key={todo._id}
+                  className={`grid w-full grid-flow-row bg-white/50 backdrop-blur-md ${
+                    index === todos.length - 1 ? "rounded-b-xl" : ""
+                  }`}
+                >
+                  <div
+                    className={`grid grid-cols-5 transition-all sm:grid-cols-8 ${
+                      index === todos.length - 1 ? "rounded-b-xl" : ""
                     }`}
                   >
-                    {editId == todo._id ? (
+                    <div className="flex items-center justify-center p-2 sm:col-span-1">
+                      {editId === todo._id ? (
+                        <Checkbox checked={todo.checked ?? false} disabled />
+                      ) : (
+                        <Checkbox
+                          control={<Switch />}
+                          checked={todo.checked?.includes(userId) ?? false}
+                          onChange={() => handleCheckboxChanges(todo._id, todo)}
+                        />
+                      )}
+                    </div>
+
+                    <div
+                      className={`col-span-2 ${userId === roomData.createdBy ? "border-x-2 sm:col-span-5" : "border-l-2 sm:col-span-7"} flex items-center justify-start border-white px-4 py-2 transition-all`}
+                    >
+                      {editId === todo._id ? (
+                        <input
+                          type="text"
+                          className="w-full border-b-2 border-[#c6dbef] bg-transparent focus:outline-none"
+                          value={editValue}
+                          onChange={(e) => setEditValue(e.target.value)}
+                        />
+                      ) : (
+                        <div
+                          className={`relative w-fit ${
+                            todo.checked?.includes(userId)
+                              ? "text-gray-500"
+                              : ""
+                          }`}
+                        >
+                          {todo.title}
+                          <span
+                            className={`absolute bottom-[45%] left-0 h-[2px] w-full bg-black transition-transform duration-500 ${
+                              todo.checked?.includes(userId)
+                                ? "scale-x-100 bg-gray-500"
+                                : "scale-x-0"
+                            }`}
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {userId == roomData.createdBy && (
                       <>
-                        <div className="grid sm:grid-cols-8 grid-cols-5 bg-gray-100">
-                          <div className="sm:col-span-1 flex justify-center items-center">
-                            <Checkbox disabled />
-                          </div>
-
-                          <div className="sm:col-span-5 col-span-2 w-full px-4 flex justify-start items-center">
-                            <input
-                              type="text"
-                              className="border-b border-gray-300 w-full focus:outline-none bg-gray-100"
-                              value={editValue}
-                              onChange={(e) => setEditValue(e.target.value)}
-                            />
-                          </div>
-
-                          <div className="sm:col-span-1 flex justify-center items-center">
+                        <div className="flex items-center justify-center border-r-2 border-white p-2 sm:col-span-1">
+                          {editId === todo._id ? (
                             <button
-                              className="text-green-500 hover:scale-110 hover:text-green-400 transition-all active:scale-95"
+                              className="transition-all hover:scale-110 hover:opacity-75 active:scale-95"
                               onClick={() =>
                                 handleUpdateTodo(todo._id, editValue)
                               }
                             >
-                              <CheckRoundedIcon />
-                            </button>
-                          </div>
-
-                          <div className="sm:col-span-1 flex justify-center items-center">
-                            <button
-                              className="text-red-500 hover:scale-110 hover:text-red-400 transition-all active:scale-95"
-                              onClick={handleCancelEdit}
-                            >
-                              <CloseRoundedIcon />
-                            </button>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div
-                          className={`grid sm:grid-cols-8 grid-cols-5 hover:bg-gray-100 transition-all ${
-                            index === todos?.length - 1 ? "rounded-b-2xl" : ""
-                          }`}
-                        >
-                          <div className="sm:col-span-1 flex justify-center items-center">
-                            <Checkbox
-                              control={<Switch />}
-                              checked={todo.checked.includes(userId) ?? false}
-                              onChange={() =>
-                                handleCheckboxChanges(todo._id, todo)
-                              }
-                            />
-                          </div>
-
-                          <div
-                            className={` flex justify-start items-center px-4 sm:col-span-5 col-span-2 transition-all ${
-                              todo.checked.includes(userId)
-                                ? "text-gray-500"
-                                : ""
-                            }`}
-                          >
-                            <div className="relative w-fit">
-                              {todo.title}
-                              <span
-                                className={`absolute left-0 bottom-[45%] w-full h-[2px] bg-black transition-transform duration-500 ${
-                                  todo.checked.includes(userId)
-                                    ? "scale-x-100 bg-gray-500"
-                                    : "scale-x-0"
-                                }`}
+                              <img
+                                src={Correct}
+                                alt="Update"
+                                width={25}
+                                height={25}
                               />
-                            </div>
-                          </div>
-                          {userId == roomData.createdBy ? (
-                            <>
-                              <div className="sm:col-span-1 flex justify-center items-center">
-                                <button
-                                  className="text-blue-500 hover:scale-110 hover:text-blue-400 transition-all active:scale-95"
-                                  onClick={() =>
-                                    handleUpdateClick(todo._id, todo.title)
-                                  }
-                                >
-                                  <EditRoundedIcon />
-                                </button>
-                              </div>
-
-                              <div className="sm:col-span-1 flex justify-center items-center">
-                                <button
-                                  className="text-red-500 hover:scale-110 hover:text-red-400 transition-all active:scale-95"
-                                  onClick={() => handleDeleteTodo(todo._id)}
-                                >
-                                  <DeleteRoundedIcon />
-                                </button>
-                              </div>
-                            </>
+                            </button>
                           ) : (
-                            ""
+                            <button
+                              className="text-blue-500 transition-all hover:scale-110 hover:text-blue-400 active:scale-95"
+                              onClick={() =>
+                                handleUpdateClick(todo._id, todo.title)
+                              }
+                            >
+                              <img
+                                src={Edit}
+                                alt="Edit"
+                                width={25}
+                                height={25}
+                              />
+                            </button>
                           )}
                         </div>
+                        <div className="flex items-center justify-center p-2 sm:col-span-1">
+                          {editId === todo._id ? (
+                            <button
+                              className="transition-all hover:scale-110 hover:opacity-75 active:scale-95"
+                              onClick={handleCancelEdit}
+                            >
+                              <img
+                                src={Cancel}
+                                alt="Cancel"
+                                width={25}
+                                height={25}
+                              />
+                            </button>
+                          ) : (
+                            <button
+                              className="text-red-500 transition-all hover:scale-110 hover:text-red-400 active:scale-95"
+                              onClick={() => handleDeleteTodo(todo._id)}
+                            >
+                              <img
+                                src={Delete}
+                                alt="Delete"
+                                width={25}
+                                height={25}
+                              />
+                            </button>
+                          )}
+                        </div>{" "}
                       </>
                     )}
-                  </li>
-                ))
-              ) : (
-                <li className="w-full shadow-sm bg-white rounded-b-2xl">
-                  <div className="py-2 text-center rounded-b-2xl">
-                    No Task Added
                   </div>
                 </li>
-              )}
-            </div>
-          </ul>
-        </div>
+              ))
+            ) : (
+              <li className="w-full rounded-b-xl bg-white/50 text-center backdrop-blur-md">
+                <div className="rounded-b-xl p-4 text-center">
+                  No Task Added
+                </div>
+              </li>
+            )}
+          </div>
+        </ul>
       </div>
 
-      <div className=" flex flex-col-reverse sm:flex-row my-14 sm:p-2">
-        <div className="sm:w-1/2 w-full">
-          <div className="sm:mb-8 my-8 text-center">
-            <span className="title sm:text-5xl text-4xl">Rank</span>
+      <div className="my-10 flex flex-col-reverse sm:my-14 sm:flex-row sm:p-2">
+        <div className="w-full sm:w-1/2">
+          <div className="my-5 text-center sm:mb-8">
+            <span className="font-title text-4xl sm:text-5xl">Rank</span>
           </div>
 
-          <div className="flex justify-center items-center">
-            <ul className="lg:w-[90%] w-full bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
-              <li className="w-full  grid grid-flow-row gap-4 rounded-t-2xl border-b-2">
-                <div className="grid grid-cols-7 my-3">
-                  <div className="col-span-1 flex justify-center items-center font-bold">
+          <div className="flex items-center justify-center">
+            <ul className="flex w-full flex-col items-center justify-center rounded-xl border-2 border-white bg-white/50 shadow-[0px_0px_14px_6px_#ffffff3b] backdrop-blur-lg transition-all lg:w-[90%]">
+              <li className="grid w-full grid-flow-row gap-4 rounded-t-xl border-b-2 border-white">
+                <div className="grid grid-cols-8">
+                  <div className="col-span-2 flex items-center justify-center p-2 font-bold">
                     Rank
                   </div>
-                  <div className="col-span-3 flex justify-center items-center px-4 font-bold">
+                  <div className="col-span-3 flex items-center justify-center p-2 px-4 font-bold">
                     Username
                   </div>
-                  <div className="col-span-3 flex justify-center items-center font-bold">
+                  <div className="col-span-3 flex items-center justify-center p-2 font-bold">
                     Task Completed
                   </div>
                 </div>
@@ -449,19 +477,18 @@ function RoomTodo({ roomData }) {
               {rankingEntries.map(([userId, val], index) => (
                 <li
                   key={userId}
-                  className={`w-full grid grid-flow-row hover:opacity-70 py-2 ${
+                  className={`grid w-full grid-flow-row py-2 hover:opacity-70 ${
                     index === rankingEntries.length - 1 ? "rounded-b-2xl" : ""
                   } ${
-                    index === 0 ? "bg-green-200 text-green-700 font-bold" : ""
-                  }
-                      ${
-                        val[1] === username
-                          ? "bg-blue-100 text-blue-700 font-bold"
-                          : ""
-                      } `}
+                    index === 0 ? "bg-yellow-200 font-bold text-yellow-600" : ""
+                  } ${
+                    val[1] === username
+                      ? "bg-blue-100 font-bold text-blue-700"
+                      : ""
+                  } `}
                 >
-                  <div className="grid grid-cols-7">
-                    <div className="relative col-span-1 flex justify-center items-center">
+                  <div className="grid grid-cols-8">
+                    <div className="relative col-span-2 flex items-center justify-center">
                       {phoneView ? (
                         <>
                           {index === 0 && <EmojiEventsTwoToneIcon />}
@@ -471,18 +498,19 @@ function RoomTodo({ roomData }) {
                         </>
                       ) : (
                         <>
-                          {index === 0 && (
-                            <EmojiEventsTwoToneIcon className="absolute left-1" />
+                          {index === 0 ? (
+                            <EmojiEventsTwoToneIcon />
+                          ) : (
+                            <span className="px-1">{index + 1}</span>
                           )}
-                          <span className="px-1">{index + 1}</span>
                         </>
                       )}
                     </div>
-                    <div className="relative bg-green col-span-3 flex justify-center items-center">
+                    <div className="bg-green relative col-span-3 flex items-center justify-center">
                       {phoneView ? (
                         <>
                           {val[1] === username && (
-                            <p className="border  bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
+                            <p className="rounded-full border border-blue-700 bg-blue-50 px-2 text-xs">
                               You
                             </p>
                           )}
@@ -490,16 +518,23 @@ function RoomTodo({ roomData }) {
                         </>
                       ) : (
                         <>
-                          {val[1] === username && (
-                            <p className="border absolute left-2 bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
+                          {val[1] === username ? (
+                            <p
+                              className={`rounded-full px-3 text-sm ${
+                                index === 0
+                                  ? "border border-yellow-600 bg-yellow-100 font-bold text-yellow-600"
+                                  : "border border-blue-600 bg-blue-50 font-bold text-blue-600"
+                              }`}
+                            >
                               You
                             </p>
+                          ) : (
+                            val[1]
                           )}
-                          {val[1]}
                         </>
                       )}
                     </div>
-                    <div className="col-span-3 flex justify-center items-center">
+                    <div className="col-span-3 flex items-center justify-center">
                       {val[0]}
                     </div>
                   </div>
@@ -509,23 +544,24 @@ function RoomTodo({ roomData }) {
           </div>
         </div>
 
-        <div className="sm:w-1/2 w-full">
-          <div className="mb-8 sm:my-8 text-center">
-            <span className="title sm:text-5xl text-4xl">Progress</span>
+        <div className="w-full sm:w-1/2">
+          <div className="my-5 text-center sm:mb-8">
+            <span className="font-title text-4xl sm:text-5xl">Progress</span>
           </div>
 
-          <div className="flex justify-center items-center">
-            <ul className="sm:w-[90%] w-full bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
-              <li className="w-full  grid grid-flow-row gap-4 rounded-t-2xl border-b-2">
-                <div className="my-3 flex justify-center items-center font-bold">
+          <div className="flex items-center justify-center">
+            <ul className="flex w-full flex-col items-center justify-center rounded-xl border-2 border-white bg-white/50 shadow-[0px_0px_14px_6px_#ffffff3b] backdrop-blur-lg transition-all lg:w-[90%]">
+              <li className="grid w-full grid-flow-row gap-4 rounded-t-xl border-b-2 border-white">
+                <div className="flex items-center justify-center p-2 font-bold">
                   User&apos;s Progress
                 </div>
               </li>
+
               {roomData.users?.map((user, index) => {
                 return (
                   <li
                     key={index}
-                    className={`w-full grid grid-flow-row hover:opacity-70 py-2 px-4 transition-all ${
+                    className={`grid w-full grid-flow-row px-4 py-2 transition-all hover:opacity-70 ${
                       index === roomData.users?.length - 1
                         ? "rounded-b-2xl"
                         : ""
@@ -546,7 +582,7 @@ function RoomTodo({ roomData }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
