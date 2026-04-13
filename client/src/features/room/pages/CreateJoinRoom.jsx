@@ -72,8 +72,8 @@ const CreateJoinRoom = () => {
   };
   // work here.........
   return (
-    <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
-      <div className="my-20 sm:my-10">
+    <div className="relative">
+      {/* <div className="my-20 sm:my-10">
         <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
           <ShinyText
             text=" 👥 | Create Or Join Room"
@@ -82,9 +82,9 @@ const CreateJoinRoom = () => {
             className=""
           />
         </div>
-      </div>
+      </div> */}
 
-      <div className="my-20 grid grid-cols-7 gap-4 border border-black sm:my-10">
+      <div className="my-20 grid grid-cols-7 gap-4 sm:my-10">
         <div className="col-span-4 flex flex-col items-start justify-center">
           <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
             Create,
@@ -109,9 +109,13 @@ const CreateJoinRoom = () => {
         </div>
       </div>
 
-      <div className="my-20 grid grid-cols-7 gap-4 border border-black sm:my-10">
+      <div className="my-20 grid grid-cols-7 gap-4 sm:my-10">
         <div className="pointer-events-none col-span-3">
-          <img src={GirlJoiningChat} alt="Girl Joining Chat" className="h-full w-full" />
+          <img
+            src={GirlJoiningChat}
+            alt="Girl Joining Chat"
+            className="h-full w-full"
+          />
         </div>
 
         <div className="col-span-4 flex flex-col items-start justify-center">

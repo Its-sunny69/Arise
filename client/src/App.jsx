@@ -11,6 +11,7 @@ import SignUp from "./features/auth/pages/SignUp";
 import { Toaster } from "react-hot-toast";
 import TaskList from "./features/todo/pages/TaskList";
 import Room from "./features/room/pages/Room";
+import RoomLayout from "./features/room/Layout/RoomLayout";
 import WorldRank from "./pages/WorldRank";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
@@ -44,7 +45,8 @@ function App() {
               <Route element={<Layout />}>
                 <Route path="/home" element={<Home />} />
                 <Route path="/task-list" element={<TaskList />} />
-                <Route path="/room" element={<Room />}>
+                <Route path="/room" element={<RoomLayout />}>
+                  <Route index element={<Room />} />
                   <Route path="create-join" element={<CreateJoinRoom />} />
                   <Route path="chat/:roomId" element={<ChatRoom />} />
                 </Route>

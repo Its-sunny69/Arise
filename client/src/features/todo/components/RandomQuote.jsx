@@ -26,9 +26,9 @@ const RandomQuote = () => {
   }, []);
 
   return (
-    <div className="sm:p-4 p-2 text-center flex flex-col justify-center items-center min-h-[8rem]">
+    <div className="flex min-h-[8rem] flex-col items-center justify-center p-2 text-center sm:p-4">
       {loading ? (
-        <div className="w-full flex flex-col justify-center items-center">
+        <div className="flex w-full flex-col items-center justify-center">
           <Stack
             spacing={-1}
             sx={{
@@ -57,7 +57,7 @@ const RandomQuote = () => {
       ) : (
         <>
           <p className="text-xl font-semibold italic">&ldquo;{quote}&rdquo;</p>
-          <p className=" mt-2 font-medium">- by {author}</p>
+          <p className="mt-2 font-medium">- by {author}</p>
         </>
       )}
     </div>

@@ -9,7 +9,13 @@ import profileLottie from "../assets/profile.lottie";
 import crownLottie from "../assets/crown.lottie";
 import { useSelector } from "react-redux";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { ComputerBackground, Phone2 } from "../assets/images";
+import {
+  ComputerBackground,
+  HomeFeature1,
+  HomeFeature2,
+  HomeFeature3,
+  Phone2,
+} from "../assets/images";
 import {
   motion,
   useMotionValueEvent,
@@ -50,19 +56,19 @@ function Home() {
     {
       title: "Task List",
       body: "Organize your daily tasks, set priorities, and stay on track with ease. Break big goals into manageable steps and monitor progress throughout the day. Build momentum with a clear plan that keeps you focused and productive.",
-      image: ComputerBackground,
+      image: HomeFeature1,
       bgClass: "bg-blue-400",
     },
     {
       title: "Collaboration Room",
       body: "Create or join rooms to collaborate in real time and get things done together. Share updates instantly, coordinate responsibilities, and keep everyone aligned on priorities. Turn teamwork into measurable progress without losing clarity.",
-      image: Test2,
+      image: HomeFeature2,
       bgClass: "bg-orange-400",
     },
     {
       title: "Global Leaderboard",
       body: "Compete with users worldwide, earn points, and climb the productivity rankings. Stay motivated by tracking your standing and pushing for consistent improvement. Celebrate milestones, challenge yourself, and level up your productivity every week.",
-      image: Test3,
+      image: HomeFeature3,
       bgClass: "bg-green-400",
     },
   ];
@@ -97,7 +103,7 @@ function Home() {
 
   return (
     <div
-      className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white"
+      className="gradient-bg mask-bg relative h-full overflow-y-auto rounded-xl border-2 border-white"
       ref={containerRef}
     >
       <div className="sticky top-0 z-10 flex items-center justify-between border-b-2 border-white px-6 py-3 backdrop-blur-xl">
@@ -140,41 +146,7 @@ function Home() {
 
         <div className="my-20 sm:my-10">
           <div className="relative flex flex-col items-start justify-center">
-            {/* <Fade
-                delay={200}
-                duration={1000}
-                triggerOnce
-                fraction={0.5}
-                className="mb-10"
-              >
-                <div className="flex tracking-widest">
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl pl-4">
-                      A
-                    </span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl">
-                      r
-                    </span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl">
-                      i
-                    </span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl">
-                      s
-                    </span>
-                  </div>
-                  <div className="hover:scale-110 cursor-pointer transition-all">
-                    <span className="title text-outline sm:text-7xl text-6xl pr-5">
-                      e
-                    </span>
-                  </div>
-                </div>
-              </Fade> */}
+            {/* work here, make the main keywords highlighted with some gradient text color... */}
 
             <span className="font-title text-3xl font-bold sm:text-6xl">
               Above Procrastination, <br /> One Task at a Time!
@@ -237,8 +209,16 @@ function Home() {
           </motion.div>
         </div>
 
-        <div className="my-20">
-          <CardScroll data={cards} />
+        <div className="my-20 sm:my-10">
+          <div className="my-5 text-center">
+            <span className="font-title text-3xl font-bold sm:text-6xl">
+              What We Offer?
+            </span>
+          </div>
+
+          <div className="my-6">
+            <CardScroll data={cards} />
+          </div>{" "}
         </div>
       </div>
     </div>

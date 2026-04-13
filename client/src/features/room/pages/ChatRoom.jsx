@@ -201,15 +201,15 @@ const ChatRoom = () => {
   return (
     <>
       {isLoading || !users.length ? (
-        <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
-          <div className="my-4 h-7">
+        <div className="relative ">
+          {/* <div className="my-4 h-7">
             <div className="bg-gray-00 w-24 rounded-full border border-gray-400 px-5 py-1 text-sm">
               <Skeleton
                 variant="text"
                 sx={{ fontSize: "1.5rem", width: "100%", marginY: "0px" }}
               />
             </div>
-          </div>
+          </div> */}
           <div className="my-10 flex h-16 w-full items-center justify-between">
             <div className="w-full px-2 py-1">
               <Stack
@@ -235,16 +235,16 @@ const ChatRoom = () => {
           </div>
         </div>
       ) : users.some((user) => user._id === profile) ? (
-        <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
+        <div className="relative">
           <div className="my-20 flex justify-between sm:my-10">
-            <div className="h-fit w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
+            {/* <div className="h-fit w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
               <ShinyText
                 text="👥 | Room"
                 disabled={false}
                 speed={3}
                 className=""
               />
-            </div>
+            </div> */}
 
             <div className="rounded-lg bg-neutral-200 px-2 py-1 text-sm font-bold">
               Room ID: {roomData?.roomId}

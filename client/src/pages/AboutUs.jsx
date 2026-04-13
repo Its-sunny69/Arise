@@ -22,6 +22,8 @@ import SunnyPic from "../assets/sunny-pic2.png";
 import InzamamPic from "../assets/inzamam-pic.jpg";
 import GithubSvg from "../assets/github-svg.svg";
 import LinkedInSvg from "../assets/linkedin-svg.svg";
+import CardScroll from "@/shared/components/CardScroll";
+import { ComputerBackground } from "@/assets/images";
 
 function AboutUs() {
   const [activeDiv, setActiveDiv] = useState(0);
@@ -46,257 +48,106 @@ function AboutUs() {
 
     return () => clearInterval(interval);
   }, [divCount, delay]);
+
+  const cards = [
+    {
+      title: "Smart Task Management",
+      body: "Simplify your goals with an intuitive todo system.",
+      image: ComputerBackground,
+      bgClass: "bg-blue-400",
+    },
+    {
+      title: "Gamified Progress",
+      body: "Turn your accomplishments into exciting rewards and rankings.",
+      image: ComputerBackground,
+      bgClass: "bg-green-400",
+    },
+    {
+      title: "Personalized Insights",
+      body: "Get actionable feedback to optimize your productivity and growth.",
+      image: ComputerBackground,
+      bgClass: "bg-purple-400",
+    },
+  ];
+
   return (
-    <>
-      <div className="w-full  p-2">
-        <div className="my-4">
-          <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
-            <ShinyText
-              text="📖 | About"
-              disabled={false}
-              speed={3}
-              className=""
-            />
-          </div>
+    <div className="gradient-bg mask-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
+      <div className="my-20 sm:my-10">
+        <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
+          <ShinyText
+            text="📖 | About"
+            disabled={false}
+            speed={3}
+            className=""
+          />
+        </div>
+      </div>
+
+      <div className="my-20 text-center sm:my-10">
+        <p className="font-title text-3xl font-bold sm:text-6xl">About ARISE</p>
+
+        <p className="mt-6">
+          Your ultimate ally in conquering procrastination and unlocking your
+          full potential.
+          <br />
+          Your Partner in Productivity and Growth.
+        </p>
+      </div>
+
+      <div className="my-20 grid grid-cols-2 sm:my-10">
+        <div className="col-span-1 flex flex-col justify-start">
+          <p className="font-title text-3xl font-bold sm:text-6xl">
+            Why Arise?
+          </p>
+          <p className="mt-6">
+            We understand that starting is often the hardest part. Arise is here
+            to help you break free from procrastination, organize your goals,
+            and turn your dreams into achievable milestones.
+          </p>
+        </div>
+        <div className="col-span-1">
+          <TiltedScroll />
+        </div>
+      </div>
+
+      <div className="my-20 grid grid-cols-2 sm:my-10">
+        <div className="col-span-1">
+          <TiltedScroll />
+        </div>
+        <div className="col-span-1 flex flex-col justify-start">
+          <p className="font-title text-3xl font-bold sm:text-6xl">
+            What We Do?
+          </p>
+          <p className="mt-6">
+            We understand that starting is often the hardest part. Arise is here
+            to help you break free from procrastination, organize your goals,
+            and turn your dreams into achievable milestones.
+          </p>
+        </div>
+      </div>
+
+      <div className="my-20 sm:my-10">
+        <div className="text-center">
+          <p className="font-title text-3xl font-bold sm:text-6xl">
+            Our Mission
+          </p>
+          <p className="mt-6">
+            To empower individuals around the world to overcome procrastination,
+            embrace productivity, and achieve greatness—one task at a time.
+          </p>
         </div>
 
-        <div className="my-10">
-          <div className="title sm:text-7xl text-5xl flex justify-center items-center">
-            <TypeAnimation
-              sequence={["About"]}
-              speed={30}
-              repeat={0}
-              cursor={false}
-            />
+        <div className="my-6">
+          <CardScroll data={cards} textSectionDirection="right" />
+        </div>
+      </div>
 
-            <Fade delay={700} duration={1000} triggerOnce fraction={0.5}>
-              <div className="flex tracking-wider">
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl sm:pl-4 pl-2">
-                    A
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl">
-                    r
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl">
-                    i
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl">
-                    s
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl pr-5">
-                    e
-                  </span>
-                </div>
-              </div>
-            </Fade>
-          </div>
-
-          <Fade
-            delay={200}
-            duration={1000}
-            triggerOnce
-            fraction={0.5}
-            className="text-center"
-          >
-            {phoneView ? (
-              <div className="sm:text-2xl sm:text-center text-lg sm:my-0 text-justify my-2">
-                Your ultimate ally in conquering procrastination and unlocking
-                your full potential. Your Partner in Productivity and Growth.
-              </div>
-            ) : (
-              <div className="text-2xl text-center">
-                Your ultimate ally in conquering procrastination and unlocking
-                your full potential.
-                <br />
-                Your Partner in Productivity and Growth.
-              </div>
-            )}
-          </Fade>
+      <div className="my-20 sm:my-10">
+        <div className="text-center">
+          <p className="font-title text-3xl font-bold sm:text-6xl">Our Team</p>
         </div>
 
-        <Fade
-          cascade
-          delay={200}
-          damping={0.1}
-          duration={1000}
-          triggerOnce
-          fraction={0.5}
-        >
-          <div className="sm:mt-20 mt-10 sm:mx-5 lg:flex">
-            <div className="lg:w-1/2">
-              <div className="sm:my-8 lg:text-left text-center">
-                <span className="title sm:text-5xl text-4xl">Why Arise?</span>
-              </div>
-
-              <div className="sm:my-8 my-4 text-justify">
-                <span className="sm:text-2xl text-lg">
-                  We understand that starting is often the hardest part. Arise
-                  is here to help you break free from procrastination, organize
-                  your goals, and turn your dreams into achievable milestones.
-                </span>
-              </div>
-            </div>
-
-            <div className="lg:w-1/2">
-              <TiltedScroll />
-            </div>
-          </div>
-
-          <div className="sm:mt-14 mt-10 flex flex-col-reverse lg:flex-row sm:mx-5">
-            {phoneView ? (
-              ""
-            ) : (
-              <div className="w-1/2 relative">
-                <div
-                  className={`absolute ${
-                    activeDiv === 0
-                      ? "top-32 left-44 scale-[200%] shadow-lg border border-gray-800"
-                      : "top-5 left-10"
-                  } w-28 h-14 rounded-sm transition-all duration-500 flex justify-center items-center bg-white border border-gray-800`}
-                >
-                  Productivity
-                </div>
-                <div
-                  className={`absolute ${
-                    activeDiv === 1
-                      ? "top-32 left-44 scale-[200%] shadow-lg border border-gray-800"
-                      : "top-6 left-11"
-                  } w-28 h-14 rounded-sm transition-all duration-500 flex justify-center items-center bg-white border border-gray-800`}
-                >
-                  Motivation
-                </div>
-                <div
-                  className={`absolute ${
-                    activeDiv === 2
-                      ? "top-32 left-44 scale-[200%] shadow-lg border border-gray-800"
-                      : "top-7 left-12"
-                  } w-28 h-14 rounded-sm transition-all duration-500 flex justify-center items-center bg-white border border-gray-800`}
-                >
-                  Focus
-                </div>
-              </div>
-            )}
-
-            <div className="lg:w-1/2">
-              <div className="sm:my-8 mt-2 lg:text-left text-center">
-                <span className="title sm:text-5xl text-4xl">What We Do?</span>
-              </div>
-
-              <div className="sm:my-8 my-4 text-justify">
-                <span className="sm:text-2xl text-lg">
-                  We understand that starting is often the hardest part. Arise
-                  is here to help you break free from procrastination, organize
-                  your goals, and turn your dreams into achievable milestones.
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:mt-20 mt-10">
-            <div className="sm:my-8 text-center">
-              <span className="title sm:text-5xl text-4xl">Our Mission</span>
-            </div>
-
-            {phoneView ? (
-              <div className="sm:my-8 sm:text-center my-4 text-justify">
-                <span className="sm:text-2xl text-lg ">
-                  To empower individuals around the world to overcome
-                  procrastination, embrace productivity, and achieve
-                  greatness—one task at a time.
-                </span>
-              </div>
-            ) : (
-              <div className="my-8 text-center">
-                <span className="text-2xl ">
-                  To empower individuals around the world to overcome
-                  procrastination, embrace productivity,
-                  <br />
-                  and achieve greatness—one task at a time.
-                </span>
-              </div>
-            )}
-
-            <div className="sm:m-5 grid lg:grid-cols-3 sm:gap-5 gap-3">
-              <Fade
-                delay={200}
-                duration={1000}
-                triggerOnce
-                fraction={0.5}
-                cascade
-                damping={0.2}
-                className="grid"
-              >
-                <div className="flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-                  <div className=" flex flex-col justify-center mb-2 items-center">
-                    <div className="flex justify-center items-center">
-                      <PlaylistAddCheckRoundedIcon
-                        className="text-gray-800 mb-4"
-                        style={{ width: "4rem", height: "4rem" }}
-                      />
-                    </div>
-                    <span className="title tracking-wider text-xl">
-                      Smart Task Management
-                    </span>
-                  </div>
-                  <span className="text-center">
-                    Simplify your goals with an intuitive todo system.
-                  </span>
-                </div>
-
-                <div className="flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-                  <div className=" flex flex-col justify-center mb-2 items-center">
-                    <div className="flex justify-center items-center">
-                      <SportsEsportsRoundedIcon
-                        className="text-gray-800 mb-4"
-                        style={{ width: "4rem", height: "4rem" }}
-                      />
-                    </div>
-                    <span className="title tracking-wider text-xl">
-                      Gamified Progress
-                    </span>
-                  </div>
-                  <span className="text-center">
-                    Turn your accomplishments into exciting rewards and
-                    rankings.
-                  </span>
-                </div>
-
-                <div className="flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-                  <div className=" flex flex-col justify-center mb-2 items-center">
-                    <div className="flex justify-center items-center">
-                      <Diversity3RoundedIcon
-                        className="text-gray-800 mb-4"
-                        style={{ width: "4rem", height: "4rem" }}
-                      />
-                    </div>
-                    <span className="title tracking-wider text-xl">
-                      Community Support
-                    </span>
-                  </div>
-                  <span className="text-center">
-                    Connect with like-minded achievers for inspiration and
-                    encouragement.
-                  </span>
-                </div>
-              </Fade>
-            </div>
-          </div>
-
-          <div className="sm:mt-20 mt-10">
-            <div className="sm:my-8 my-4 text-center">
-              <span className="title sm:text-5xl text-4xl">Our Team</span>
-            </div>
-          </div>
-
+        <div className="mt-6">
           <Swiper
             modules={[
               Autoplay,
@@ -317,36 +168,36 @@ function AboutUs() {
               disableOnInteraction: true,
             }}
             pagination={{ clickable: true }}
-            className="w-full h-full"
+            className="h-full w-full"
           >
             <SwiperSlide>
-              <div className="flex lg:flex-row flex-col bg-slate-100 rounded-md shadow-sm">
-                <div className="lg:w-1/2 sm:p-5 p-2">
+              <div className="flex flex-col rounded-md bg-slate-100 shadow-sm lg:flex-row">
+                <div className="p-2 sm:p-5 lg:w-1/2">
                   <img
                     src={SunnyPic}
                     alt="Image"
-                    className="object-cover object-center w-full rounded-lg shadow-xl h-96 shadow-blue-gray-900/50"
+                    className="shadow-blue-gray-900/50 h-96 w-full rounded-lg object-cover object-center shadow-xl"
                   />
                 </div>
-                <div className="lg:w-1/2 bg-green-40">
-                  <div className="sm:my-10 my-5 flex flex-col">
-                    <span className="title tracking-wider sm:text-4xl text-2xl lg:mx-0 mx-2 text-left">
+                <div className="bg-green-40 lg:w-1/2">
+                  <div className="my-5 flex flex-col sm:my-10">
+                    <span className="title mx-2 text-left text-2xl tracking-wider sm:text-4xl lg:mx-0">
                       Sunny Yadav
                     </span>
 
-                    <div className="flex justify-start items-center lg:mx-0 mx-2">
+                    <div className="mx-2 flex items-center justify-start lg:mx-0">
                       <span className="text-left">Frontend Developer | </span>
-                      <div className="flex ml-1">
+                      <div className="ml-1 flex">
                         <a
                           href="https://www.linkedin.com/in/sunny-yadav-557676249/"
-                          className="mr-1 hover:opacity-50 active:scale-95 transition-all"
+                          className="mr-1 transition-all hover:opacity-50 active:scale-95"
                           target="_blank"
                         >
                           <img src={LinkedInSvg} />
                         </a>
                         <a
                           href="https://github.com/Its-sunny69"
-                          className="hover:opacity-50 active:scale-95 transition-all"
+                          className="transition-all hover:opacity-50 active:scale-95"
                           target="_blank"
                         >
                           <img src={GithubSvg} />
@@ -354,7 +205,7 @@ function AboutUs() {
                       </div>
                     </div>
 
-                    <span className="text-justify sm:text-xl text-lg mt-5 mx-4 my-2">
+                    <span className="mx-4 my-2 mt-5 text-justify text-lg sm:text-xl">
                       We specialize in building responsive, high-performance web
                       applications using React and seamless API integration.
                       With expertise in Redux, we ensure smooth data flow and
@@ -367,33 +218,33 @@ function AboutUs() {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className="flex lg:flex-row flex-col bg-slate-100 rounded-md shadow-sm">
-                <div className="lg:w-1/2 sm:p-5 p-2">
+              <div className="flex flex-col rounded-md bg-slate-100 shadow-sm lg:flex-row">
+                <div className="p-2 sm:p-5 lg:w-1/2">
                   <img
                     src={InzamamPic}
                     alt="Image"
-                    className="object-cover object-center w-full rounded-lg shadow-xl h-96 shadow-blue-gray-900/50"
+                    className="shadow-blue-gray-900/50 h-96 w-full rounded-lg object-cover object-center shadow-xl"
                   />
                 </div>
                 <div className="lg:w-1/2">
-                  <div className="sm:my-10 my-5 flex flex-col">
-                    <span className="title tracking-wider sm:text-4xl text-2xl lg:mx-0 mx-2 text-left">
+                  <div className="my-5 flex flex-col sm:my-10">
+                    <span className="title mx-2 text-left text-2xl tracking-wider sm:text-4xl lg:mx-0">
                       Inzamam Shaikh
                     </span>
 
-                    <div className="flex justify-start items-center lg:mx-0 mx-2">
+                    <div className="mx-2 flex items-center justify-start lg:mx-0">
                       <span className="text-left">MERN Developer | </span>
-                      <div className="flex ml-1">
+                      <div className="ml-1 flex">
                         <a
                           href="https://www.linkedin.com/in/inzamam-shaikh-189678284/"
-                          className="mr-1 hover:opacity-50 active:scale-95 transition-all"
+                          className="mr-1 transition-all hover:opacity-50 active:scale-95"
                           target="_blank"
                         >
                           <img src={LinkedInSvg} />
                         </a>
                         <a
                           href="https://github.com/Inzamamdev"
-                          className="hover:opacity-50 active:scale-95 transition-all"
+                          className="transition-all hover:opacity-50 active:scale-95"
                           target="_blank"
                         >
                           <img src={GithubSvg} />
@@ -401,7 +252,7 @@ function AboutUs() {
                       </div>
                     </div>
 
-                    <span className="text-justify sm:text-xl text-lg mt-5 mx-4 my-2">
+                    <span className="mx-4 my-2 mt-5 text-justify text-lg sm:text-xl">
                       We craft responsive, high-performance web applications
                       using React, with seamless API integration and WebSocket
                       support for real-time updates, WebRTC, Firebase, and
@@ -414,9 +265,9 @@ function AboutUs() {
               </div>
             </SwiperSlide>
           </Swiper>
-        </Fade>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

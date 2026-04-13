@@ -8,6 +8,13 @@ import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import ShinyText from "../shared/components/ShinyText";
+import CardScroll from "@/shared/components/CardScroll";
+import {
+  ComputerBackground,
+  RankFeature1,
+  RankFeature2,
+  RankFeature3,
+} from "@/assets/images";
 
 function WorldRank() {
   const [ranking, setRanking] = useState([]);
@@ -51,249 +58,222 @@ function WorldRank() {
   const handlePoints = () => {
     socket.emit("points");
   };
-// work on rank page...
+
+  const cards = [
+    {
+      title: "Track Your Journey",
+      body: "Every task you conquer brings you one step closer to the top. Compete with achievers worldwide and see how you stack up against the best!",
+      image: RankFeature1,
+      bgClass: "bg-blue-400",
+    },
+    {
+      title: "Motivation at Its Best",
+      body: "Rise through the ranks, earn badges, and be recognized as a true champion of productivity. Every small win counts toward your big goals.",
+      image: RankFeature2,
+      bgClass: "bg-blue-400",
+    },
+    {
+      title: "Join the Race Now",
+      body: " The leaderboard refreshes regularly—so every day is a new chance to shine. Push your limits, stay consistent, and become the hero of your own story!",
+      image: RankFeature3,
+      bgClass: "bg-blue-400",
+    },
+  ];
+
   return (
-    <div className="">
-      <div className="  p-2">
-        <div className="my-4">
-          <div className="w-fit  px-5 py-1 rounded-full border border-gray-400 text-sm">
-            <ShinyText
-              text="🏆 | Arise Leaderboard"
-              disabled={false}
-              speed={3}
-              className=""
-            />
-          </div>
+    <div className="gradient-bg mask-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
+      <div className="my-20 sm:my-10">
+        <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
+          <ShinyText
+            text="🏆 | Arise Leaderboard"
+            disabled={false}
+            speed={3}
+            className=""
+          />
+        </div>
+      </div>
+
+      <div className="my-20 text-center sm:my-10">
+        <p className="font-title text-3xl font-bold sm:text-6xl">
+          ARISE Global Leaderboard
+        </p>
+
+        <p className="mt-6">
+          where procrastination meets its match and determination shines bright,
+          Welcome to the World Ranking page of Arise!
+        </p>
+      </div>
+
+      <div className="my-20 sm:my-10">
+        <div className="my-5 text-center">
+          <span className="font-title text-3xl font-bold sm:text-6xl">
+            Rank
+          </span>
         </div>
 
-        <div className="my-10">
-          <div className="title sm:text-7xl text-5xl lg:flex text-center justify-center items-center">
-            <Fade delay={700} duration={1000} triggerOnce fraction={0.5}>
-              <div className="flex lg:justify-normal justify-center tracking-wider">
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl pl-4">
-                    A
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl">
-                    r
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl">
-                    i
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl">
-                    s
-                  </span>
-                </div>
-                <div className="hover:scale-110 cursor-pointer transition-all">
-                  <span className="title text-outline sm:text-7xl text-5xl pr-5">
-                    e
-                  </span>
-                </div>
-              </div>
-            </Fade>
-
-            {showText && (
-              <TypeAnimation
-                sequence={["Global Leaderboard"]}
-                speed={30}
-                repeat={0}
-                cursor={false}
-              />
-            )}
-          </div>
-
-          <Fade
-            delay={400}
-            duration={1000}
-            triggerOnce
-            fraction={0.5}
-            className="text-center"
-          >
-            {phoneView ? (
-              <div className="sm:text-2xl sm:text-center sm:my-0 text-lg text-justify my-2">
-                where procrastination meets its match and determination shines
-                bright, Welcome to the World Ranking page of Arise!
-              </div>
-            ) : (
-              <div className="sm:text-2xl text-center">
-                where procrastination meets its match and determination shines
-                bright,
-                <br />
-                Welcome to the World Ranking page of Arise!
-              </div>
-            )}
-          </Fade>
-        </div>
-
-        <div className="sm:mt-20 mt-10">
-          <div className="sm:my-8 my-4 text-center">
-            <span className="title sm:text-5xl text-4xl">Rank</span>
-          </div>
-          <Fade delay={200} duration={1000} triggerOnce fraction={0.5}>
-            <div className="flex justify-center items-center">
-              <ul className="sm:w-[90%] w-full bg-slate-50 border flex flex-col justify-center items-center rounded-2xl transition-all shadow-sm">
-                <li className="w-full  grid grid-flow-row gap-4 rounded-t-2xl border-b-2">
-                  <div className="grid grid-cols-7 my-4">
-                    <div className="col-span-1 flex justify-center items-center font-bold">
-                      Rank
-                    </div>
-                    <div className="col-span-3 flex justify-center items-center px-4 font-bold">
-                      Username
-                    </div>
-                    <div className="col-span-3 flex justify-center items-center font-bold">
-                      Task Completed
-                    </div>
-                  </div>
-                </li>
-
-                {ranking.map((user, index) => {
-                  if (index < 20)
-                    return (
-                      <li
-                        key={user._id}
-                        className={`w-full grid grid-flow-row hover:opacity-70 py-2 ${
-                          index === ranking.length - 1 ? "rounded-b-2xl" : ""
-                        } ${
-                          index === 0
-                            ? "bg-green-200 text-green-700 font-bold"
-                            : ""
-                        } ${
-                          user.username === currentUser.username
-                            ? "bg-blue-100 text-blue-700 font-bold"
-                            : ""
-                        }`}
-                      >
-                        <div className="grid grid-cols-7">
-                          <div className="col-span-1 relative flex justify-center items-center">
-                            {phoneView ? (
-                              <>
-                                {index === 0 && <EmojiEventsTwoToneIcon />}
-
-                                {index !== 0 && (
-                                  <span className="px-1">{index + 1}</span>
-                                )}
-                              </>
-                            ) : (
-                              <>
-                                {index === 0 && (
-                                  <EmojiEventsTwoToneIcon className="absolute left-6" />
-                                )}
-                                {user.username === currentUser.username && (
-                                  <p className="border absolute left-4 bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
-                                    You
-                                  </p>
-                                )}
-                                <span className="px-1">{index + 1}</span>
-                              </>
-                            )}
-                          </div>
-                          <div className="col-span-3 flex justify-center items-center">
-                            {phoneView ? (
-                              <>
-                                {user.username === currentUser.username && (
-                                  <p className="border bg-blue-50 border-blue-700 rounded-full px-2 text-xs">
-                                    You
-                                  </p>
-                                )}
-                                {user.username !== currentUser.username && (
-                                  <>{user.username}</>
-                                )}
-                              </>
-                            ) : (
-                              <>{user.username}</>
-                            )}
-                          </div>
-                          <div className="col-span-3 flex justify-center items-center">
-                            {currentUser.points}
-                          </div>
-                        </div>
-                      </li>
-                    );
-                })}
-              </ul>
-            </div>
-          </Fade>
-        </div>
-
-        <div className="sm:mt-20 mt-10">
-          <div className="sm:my-5 my-4 text-center">
-            <span className="title sm:text-5xl text-4xl">What You Get ?</span>
-          </div>
-
-          <div className="sm:m-5 grid lg:grid-cols-3 sm:gap-5 gap-3">
-            <Fade
-              delay={200}
-              duration={1000}
-              triggerOnce
-              fraction={0.5}
-              cascade
-              damping={0.2}
-              className="grid"
+        <div className="flex items-center justify-center">
+          <ul className="text-whit leaderboard-gradient relative flex w-full flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-white shadow-[0px_0px_14px_6px_#ffffff3b] transition-all sm:w-[90%]">
+            {/* -- waves -- */}
+            <svg
+              viewBox="0 0 400 800"
+              className="absolute bottom-0 right-0 h-full"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <div className=" flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-                <div className=" flex flex-col justify-center mb-2 items-center">
-                  <div className="flex justify-center items-center">
-                    <EmojiEventsRoundedIcon
-                      className="text-gray-800 mb-4"
-                      style={{ width: "4rem", height: "4rem" }}
-                    />
-                  </div>
-                  <span className="title tracking-wider text-xl">
-                    Track Your Journey
-                  </span>
-                </div>
-                <span className="text-center">
-                  Every task you conquer brings you one step closer to the top.
-                  Compete with achievers worldwide and see how you stack up
-                  against the best!
-                </span>
-              </div>
+              <defs>
+                <linearGradient id="g1" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.35" />
+                  <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.2" />
+                </linearGradient>
 
-              <div className="flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-                <div className=" flex flex-col justify-center mb-2 items-center">
-                  <div className="flex justify-center items-center">
-                    <AutoAwesomeRoundedIcon
-                      className="text-gray-800 mb-4"
-                      style={{ width: "4rem", height: "4rem" }}
-                    />
-                  </div>
-                  <span className="title tracking-wider text-xl">
-                    Motivation at Its Best
-                  </span>
-                </div>
-                <span className="text-center">
-                  Rise through the ranks, earn badges, and be recognized as a
-                  true champion of productivity. Every small win counts toward
-                  your big goals.
-                </span>
-              </div>
+                <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.45" />
+                  <stop offset="100%" stopColor="#2563eb" stopOpacity="0.3" />
+                </linearGradient>
 
-              <div className="flex flex-col p-4 rounded-md bg-slate-100 border hover:outline-dashed hover:outline-1 hover:scale-105 transition-all shadow-sm hover:shadow-md">
-                <div className=" flex flex-col justify-center mb-2 items-center">
-                  <div className="flex justify-center items-center">
-                    <FlightTakeoffRoundedIcon
-                      className="text-gray-800 mb-4"
-                      style={{ width: "4rem", height: "4rem" }}
-                    />
+                <linearGradient id="g3" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#1d4ed8" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#1e3a8a" stopOpacity="0.4" />
+                </linearGradient>
+              </defs>
+
+              <path
+                d="
+    M0,800
+    C80,720 140,650 120,580
+    C100,500 180,440 160,360
+    C140,280 220,220 260,160
+    C300,120 340,80 400,40
+    L400,800 Z"
+                fill="url(#g1)"
+              />
+
+              <path
+                d="
+    M40,800
+    C120,740 180,670 160,600
+    C140,520 220,460 200,380
+    C180,300 260,240 300,180
+    C340,140 370,110 400,80
+    L400,800 Z"
+                fill="url(#g2)"
+              />
+
+              <path
+                d="
+    M80,800
+    C160,760 220,700 200,630
+    C180,550 260,500 240,420
+    C220,340 300,280 340,220
+    C370,180 390,150 400,120
+    L400,800 Z"
+                fill="url(#g3)"
+              />
+            </svg>
+
+            <div className="relative z-10 w-full rounded-xl backdrop-blur-xl">
+              <li className="grid w-full grid-flow-row gap-4 rounded-t-xl border-b-2 border-white">
+                <div className="my-4 grid grid-cols-7">
+                  <div className="col-span-1 flex items-center justify-center font-bold">
+                    Rank
                   </div>
-                  <span className="title tracking-wider text-xl">
-                    Join the Race Now
-                  </span>
+                  <div className="col-span-3 flex items-center justify-center px-4 font-bold">
+                    Username
+                  </div>
+                  <div className="col-span-3 flex items-center justify-center font-bold">
+                    Task Completed
+                  </div>
                 </div>
-                <span className="text-center">
-                  The leaderboard refreshes regularly—so every day is a new
-                  chance to shine. Push your limits, stay consistent, and become
-                  the hero of your own story!
-                </span>
-              </div>
-            </Fade>
-          </div>
+              </li>
+
+              {/* //work below and make it like the room rank table... */}
+              {ranking.map((user, index) => {
+                if (index < 20)
+                  return (
+                    <li
+                      key={user._id}
+                      className={`grid w-full grid-flow-row py-2 hover:opacity-70 ${
+                        index === ranking.length - 1 ? "rounded-b-xl" : ""
+                      } ${
+                        index === 0
+                          ? "bg-yellow-200 font-bold text-yellow-600"
+                          : ""
+                      } ${
+                        user.username === currentUser.username
+                          ? "bg-blue-100 font-bold text-blue-700"
+                          : ""
+                      }`}
+                    >
+                      <div className="grid grid-cols-7">
+                        <div className="relative col-span-1 flex items-center justify-center">
+                          {phoneView ? (
+                            <>
+                              {index === 0 && <EmojiEventsTwoToneIcon />}
+
+                              {index !== 0 && (
+                                <span className="px-1">{index + 1}</span>
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              {index === 0 ? (
+                                <EmojiEventsTwoToneIcon />
+                              ) : (
+                                <span className="px-1">{index + 1}</span>
+                              )}
+                            </>
+                          )}
+                        </div>
+                        <div className="col-span-3 flex items-center justify-center">
+                          {phoneView ? (
+                            <>
+                              {user.username === currentUser.username && (
+                                <p className="rounded-full border border-blue-700 bg-blue-50 px-2 text-xs">
+                                  You
+                                </p>
+                              )}
+                              {user.username !== currentUser.username && (
+                                <>{user.username}</>
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              {currentUser.username === user.username ? (
+                                <p
+                                  className={`rounded-full px-3 text-sm ${
+                                    index === 0
+                                      ? "border border-yellow-600 bg-yellow-100 font-bold text-yellow-600"
+                                      : "border border-blue-600 bg-blue-50 font-bold text-blue-600"
+                                  }`}
+                                >
+                                  You
+                                </p>
+                              ) : (
+                                <>{user.username}</>
+                              )}
+                            </>
+                          )}
+                        </div>
+                        <div className="col-span-3 flex items-center justify-center">
+                          {currentUser.points}
+                        </div>
+                      </div>
+                    </li>
+                  );
+              })}
+            </div>
+          </ul>
+        </div>
+      </div>
+
+      <div className="my-20 sm:my-10">
+        <div className="my-5 text-center">
+          <span className="font-title text-3xl font-bold sm:text-6xl">
+            What you get?
+          </span>
+        </div>
+
+        <div className="my-6">
+          <CardScroll data={cards} />
         </div>
       </div>
     </div>

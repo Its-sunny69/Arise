@@ -103,19 +103,43 @@ progress {
 
 .chat-gradient {
   background:
-    radial-gradient(
-      circle at 20% 20%,
-      #eff6ff 0%,
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 80% 80%,
-      #deebf7 0%,
-      transparent 50%
-    ),
-    linear-gradient(
-      180deg,
-      #fdfdfd 0%,
-      #f7fbff 100%
-    );
+    radial-gradient(circle at 20% 20%, #eff6ff 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, #deebf7 0%, transparent 50%),
+    linear-gradient(180deg, #fdfdfd 0%, #f7fbff 100%);
+}
+
+.leaderboard-gradient {
+  /* try new gradient from chatgpt recent response... */
+
+  background:
+    radial-gradient(at 50% 0%, rgba(196, 181, 253, 0.25) 0%, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(147, 197, 253, 0.22) 0%, transparent 55%),
+    radial-gradient(at 100% 100%, rgba(167, 180, 255, 0.2) 0%, transparent 55%),
+    linear-gradient(135deg, #f8fafc, #eaf1f9, #dde6f3);
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.25),
+    0 0 40px rgba(99, 102, 241, 0.15);
+}
+
+.mask-bg {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
 }

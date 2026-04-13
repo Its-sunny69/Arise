@@ -23,13 +23,13 @@ function Layout() {
     <div
       className={`borde flex h-screen w-full ${phoneView ? "flex-col" : "flex-row"} relative border-gray-200 bg-gray-50 p-2`}
     >
-      <Noise
+      {/* <Noise
         patternSize={250}
         patternScaleX={2}
         patternScaleY={2}
         patternRefreshInterval={2}
         patternAlpha={15}
-      />
+      /> */}
 
       {phoneView ? (
         <div className="borde sticky top-0 z-10 flex items-center justify-center border border-red-400">
