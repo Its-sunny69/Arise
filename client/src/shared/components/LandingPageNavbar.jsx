@@ -3,9 +3,12 @@ import { useMotionValueEvent, motion } from "motion/react";
 import PropTypes from "prop-types";
 import GradientButton from "./GradientButton";
 import Logo from "./Logo";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPageNavbar({ yProgress }) {
   const [isCompact, setIsCompact] = useState(() => yProgress.get() >= 0.1);
+
+    const navigate = useNavigate();
 
   useMotionValueEvent(yProgress, "change", (latest) => {
     const nextIsCompact = latest >= 0.1;
@@ -70,7 +73,7 @@ export default function LandingPageNavbar({ yProgress }) {
           <div className="col-span-2 flex items-center justify-end">
             <GradientButton
               text="Get Started"
-              onClick={() => console.log("Clicked")}
+              onClick={() => navigate("/login")}
             />
           </div>
         </motion.div>

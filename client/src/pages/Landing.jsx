@@ -83,8 +83,13 @@ function Landing() {
                 </div>
 
                 <div className="my-12">
-                  <p className="inner-shadow-title rounded-full bg-[#e7f3ff]/50 px-6 py-2 text-sm text-[#005f8f]">
+                  <p className="inner-shadow-title rounded-full text-center bg-[#e7f3ff]/50 px-6 py-2 text-sm text-[#005f8f]">
                     ARISE - A Productivity-Focused App
+                  </p>
+
+                  <p className="inner-shadow-title mt-2 rounded-full bg-[#ffbfbf]/50 px-6 py-2 text-sm text-red-500 border-red-500 border-2">
+                    The UI of the Website is currently in development for new look, <br />
+                    but you can still sign up and explore the features!
                   </p>
                 </div>
 
@@ -111,7 +116,7 @@ function Landing() {
           </div>
         </div>
 
-        <div className="mx-auto w-[85%] border-x-2 border-[#deebf7] px-20 py-20 font-body text-lg">
+        {/* <div className="mx-auto w-[85%] border-x-2 border-[#deebf7] px-20 py-20 font-body text-lg">
           <div className="border border-red-400">
             <div className="">
               <div className="w-fit rounded-full border border-gray-400 px-4 py-1 text-sm">
@@ -166,7 +171,7 @@ function Landing() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
