@@ -25,7 +25,7 @@ function App() {
   const { token, user, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (token && !user && loading === "idle") {
+    if (token && !user && loading !== "pending") {
       dispatch(fetchUser(token));
     }
     // console.log("App - user:", user);

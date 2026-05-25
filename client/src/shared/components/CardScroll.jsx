@@ -55,15 +55,19 @@ function CardScroll({ data, textSectionDirection = "left" }) {
         }}
       >
         {data.map((card, index) => (
-          <p
+          <div
             key={card.title}
             className="sticky top-0 h-full rounded-2xl border border-white/30 bg-white/40 p-8 shadow-[0px_0px_14px_6px_#ffffff1f] backdrop-blur-xl"
             style={{ zIndex: index + 1, direction: "ltr" }}
           >
-            <span className="font-title text-2xl">{card.title}</span>
-            <br />
-            <span className="mt-4 inline-block">{card.body}</span>
-          </p>
+            <div className="relative z-[5]">
+              <p className="font-title text-2xl">{card.title}</p>
+              <p className="mt-4 inline-block">{card.body}</p>
+            </div>
+            <span className="absolute z-0 -bottom-10 right-4 font-title text-[10rem] text-gray-300">
+              {index + 1}
+            </span>
+          </div>
         ))}
       </div>
     </div>

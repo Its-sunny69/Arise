@@ -25,20 +25,23 @@ export const register = createAsyncThunk(
       const data = await response.json();
 
       if (!response.ok) {
+        console.log("Registration error 1:", data);
         return rejectWithValue(
-          data || { message: "Registration failed. Please try again." },
+          data || { msg: ["Registration failed. Please try again."] },
         );
       }
 
       // Save token to localStorage
-      if (data?.data?.token) {
-        localStorage.setItem("token", data.data.token);
+      const registerToken = data?.token;
+      if (registerToken) {
+        localStorage.setItem("token", registerToken);
       }
 
       return data;
     } catch (error) {
+      console.log("Registration error:", error);
       return rejectWithValue({
-        message: error.message || "Network error. Please try again.",
+        msg: [error.message || "Network error. Please try again."],
       });
     }
   },
@@ -50,12 +53,6 @@ export const login = createAsyncThunk(
   "auth/login",
   async (userData, { rejectWithValue }) => {
     try {
-      if (!userData?.email || !userData?.password) {
-        return rejectWithValue({
-          message: "Email and password are required",
-        });
-      }
-
       const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
@@ -66,21 +63,25 @@ export const login = createAsyncThunk(
 
       const data = await response.json();
 
+      // sync the formate of error message from backend to frontend
       if (!response.ok) {
+        console.log("Login error 1:", data);
         return rejectWithValue(
-          data || { message: "Login failed. Please check your credentials." },
+          data || { msg: ["Login failed. Please check your credentials."] },
         );
       }
 
       // Save token to localStorage
-      if (data?.data?.token) {
-        localStorage.setItem("token", data.data.token);
+      const loginToken = data?.token;
+      if (loginToken) {
+        localStorage.setItem("token", loginToken);
       }
 
       return data;
     } catch (error) {
+      console.log("Login error:", error);
       return rejectWithValue({
-        message: error.message || "Network error. Please try again.",
+        msg: [error.message || "Network error. Please try again."],
       });
     }
   },
@@ -149,12 +150,12 @@ const authSlice = createSlice({
 
     
     // Set token manually (e.g., from persistent storage)
-    setToken: (state, action) => {
-      state.token = action.payload;
-      if (action.payload) {
-        localStorage.setItem("token", action.payload);
-      }
-    },
+    // setToken: (state, action) => {
+    //   state.token = action.payload;
+    //   if (action.payload) {
+    //     localStorage.setItem("token", action.payload);
+    //   }
+    // },
   },
   extraReducers: (builder) => {
     // Register thunk handlers
@@ -165,8 +166,8 @@ const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.loading = "succeeded";
-        state.user = action.payload?.data?.user;
-        state.token = action.payload?.data?.token;
+        state.user = action.payload?.user || null;
+        state.token = action.payload?.token || null;
         state.error = null;
       })
       .addCase(register.rejected, (state, action) => {
@@ -183,8 +184,9 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = "succeeded";
-        state.user = action.payload?.data?.user;
-        state.token = action.payload?.data?.token;
+        console.log("Login fulfilled - payload:", action.payload);
+        state.user = action.payload?.user || null;
+        state.token = action.payload?.token || null;
         state.error = null;
       })
       .addCase(login.rejected, (state, action) => {
@@ -214,5 +216,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, clearError, setToken } = authSlice.actions;
+export const { logout, clearError } = authSlice.actions;
 export default authSlice.reducer;

@@ -12,14 +12,14 @@ import {
   User,
   Logout,
 } from "../../assets/icons";
-import Logo from "../../assets/logo.svg";
+import Logo from "./Logo";
 import { motion } from "motion/react";
+import { logout } from "@/features/auth/authSlice";
 
 function Navbar() {
   const [isOpened, setIsOpened] = useState(true);
 
   const user = useSelector((state) => state.auth.user);
-  const { logout } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ function Navbar() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <img src={Logo} alt="arise" className="w-7" />
+              <Logo className="w-7" />
               <hr className="h-8 w-0.5 border-none bg-black" />
               <motion.p className="text-lg font-extrabold tracking-wide">
                 ARISE

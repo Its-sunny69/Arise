@@ -143,3 +143,51 @@ progress {
   -webkit-mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
 }
+
+.gradient-animated-text {
+  background: linear-gradient(
+    270deg,
+    #c7d2fe,
+    #818cf8,
+    #6366f1,
+    #7c3aed,
+    #a5b4fc
+  );
+  background-size: 400% 400%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: ariseGradientMove 10s ease infinite;
+}
+
+@keyframes ariseGradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-animated-arise {
+  background: linear-gradient(
+    270deg,
+    #c8eeff,   /* soft cyan glow */
+    #bae6fd,
+    #7dd3fc,
+    #818cf8,   /* indigo core */
+    #6366f1,
+    #8b5cf6,   /* violet touch */
+    #c4b5fd
+  );
+  background-size: 400% 400%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: ariseGradientMoveV2 10s ease infinite;
+}
+
+@keyframes ariseGradientMoveV2 {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

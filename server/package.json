@@ -1,4 +1,9 @@
 {
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "nodemon": "nodemon server.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -8,8 +13,10 @@
     "mongo": "^0.1.0",
     "mongodb": "^6.8.0",
     "mongoose": "^8.6.1",
-    "nodemon": "^3.1.7",
     "socket.io": "^4.7.5",
     "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

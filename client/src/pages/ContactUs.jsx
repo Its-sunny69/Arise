@@ -5,7 +5,7 @@ import { Fade } from "react-awesome-reveal";
 import EmailManPng from "../assets/email-man.png";
 import EmailSvg from "../assets/email-svg.svg";
 import TwitterSvg from "../assets/twitter-svg.svg";
-import { ComputerBackground, GirlJoiningHands } from "@/assets/images";
+import { ComputerBackground, GirlJoiningHands, GirlOnCall } from "@/assets/images";
 
 function ContactUs() {
   const [showRoomText, setShowRoomText] = useState(false);
@@ -29,7 +29,7 @@ function ContactUs() {
   }, []);
 
   return (
-    <div className="gradient-bg mask-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
+    <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
       <div className="my-20 sm:my-10">
         <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
           <ShinyText
@@ -41,42 +41,39 @@ function ContactUs() {
         </div>
       </div>
 
-      <div className="my-20 text-center sm:my-10">
-        <p className="font-title text-3xl font-bold sm:text-6xl">
-          Contact ARISE Team
+      <div className="my-20 sm:my-10">
+        <p className="text-center font-title text-3xl font-bold sm:text-6xl">
+          Contact <span className="gradient-animated-arise">ARISE</span> Team
         </p>
 
-        <p className="mt-6">
-          We’d love to hear from you! Whether you have feedback, questions, or
-          suggestions, feel free to reach out.
-          <br />
-          Your input helps us improve Arise and make it the best tool to counter
-          procrastination.
+        <p className="mx-10 mt-6">
+          We’d love to hear from you. Whether you have questions, feedback,
+          suggestions, or just want to share your experience with ARISE, feel
+          free to reach out to our team. Every message helps us improve and
+          build a better platform to fight procrastination and support your
+          productivity journey. We’re always here to listen, learn, and grow
+          with you.
         </p>
       </div>
 
       <div className="my-20 grid grid-cols-2 sm:my-10">
-        <div className="pointer-events-none col-span-1 p-6">
+        <div className="pointer-events-none col-span-1">
           <img
-            src={ComputerBackground}
+            src={GirlOnCall}
             alt=""
             className="h-full w-full rounded-lg"
           />
         </div>
 
-        <div className="col-span-1 flex flex-col items-start justify-center">
-          <p className="font-title text-3xl font-bold sm:text-6xl">
-            Get In Touch
-          </p>
-          <p className="mt-6">
-            We’d love to hear from you! Whether you have feedback, questions, or
-            suggestions, feel free to reach out.
-            <br />
-            Your input helps us improve Arise and make it the best tool to
-            counter procrastination.
+        <div className="col-span-1 flex flex-col items-start justify-between rounded-xl border-2 border-white bg-white/50 shadow-[0px_0px_14px_6px_#ffffff3b] backdrop-blur-lg">
+          <p className="p-4">
+            You can contact us using the details provided below, or reach out
+            directly to the developers through their social handles listed on
+            the About page under the Team section. We’re always open to
+            connecting and would be happy to assist you.
           </p>
 
-          <div className="mt-6">
+          <div className="border-t-2 border-white p-4 w-full">
             <div className="my-1 flex">
               <a
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=dynamosdev0@gmail.com"

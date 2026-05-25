@@ -88,7 +88,7 @@ const CreateJoinRoom = () => {
         <div className="col-span-4 flex flex-col items-start justify-center">
           <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
             Create,
-            <br />A New Room
+            <br />A <span className="gradient-animated-text">New</span> Room
           </p>
           <p className="text-cente mt-6">
             Create a room to collaborate And organize tasks with your team.
@@ -122,7 +122,7 @@ const CreateJoinRoom = () => {
           <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
             Join,
             <br />
-            An Existing Room
+            An <span className="gradient-animated-text">Existing</span> Room
           </p>
           <p className="text-cente mt-6">
             Already have a room code?

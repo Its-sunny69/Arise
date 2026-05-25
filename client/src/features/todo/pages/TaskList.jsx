@@ -5,7 +5,7 @@ import { PaperBackground } from "../../../assets/images";
 
 function TaskList() {
   return (
-    <div className="gradient-bg mask-bg relative h-full overflow-y-auto rounded-xl border-2 border-white">
+    <div className="gradient-bg  relative h-full overflow-y-auto rounded-xl border-2 border-white">
       <div className="px-4">
         <div className="my-20 sm:my-10">
           <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">

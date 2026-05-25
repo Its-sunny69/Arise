@@ -15,6 +15,11 @@ import RoomFeature4 from "./room-feature4.webp";
 import HomeFeature1 from "./home-feature1.webp";
 import HomeFeature2 from "./home-feature2.webp";
 import HomeFeature3 from "./home-feature3.webp";
+import RankPhone from "./rank-phone.webp";
+import Sunny from "./sunny.webp";
+import Inzamam from "./inzamam.webp";
+import GirlOnCall from "./girl-on-call.webp";
+import GradientBackground from "./gradient-background.webp";
 
 export {
   ComputerBackground,
@@ -34,4 +39,9 @@ export {
   HomeFeature1,
   HomeFeature2,
   HomeFeature3,
+  RankPhone,
+  Sunny,
+  Inzamam,
+  GirlOnCall,
+  GradientBackground,
 };

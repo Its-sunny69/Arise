@@ -100,10 +100,10 @@ function Home() {
   }, []);
 
   console.log(user);
-
+  // test all features and see is their any bug in feature...work here
   return (
     <div
-      className="gradient-bg mask-bg relative h-full overflow-y-auto rounded-xl border-2 border-white"
+      className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white"
       ref={containerRef}
     >
       <div className="sticky top-0 z-10 flex items-center justify-between border-b-2 border-white px-6 py-3 backdrop-blur-xl">
@@ -146,11 +146,10 @@ function Home() {
 
         <div className="my-20 sm:my-10">
           <div className="relative flex flex-col items-start justify-center">
-            {/* work here, make the main keywords highlighted with some gradient text color... */}
 
-            <span className="font-title text-3xl font-bold sm:text-6xl">
-              Above Procrastination, <br /> One Task at a Time!
-            </span>
+            <p className="font-title text-3xl font-bold sm:text-6xl">
+              Above <span className="gradient-animated-text">Procrastination</span>, <br /> One Task at a Time!
+            </p>
 
             <span className="mt-6">
               Build momentum, crush distractions, and stay in control with Arise
@@ -166,7 +165,7 @@ function Home() {
             />
           </div>
 
-          <div className="bg-gree-400 pointer-events-none absolute right-0 top-20 z-0 flex w-[40%] items-center justify-end">
+          <div className="pointer-events-none absolute right-0 top-20 z-0 flex w-[40%] items-center justify-end">
             <img src={Phone2} alt="" className="w-[75%]" />
           </div>
         </div>

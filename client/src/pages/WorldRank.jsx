@@ -11,10 +11,13 @@ import ShinyText from "../shared/components/ShinyText";
 import CardScroll from "@/shared/components/CardScroll";
 import {
   ComputerBackground,
+  GirlInChatRoom,
   RankFeature1,
   RankFeature2,
   RankFeature3,
+  RankPhone,
 } from "@/assets/images";
+import GradientButton from "@/shared/components/GradientButton";
 
 function WorldRank() {
   const [ranking, setRanking] = useState([]);
@@ -81,7 +84,7 @@ function WorldRank() {
   ];
 
   return (
-    <div className="gradient-bg mask-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
+    <div className="gradient-bg  relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
       <div className="my-20 sm:my-10">
         <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
           <ShinyText
@@ -93,18 +96,47 @@ function WorldRank() {
         </div>
       </div>
 
-      <div className="my-20 text-center sm:my-10">
-        <p className="font-title text-3xl font-bold sm:text-6xl">
-          ARISE Global Leaderboard
-        </p>
+      <div className="my-20 grid grid-cols-8 gap-4 sm:my-10">
+        <div className="col-span-5 flex flex-col items-start justify-center">
+          <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
+            Explore,
+            <br />
+            <span className="gradient-animated-text">Global</span> Leaderboard
+          </p>
+          <div className="text-cente mt-6">
+            <p>Welcome to the ARISE Global Leaderboard,</p>
+            <p>
+              Where discipline meets consistency and progress becomes visible.
+              This space reflects your daily effort, turning completed tasks and
+              focused moments into real growth. Every step you take here is not
+              just about ranking higher, but about becoming better than you were
+              yesterday.
+            </p>
+            <br />
+            <p>
+              ARISE is built on the idea that small, consistent actions create
+              powerful results over time.
+            </p>
+          </div>
 
-        <p className="mt-6">
-          where procrastination meets its match and determination shines bright,
-          Welcome to the World Ranking page of Arise!
-        </p>
+          <div className="z-10 mt-10 flex items-center justify-start">
+            <GradientButton
+              text="See Your Rank"
+              onClick={() =>
+                document
+                  .getElementById("rank")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="pointer-events-none col-span-3 flex items-center justify-end">
+          <img src={RankPhone} alt="Rank Phone" className="w-[85%]" />
+        </div>
       </div>
 
-      <div className="my-20 sm:my-10">
+      <div className="my-20 scroll-m-10 sm:my-10" id="rank">
         <div className="my-5 text-center">
           <span className="font-title text-3xl font-bold sm:text-6xl">
             Rank
@@ -254,7 +286,7 @@ function WorldRank() {
                           )}
                         </div>
                         <div className="col-span-3 flex items-center justify-center">
-                          {currentUser.points}
+                          {user.points}
                         </div>
                       </div>
                     </li>

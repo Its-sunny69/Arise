@@ -172,7 +172,7 @@ function Room() {
             <p className="font-title text-3xl font-bold sm:text-6xl">
               Welcome,
               <br />
-              To Arise Room
+              To <span className="gradient-animated-arise">Arise</span> Room
             </p>
             <p className="mt-6">
               Take your productivity and collaboration to the next level with
@@ -192,8 +192,8 @@ function Room() {
 
         <div className="my-20 sm:my-10">
           <div>
-            <div className="r my-5">
-              <span className="font-title text-3xl font-bold sm:text-6xl">
+            <div className="text-center my-5">
+              <span className="font-title text-3xl  font-bold sm:text-6xl">
                 Created Rooms
               </span>
             </div>
@@ -393,7 +393,7 @@ function Room() {
           </div>
 
           <div className="mt-20 sm:mt-10">
-            <div className="r my-5">
+            <div className="text-center my-5">
               <span className="font-title text-3xl font-bold sm:text-6xl">
                 Joined Rooms
               </span>

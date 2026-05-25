@@ -23,7 +23,8 @@ import InzamamPic from "../assets/inzamam-pic.jpg";
 import GithubSvg from "../assets/github-svg.svg";
 import LinkedInSvg from "../assets/linkedin-svg.svg";
 import CardScroll from "@/shared/components/CardScroll";
-import { ComputerBackground } from "@/assets/images";
+import { ComputerBackground, Inzamam, Sunny } from "@/assets/images";
+import TeamCard from "@/shared/components/TeamCard";
 
 function AboutUs() {
   const [activeDiv, setActiveDiv] = useState(0);
@@ -71,7 +72,7 @@ function AboutUs() {
   ];
 
   return (
-    <div className="gradient-bg mask-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
+    <div className="gradient-bg  relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
       <div className="my-20 sm:my-10">
         <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
           <ShinyText
@@ -83,62 +84,50 @@ function AboutUs() {
         </div>
       </div>
 
-      <div className="my-20 text-center sm:my-10">
-        <p className="font-title text-3xl font-bold sm:text-6xl">About ARISE</p>
-
-        <p className="mt-6">
-          Your ultimate ally in conquering procrastination and unlocking your
-          full potential.
-          <br />
-          Your Partner in Productivity and Growth.
-        </p>
-      </div>
-
-      <div className="my-20 grid grid-cols-2 sm:my-10">
-        <div className="col-span-1 flex flex-col justify-start">
-          <p className="font-title text-3xl font-bold sm:text-6xl">
-            Why Arise?
-          </p>
-          <p className="mt-6">
-            We understand that starting is often the hardest part. Arise is here
-            to help you break free from procrastination, organize your goals,
-            and turn your dreams into achievable milestones.
-          </p>
-        </div>
-        <div className="col-span-1">
-          <TiltedScroll />
-        </div>
-      </div>
-
-      <div className="my-20 grid grid-cols-2 sm:my-10">
-        <div className="col-span-1">
-          <TiltedScroll />
-        </div>
-        <div className="col-span-1 flex flex-col justify-start">
-          <p className="font-title text-3xl font-bold sm:text-6xl">
-            What We Do?
-          </p>
-          <p className="mt-6">
-            We understand that starting is often the hardest part. Arise is here
-            to help you break free from procrastination, organize your goals,
-            and turn your dreams into achievable milestones.
-          </p>
-        </div>
-      </div>
-
       <div className="my-20 sm:my-10">
-        <div className="text-center">
-          <p className="font-title text-3xl font-bold sm:text-6xl">
-            Our Mission
-          </p>
-          <p className="mt-6">
-            To empower individuals around the world to overcome procrastination,
-            embrace productivity, and achieve greatness—one task at a time.
-          </p>
-        </div>
+        <p className="text-center font-title text-3xl font-bold sm:text-6xl">
+          About <span className="gradient-animated-arise">ARISE</span>
+        </p>
 
-        <div className="my-6">
-          <CardScroll data={cards} textSectionDirection="right" />
+        <div className="mx-10 mt-6">
+          <p>
+            ARISE is a productivity-driven platform designed to help individuals
+            overcome procrastination, stay consistent, and unlock their true
+            potential. It transforms everyday efforts into visible progress,
+            allowing users to track their growth, stay accountable, and build
+            meaningful habits over time. More than just a tool, ARISE is a space
+            where discipline meets motivation and small actions turn into
+            powerful results.
+          </p>
+          <br />
+          <p>
+            The idea behind ARISE was born during our college days, when we used
+            to study in groups and naturally found ourselves competing by
+            tracking each other’s progress. That sense of shared accountability
+            pushed us to stay focused and do better. We realized that studying
+            alone often leads to distractions and procrastination, but when
+            progress is visible and shared, motivation increases. That’s when
+            the idea clicked — why not build a platform where friends can
+            connect, share their progress, compete, and grow together?
+          </p>
+          <br />
+          <p>
+            ARISE solves one of the biggest problems people face today — the
+            inability to stay consistent. It helps users break free from
+            procrastination by creating a system of accountability, visibility,
+            and engagement. With features like progress tracking, shared spaces,
+            leaderboards, and communication tools, users are not just working
+            alone but are part of a motivating environment that pushes them
+            forward.
+          </p>
+          <br />
+          <p>
+            As ARISE continues to evolve, we aim to introduce smarter insights,
+            AI-driven recommendations, deeper analytics, and more interactive
+            ways to stay connected and motivated. Our vision is to build a
+            platform where productivity is not forced, but naturally driven by
+            community, competition, and continuous self-improvement.
+          </p>
         </div>
       </div>
 
@@ -171,98 +160,25 @@ function AboutUs() {
             className="h-full w-full"
           >
             <SwiperSlide>
-              <div className="flex flex-col rounded-md bg-slate-100 shadow-sm lg:flex-row">
-                <div className="p-2 sm:p-5 lg:w-1/2">
-                  <img
-                    src={SunnyPic}
-                    alt="Image"
-                    className="shadow-blue-gray-900/50 h-96 w-full rounded-lg object-cover object-center shadow-xl"
-                  />
-                </div>
-                <div className="bg-green-40 lg:w-1/2">
-                  <div className="my-5 flex flex-col sm:my-10">
-                    <span className="title mx-2 text-left text-2xl tracking-wider sm:text-4xl lg:mx-0">
-                      Sunny Yadav
-                    </span>
-
-                    <div className="mx-2 flex items-center justify-start lg:mx-0">
-                      <span className="text-left">Frontend Developer | </span>
-                      <div className="ml-1 flex">
-                        <a
-                          href="https://www.linkedin.com/in/sunny-yadav-557676249/"
-                          className="mr-1 transition-all hover:opacity-50 active:scale-95"
-                          target="_blank"
-                        >
-                          <img src={LinkedInSvg} />
-                        </a>
-                        <a
-                          href="https://github.com/Its-sunny69"
-                          className="transition-all hover:opacity-50 active:scale-95"
-                          target="_blank"
-                        >
-                          <img src={GithubSvg} />
-                        </a>
-                      </div>
-                    </div>
-
-                    <span className="mx-4 my-2 mt-5 text-justify text-lg sm:text-xl">
-                      We specialize in building responsive, high-performance web
-                      applications using React and seamless API integration.
-                      With expertise in Redux, we ensure smooth data flow and
-                      exceptional user experiences. Our focus is on delivering
-                      efficient, user-friendly solutions that bring your vision
-                      to life.
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <TeamCard
+                name="Sunny Yadav"
+                role="Frontend Developer"
+                image={Sunny}
+                linkedin="https://www.linkedin.com/in/sunny-yadav-557676249/"
+                github="https://github.com/Its-sunny69"
+                portfolio="https://sunny-portfolio-teal.vercel.app/"
+              />
             </SwiperSlide>
+
             <SwiperSlide>
-              <div className="flex flex-col rounded-md bg-slate-100 shadow-sm lg:flex-row">
-                <div className="p-2 sm:p-5 lg:w-1/2">
-                  <img
-                    src={InzamamPic}
-                    alt="Image"
-                    className="shadow-blue-gray-900/50 h-96 w-full rounded-lg object-cover object-center shadow-xl"
-                  />
-                </div>
-                <div className="lg:w-1/2">
-                  <div className="my-5 flex flex-col sm:my-10">
-                    <span className="title mx-2 text-left text-2xl tracking-wider sm:text-4xl lg:mx-0">
-                      Inzamam Shaikh
-                    </span>
-
-                    <div className="mx-2 flex items-center justify-start lg:mx-0">
-                      <span className="text-left">MERN Developer | </span>
-                      <div className="ml-1 flex">
-                        <a
-                          href="https://www.linkedin.com/in/inzamam-shaikh-189678284/"
-                          className="mr-1 transition-all hover:opacity-50 active:scale-95"
-                          target="_blank"
-                        >
-                          <img src={LinkedInSvg} />
-                        </a>
-                        <a
-                          href="https://github.com/Inzamamdev"
-                          className="transition-all hover:opacity-50 active:scale-95"
-                          target="_blank"
-                        >
-                          <img src={GithubSvg} />
-                        </a>
-                      </div>
-                    </div>
-
-                    <span className="mx-4 my-2 mt-5 text-justify text-lg sm:text-xl">
-                      We craft responsive, high-performance web applications
-                      using React, with seamless API integration and WebSocket
-                      support for real-time updates, WebRTC, Firebase, and
-                      DigitalOcean, we ensure scalable backends, smooth
-                      communication, and delivering exceptional, user-friendly
-                      solutions tailored to your vision.
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <TeamCard
+                name="Inzamam Shaikh"
+                role="MERN Developer"
+                image={Inzamam}
+                linkedin="https://www.linkedin.com/in/inzamam-shaikh-189678284/"
+                github="https://github.com/Inzamamdev"
+                portfolio="#"
+              />
             </SwiperSlide>
           </Swiper>
         </div>

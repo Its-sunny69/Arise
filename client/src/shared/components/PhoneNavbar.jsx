@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import Logo from "../../assets/logo.svg";
+import Logo from "./Logo";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
@@ -14,13 +14,14 @@ import {
   SideBar,
 } from "../../assets/icons";
 import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/features/auth/authSlice";
 
 export default function PhoneNavbar() {
   const [isNavVisibe, setIsNavVisible] = useState(false);
 
   const location = useLocation();
   const currentPath = location.pathname.slice(1);
-  const { logout, user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,7 +37,7 @@ export default function PhoneNavbar() {
         className="mb-2 flex items-center justify-between border border-black bg-transparent p-2"
       >
         <div className="flex items-center justify-start space-x-2">
-          <img src={Logo} alt="arise" className="w-10" />
+          <Logo className="w-10" />
           <hr className="h-10 w-0.5 border-none bg-black" />
           <p className="text-2xl font-extrabold tracking-wide">ARISE</p>
         </div>

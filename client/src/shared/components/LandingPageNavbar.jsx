@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMotionValueEvent, motion } from "motion/react";
 import PropTypes from "prop-types";
 import GradientButton from "./GradientButton";
-import Logo from "../../assets/logo.svg";
+import Logo from "./Logo";
 
 export default function LandingPageNavbar({ yProgress }) {
   const [isCompact, setIsCompact] = useState(() => yProgress.get() >= 0.1);
@@ -20,7 +20,7 @@ export default function LandingPageNavbar({ yProgress }) {
           className="borde grid w-full grid-cols-8 border-black bg-transparent px-8 py-4"
         >
           <div className="col-span-2 flex items-center justify-start space-x-2">
-            <img src={Logo} alt="arise" className="w-10" />
+            <Logo className="w-10" />
             <hr className="h-10 w-0.5 border-none bg-black" />
             <p className="text-2xl font-extrabold tracking-wide">ARISE</p>
           </div>
@@ -50,7 +50,7 @@ export default function LandingPageNavbar({ yProgress }) {
           className="inner-shadow-title mt-4 grid w-[85%] grid-cols-8 rounded-full border border-[#c8eeff] bg-[#e7f3ff]/50 px-4 py-2 backdrop-blur-md"
         >
           <div className="col-span-2 flex items-center justify-start space-x-2">
-            <img src={Logo} alt="arise" className="w-10" />
+            <Logo className="w-10" />
             <hr className="h-10 w-0.5 border-none bg-black" />
             <p className="text-2xl font-extrabold tracking-wide">ARISE</p>
           </div>
