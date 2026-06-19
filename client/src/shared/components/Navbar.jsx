@@ -28,11 +28,9 @@ function Navbar() {
     navigate("/login");
   };
 
-  // console.log("user in navbar", user);
-
   return (
     <motion.div
-      className="borde h-full overflow-y-auto border-gray-200"
+      className="h-full overflow-y-auto"
       initial={false}
       animate={{ width: isOpened ? 220 : 75 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -73,7 +71,7 @@ function Navbar() {
         <hr className="h-0.5 bg-neutral-200" />
 
         <ul
-          className={`borde borde-red-500 flex flex-col items-start justify-center gap-2 py-6`}
+          className={`flex flex-col items-start justify-center gap-2 py-6`}
         >
           <li className={`${isOpened ? "w-full" : "w-fit"}`}>
             <NavLink

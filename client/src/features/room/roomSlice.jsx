@@ -14,7 +14,9 @@ export const getCreatedRooms = createAsyncThunk(
       const data = await response.json();
 
       if (!response.ok) {
-        return rejectWithValue(data || { message: "Failed to fetch created rooms" });
+        return rejectWithValue(
+          data || { message: "Failed to fetch created rooms" },
+        );
       }
 
       return data;
@@ -38,7 +40,9 @@ export const getJoinedRooms = createAsyncThunk(
       const data = await response.json();
 
       if (!response.ok) {
-        return rejectWithValue(data || { message: "Failed to fetch joined rooms" });
+        return rejectWithValue(
+          data || { message: "Failed to fetch joined rooms" },
+        );
       }
 
       return data;
@@ -97,13 +101,19 @@ const roomSlice = createSlice({
 
     removeJoinedRoomById: (state, action) => {
       const roomId = action.payload;
-      state.joinedRooms = state.joinedRooms.filter((room) => room.roomId !== roomId);
+      state.joinedRooms = state.joinedRooms.filter(
+        (room) => room.roomId !== roomId,
+      );
     },
 
     removeDeletedRoom: (state, action) => {
       const roomId = action.payload;
-      state.createdRooms = state.createdRooms.filter((room) => room.roomId !== roomId);
-      state.joinedRooms = state.joinedRooms.filter((room) => room.roomId !== roomId);
+      state.createdRooms = state.createdRooms.filter(
+        (room) => room.roomId !== roomId,
+      );
+      state.joinedRooms = state.joinedRooms.filter(
+        (room) => room.roomId !== roomId,
+      );
     },
   },
   extraReducers: (builder) => {
@@ -114,13 +124,16 @@ const roomSlice = createSlice({
       })
       .addCase(getCreatedRooms.fulfilled, (state, action) => {
         state.createdRoomsLoading = "succeeded";
-        state.createdRooms = Array.isArray(action.payload) ? action.payload : [];
+        state.createdRooms = Array.isArray(action.payload)
+          ? action.payload
+          : [];
         state.error = null;
       })
       .addCase(getCreatedRooms.rejected, (state, action) => {
         state.createdRoomsLoading = "failed";
         state.createdRooms = [];
-        state.error = action.payload?.message || "Failed to fetch created rooms";
+        state.error =
+          action.payload?.message || "Failed to fetch created rooms";
       })
       .addCase(getJoinedRooms.pending, (state) => {
         state.joinedRoomsLoading = "pending";
@@ -146,8 +159,12 @@ const roomSlice = createSlice({
         if (!roomId) {
           return;
         }
-        state.createdRooms = state.createdRooms.filter((room) => room.roomId !== roomId);
-        state.joinedRooms = state.joinedRooms.filter((room) => room.roomId !== roomId);
+        state.createdRooms = state.createdRooms.filter(
+          (room) => room.roomId !== roomId,
+        );
+        state.joinedRooms = state.joinedRooms.filter(
+          (room) => room.roomId !== roomId,
+        );
       })
       .addCase(deleteRoom.rejected, (state, action) => {
         state.deleteRoomLoading = "failed";
@@ -156,5 +173,6 @@ const roomSlice = createSlice({
   },
 });
 
-export const { clearRoomError, removeJoinedRoomById, removeDeletedRoom } = roomSlice.actions;
+export const { clearRoomError, removeJoinedRoomById, removeDeletedRoom } =
+  roomSlice.actions;
 export default roomSlice.reducer;

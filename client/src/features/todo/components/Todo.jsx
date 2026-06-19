@@ -8,13 +8,7 @@ import {
   checkBoxUpdate,
 } from "../../../features/todo/todosSlice";
 import ProgressBar from "../../../shared/components/ProgressBar";
-import AddSvg from "../../../assets/add-svg.svg";
 import Checkbox from "@mui/material/Checkbox";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { Fade } from "react-awesome-reveal";
 import { Cancel, Correct, Delete, Edit } from "@/assets/icons";
 
 const Todo = () => {
@@ -57,7 +51,7 @@ const Todo = () => {
       title: title,
       checked: false,
     };
-    // console.log("handleUpdateTodo - updatedTodo:", updatedTodo);
+
     dispatch(updateTodo(updatedTodo))
       .then(() => {
         handleCancelEdit();
@@ -71,11 +65,6 @@ const Todo = () => {
     const currentChecked = todo.checked;
 
     const updatedCheckedBox = { userId, todoId, currentChecked };
-
-    // console.log(
-    //   "handleCheckboxChanges - updatedCheckedBox:",
-    //   updatedCheckedBox,
-    // );
 
     dispatch(checkBoxUpdate(updatedCheckedBox));
   };
@@ -97,15 +86,17 @@ const Todo = () => {
   };
 
   return (
-    <div className="my-10 sm:my-14">
+    <div className="my-20">
       <div className="my-8 text-center">
-        <span className="font-title text-5xl">Your Today&apos;s Task</span>
+        <span className="font-title text-3xl md:text-4xl lg:text-5xl">
+          Your Today&apos;s Task
+        </span>
       </div>
 
       {error && <p>Something went wrong!, please try again.</p>}
 
       <div className="flex items-center justify-center">
-        <div className="my-4 flex w-full flex-col-reverse items-center justify-between sm:flex-row lg:w-[80%]">
+        <div className="my-4 flex w-full flex-col-reverse items-center justify-between md:flex-row lg:w-[80%]">
           <div className="my-1 flex w-full rounded-full sm:mb-0 sm:w-[48%] lg:w-[40%]">
             <div className="flex w-full gap-2 rounded-full border-2 border-white bg-white/40 py-2 pl-4 pr-2 shadow-[0px_0px_14px_6px_#ffffff1f] transition-all focus-within:outline-dotted focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-gray-400">
               <input
@@ -137,20 +128,20 @@ const Todo = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center text-sm md:text-base">
         <ul className="flex w-full flex-col items-center justify-center rounded-xl border-2 border-white shadow-[0px_0px_14px_6px_#ffffff1f] transition-all lg:w-[80%]">
           <li className="grid w-full grid-flow-row gap-4 rounded-t-xl border-b-2 border-white bg-[#cce4f1]">
             <div className="grid grid-cols-5 sm:grid-cols-8">
-              <div className="flex items-center justify-center p-2 font-bold sm:col-span-1">
+              <div className="flex items-center justify-center p-1 font-bold sm:col-span-1 md:p-2">
                 Status
               </div>
-              <div className="col-span-2 flex items-center justify-start border-x-2 border-white p-2 px-4 font-bold sm:col-span-5">
+              <div className="col-span-2 flex items-center justify-start border-x-2 border-white p-1 font-bold sm:col-span-5 md:p-2 md:px-4">
                 Task
               </div>
-              <div className="flex items-center justify-center border-r-2 border-white p-2 font-bold sm:col-span-1">
+              <div className="flex items-center justify-center border-r-2 border-white p-1 font-bold sm:col-span-1 md:p-2">
                 Edit
               </div>
-              <div className="flex items-center justify-center p-2 font-bold sm:col-span-1">
+              <div className="flex items-center justify-center p-1 font-bold sm:col-span-1 md:p-2">
                 Delete
               </div>
             </div>
@@ -169,7 +160,7 @@ const Todo = () => {
                     index === todos.length - 1 ? "rounded-b-xl" : ""
                   }`}
                 >
-                  <div className="flex items-center justify-center p-2 sm:col-span-1">
+                  <div className="flex items-center justify-center p-1 sm:col-span-1 md:p-2">
                     {editId === todo._id ? (
                       <Checkbox checked={todo.checked ?? false} disabled />
                     ) : (
@@ -180,11 +171,11 @@ const Todo = () => {
                     )}
                   </div>
 
-                  <div className="col-span-2 flex items-center justify-start border-x-2 border-white px-4 py-2 transition-all sm:col-span-5">
+                  <div className="col-span-2 flex items-center justify-start border-x-2 border-white px-2 py-2 transition-all sm:col-span-5 md:px-4">
                     {editId === todo._id ? (
                       <input
                         type="text"
-                        className="w-full border-b-2 border-[#c6dbef] bg-transparent focus:outline-none"
+                        className="w-28 border-b-2 border-[#c6dbef] bg-transparent focus:outline-none md:w-full"
                         value={editValue}
                         onChange={(e) => setEditValue(e.target.value)}
                       />
@@ -196,7 +187,7 @@ const Todo = () => {
                       >
                         {todo.title}
                         <span
-                          className={`absolute bottom-[45%] left-0 h-[2px] w-full bg-black transition-transform duration-500 ${
+                          className={`absolute bottom-[45%] left-0 w-full bg-black transition-transform duration-500 md:h-[2px] ${
                             todo.checked
                               ? "scale-x-100 bg-gray-500"
                               : "scale-x-0"
@@ -206,7 +197,7 @@ const Todo = () => {
                     )}
                   </div>
 
-                  <div className="flex items-center justify-center border-r-2 border-white p-2 sm:col-span-1">
+                  <div className="flex items-center justify-center border-r-2 border-white p-1 sm:col-span-1 md:p-2">
                     {editId === todo._id ? (
                       <button
                         className="transition-all hover:scale-110 hover:opacity-75 active:scale-95"
@@ -229,7 +220,7 @@ const Todo = () => {
                     )}
                   </div>
 
-                  <div className="flex items-center justify-center p-2 sm:col-span-1">
+                  <div className="flex items-center justify-center p-1 sm:col-span-1 md:p-2">
                     {editId === todo._id ? (
                       <button
                         className="transition-all hover:scale-110 hover:opacity-75 active:scale-95"
@@ -251,7 +242,9 @@ const Todo = () => {
             ))
           ) : (
             <li className="w-full rounded-b-xl bg-white/50 text-center backdrop-blur-md">
-              <div className="rounded-b-xl p-4 text-center">No Task Added</div>
+              <div className="rounded-b-xl p-2 text-center md:p-4">
+                No Task Added
+              </div>
             </li>
           )}
         </ul>

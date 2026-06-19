@@ -3,20 +3,14 @@ import { useParams } from "react-router-dom";
 import { useSocket } from "../../../context/Socket";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Tooltip } from "react-tooltip";
 import { format, isToday, isThisWeek, isYesterday } from "date-fns";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import SendSvg from "../../../assets/send-svg.svg";
-import CopySvg from "../../../assets/copy-svg.svg";
-import ChatLottie from "../../../assets/Chat.lottie";
 import toast from "react-hot-toast";
 import RoomTodo from "../components/RoomTodo";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import { Skeleton, Stack } from "@mui/material";
-import ShinyText from "../../../shared/components/ShinyText";
-import { Admin, Cancel, Logout, People, Send } from "@/assets/icons";
+import { Admin, Cancel, Logout, People, Send, CopySvg, Chat } from "@/assets/icons";
+import GradientButton from "@/shared/components/GradientButton";
 
 const ChatRoom = () => {
   const socket = useSocket();
@@ -201,15 +195,7 @@ const ChatRoom = () => {
   return (
     <>
       {isLoading || !users.length ? (
-        <div className="relative ">
-          {/* <div className="my-4 h-7">
-            <div className="bg-gray-00 w-24 rounded-full border border-gray-400 px-5 py-1 text-sm">
-              <Skeleton
-                variant="text"
-                sx={{ fontSize: "1.5rem", width: "100%", marginY: "0px" }}
-              />
-            </div>
-          </div> */}
+        <div className="relative">
           <div className="my-10 flex h-16 w-full items-center justify-between">
             <div className="w-full px-2 py-1">
               <Stack
@@ -236,16 +222,7 @@ const ChatRoom = () => {
         </div>
       ) : users.some((user) => user._id === profile) ? (
         <div className="relative">
-          <div className="my-20 flex justify-between sm:my-10">
-            {/* <div className="h-fit w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
-              <ShinyText
-                text="👥 | Room"
-                disabled={false}
-                speed={3}
-                className=""
-              />
-            </div> */}
-
+          <div className="my-10 flex items-center justify-between">
             <div className="rounded-lg bg-neutral-200 px-2 py-1 text-sm font-bold">
               Room ID: {roomData?.roomId}
               <button
@@ -256,65 +233,49 @@ const ChatRoom = () => {
               </button>
             </div>
 
-            {phoneView ? (
-              profile == users[0]?._id ? (
-                ""
-              ) : (
-                <div className="transition-all">
-                  <div className="m-3">
-                    <button
-                      data-tooltip-id="my-tooltip"
-                      data-tooltip-content="Leave Room"
-                      data-tooltip-place="top"
-                      onClick={handleLeaveRoom}
-                    >
-                      <LogoutRoundedIcon className="w-4 text-red-500 transition-all hover:text-red-300 active:scale-95" />
-                    </button>
-                    <Tooltip id="my-tooltip" />
-                  </div>
-                </div>
-              )
-            ) : (
-              ""
+            {phoneView && profile !== users[0]?._id && (
+              <button
+                className="rounded-xl p-2 transition-all hover:z-10 hover:bg-red-100 active:scale-95"
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content="Leave Room"
+                data-tooltip-place="top"
+                onClick={handleLeaveRoom}
+              >
+                <img src={Logout} alt="Leave" className="w-7" />
+              </button>
             )}
           </div>
 
-          <div className="my-20 sm:my-10">
+          <div className="my-10">
             {roomData && users.length ? (
               <>
-                <div className="flex w-full items-center gap-2">
+                <div className="flex w-full items-start gap-4 overflow-hidden md:items-center">
                   <div className="flex flex-1 items-center gap-2 px-2 py-1 text-lg font-bold tracking-wider transition-all sm:text-xl">
                     <img src={Admin} alt="Admin" className="w-7" />
                     <span>{users[0]?.username}</span>
                   </div>
 
-                  <div className="flex items-center gap-2 px-2 py-1 text-center transition-all">
+                  <div className="flex items-start gap-2 px-2 py-1 text-center transition-all">
                     <p className="text-lg font-bold tracking-wider sm:text-xl">
                       <img src={People} alt="People" className="w-7" />
                     </p>
                     <div>
-                      <ul className="relative flex items-center">
+                      <ul className="flex flex-col items-center md:flex-row">
                         {users.length ? (
                           <>
-                            <li>{users[0]?.username}</li>
-                            {users.length > 1 ? (
-                              <li>,&nbsp;{users[1]?.username}</li>
-                            ) : (
-                              ""
-                            )}
+                            {users.length > 1 && <li>{users[1]?.username}</li>}
 
-                            {users.length > 2 ? (
+                            {users.length > 2 && (
                               <>
-                                <li className="text-sm">...</li>
                                 <li
                                   onClick={toggleModel}
                                   className="cursor-pointer text-sm text-blue-500 transition-all hover:text-blue-300 hover:underline"
                                 >
-                                  more
+                                  ...more
                                 </li>
                                 {isModalVisible && (
                                   <div
-                                    className={`absolute right-0 top-10 min-w-32 rounded-lg border-2 border-white bg-white/50 shadow-[0px_0px_14px_6px_#ffffff1f] backdrop-blur-lg transition-all sm:left-0`}
+                                    className={`absolute right-0 top-32 min-w-32 max-w-fit rounded-lg border-2 border-white bg-white/50 shadow-[0px_0px_14px_6px_#ffffff1f] backdrop-blur-lg transition-all md:top-28`}
                                   >
                                     <div className="flex cursor-pointer items-center justify-end border-b-2 border-white p-2">
                                       <button
@@ -343,8 +304,6 @@ const ChatRoom = () => {
                                   </div>
                                 )}
                               </>
-                            ) : (
-                              ""
                             )}
                           </>
                         ) : (
@@ -353,11 +312,7 @@ const ChatRoom = () => {
                       </ul>
                     </div>
                   </div>
-                  {phoneView ? (
-                    ""
-                  ) : profile == users[0]?._id ? (
-                    ""
-                  ) : (
+                  {!phoneView && profile !== users[0]?._id && (
                     <button
                       className="rounded-xl p-2 transition-all hover:z-10 hover:bg-red-100 active:scale-95"
                       data-tooltip-id="my-tooltip"
@@ -398,15 +353,13 @@ const ChatRoom = () => {
           </div>
 
           {/* Todo and Rank */}
-          <div className="my-20 sm:my-10">
-            {roomData?.roomId && <RoomTodo roomData={roomData} />}
-          </div>
+          <div>{roomData?.roomId && <RoomTodo roomData={roomData} />}</div>
 
           {/* chat */}
           <div className="fixed bottom-2 right-6 w-fit transition-all hover:scale-105 hover:opacity-70 active:scale-95 sm:bottom-5 sm:right-10">
             <button onClick={toggleChat}>
               <DotLottieReact
-                src={ChatLottie}
+                src={Chat}
                 loop
                 autoplay
                 style={{ width: 55, height: 55 }}
@@ -429,12 +382,10 @@ const ChatRoom = () => {
                     className="w-full overflow-y-auto px-3"
                     ref={containerRef}
                   >
-                    {messages?.length == 0 ? (
+                    {messages?.length == 0 && (
                       <div className="flex flex-col items-center justify-center text-slate-300">
                         No Messages Yet
                       </div>
-                    ) : (
-                      ""
                     )}
                     {messages ? (
                       messages.map((item, index) => {
@@ -469,7 +420,7 @@ const ChatRoom = () => {
                             >
                               <div
                                 key={item.timeStamp}
-                                className={`my-3 flex w-fit max-w-[100%] flex-col rounded-lg ${item.profileId === profile ? 'bg-[#a8e8ff]' : 'bg-[#dadaeb]'} px-2 py-1`}
+                                className={`my-3 flex w-fit max-w-[100%] flex-col rounded-lg ${item.profileId === profile ? "bg-[#a8e8ff]" : "bg-[#dadaeb]"} px-2 py-1`}
                               >
                                 {profile !== item.profileId && (
                                   <p className="flex justify-start pr-5 text-[0.65rem] text-slate-600">
@@ -516,7 +467,7 @@ const ChatRoom = () => {
                     />
 
                     <button
-                      className="flex items-center justify-center rounded-full bg-black p-2 text-sm font-medium text-white shadow-sm transition-all hover:opacity-70 active:scale-95 group"
+                      className="group flex items-center justify-center rounded-full bg-black p-2 text-sm font-medium text-white shadow-sm transition-all hover:opacity-70 active:scale-95"
                       onClick={() => {
                         handleMessages();
                         chatScrollDown();
@@ -534,37 +485,24 @@ const ChatRoom = () => {
           )}
         </div>
       ) : (
-        <div className="p-2">
-          <div className="my-4">
-            <div className="w-fit rounded-full border border-red-400 px-5 py-1 text-sm">
-              <ShinyText
-                text="❌ | Access Denied"
-                disabled={false}
-                speed={3}
-                className=""
-              />
-            </div>
-          </div>
+        <div>
+          <div className="my-20 flex flex-col items-center justify-center text-center">
+            <p className="font-title text-3xl font-bold md:text-5xl">
+              Its<span className="gradient-animated-text-wrong">Wrong</span>,{" "}
+              <br /> Way To Access :&#40;
+            </p>
 
-          <div className="my-10">
-            <div className="flex flex-col items-center justify-center">
-              <p className="title text-5xl">Wrong Way To Access</p>
-              <p className="text-center text-xl">
-                Please Join the Room to get the access in a Right Way :&#40;
-                <br />
-                Go to Join Room and Enter the code.
-              </p>
-              <div className="mt-16 flex items-center justify-center">
-                <button
-                  className="group rounded-sm border border-black bg-white px-3 py-1 font-thin shadow-lg transition-all hover:border-dotted active:scale-95"
-                  onClick={() => navigate("/join-room")}
-                >
-                  <div className="flex items-center justify-center font-medium transition-all group-hover:text-gray-600">
-                    Join Room
-                  </div>
-                  <hr className="h-0.5 w-0 bg-black transition-all duration-500 group-hover:w-full" />
-                </button>
-              </div>
+            <p className="mt-6">
+              Please Join the Room to get the access in a Right Way.&nbsp;
+              <br className="hidden md:block" />
+              Go to Join Room and Enter the code.
+            </p>
+
+            <div className="z-10 mt-10 flex items-center justify-start sm:mt-14">
+              <GradientButton
+                text="Join Room"
+                onClick={() => navigate("/room/create-join")}
+              />
             </div>
           </div>
         </div>

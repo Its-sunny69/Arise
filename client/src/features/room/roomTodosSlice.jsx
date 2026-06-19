@@ -71,7 +71,7 @@ export const updateRoomTodo = createAsyncThunk(
   "todos/roomtodo/update",
   async (updatedTodo, { rejectWithValue }) => {
     try {
-      if (!updatedTodo?.todoId ) {
+      if (!updatedTodo?.todoId) {
         return rejectWithValue({ message: "Todo ID is required" });
       }
 

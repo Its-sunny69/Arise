@@ -15,8 +15,8 @@ export default function RoomLayout() {
   }
 
   return (
-    <div className="gradient-bg  relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
-      <div className="my-20 sm:my-10">
+    <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-3 md:px-6">
+      <div className="my-10 mt-8">
         <div className="flex w-fit gap-2 rounded-full border border-gray-400 px-5 py-1 text-sm">
           {crumbs.map((crumb, index) => (
             <div key={crumb.label} className="flex gap-2">

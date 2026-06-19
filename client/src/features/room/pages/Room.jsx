@@ -156,20 +156,9 @@ function Room() {
     <>
       <Outlet />
       <div className="relative">
-        {/* <div className="my-20 sm:my-10">
-          <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
-            <ShinyText
-              text="👥 | Arise Room"
-              disabled={false}
-              speed={3}
-              className=""
-            />
-          </div>
-        </div> */}
-
-        <div className="my-20 grid grid-cols-7 sm:my-10">
-          <div className="col-span-5 flex flex-col items-start justify-center">
-            <p className="font-title text-3xl font-bold sm:text-6xl">
+        <div className="my-10 grid grid-cols-1 gap-y-4 lg:grid-cols-7 lg:gap-4">
+          <div className="col-span-1 flex flex-col items-start lg:col-span-5 lg:justify-center">
+            <p className="font-title text-3xl font-bold md:text-4xl lg:text-6xl">
               Welcome,
               <br />
               To <span className="gradient-animated-arise">Arise</span> Room
@@ -185,15 +174,15 @@ function Room() {
             </div>
           </div>
 
-          <div className="pointer-events-none col-span-2">
-            <img src={GirlJoiningHands} alt="" className="h-full w-full" />
+          <div className="pointer-events-none col-span-1 flex items-center justify-center lg:col-span-2 lg:justify-end">
+            <img src={GirlJoiningHands} alt="" className="h-auto w-72" />
           </div>
         </div>
 
-        <div className="my-20 sm:my-10">
+        <div className="my-20">
           <div>
-            <div className="text-center my-5">
-              <span className="font-title text-3xl  font-bold sm:text-6xl">
+            <div className="mb-8 text-center">
+              <span className="font-title text-3xl font-bold md:text-4xl lg:text-5xl">
                 Created Rooms
               </span>
             </div>
@@ -392,9 +381,9 @@ function Room() {
             </div>
           </div>
 
-          <div className="mt-20 sm:mt-10">
-            <div className="text-center my-5">
-              <span className="font-title text-3xl font-bold sm:text-6xl">
+          <div className="mt-20">
+            <div className="mb-8 text-center">
+              <span className="font-title text-3xl font-bold md:text-4xl lg:text-5xl">
                 Joined Rooms
               </span>
             </div>
@@ -598,14 +587,14 @@ function Room() {
           </div>
         </div>
 
-        <div className="my-20 sm:my-10">
+        <div className="my-20">
           <div className="text-center">
-            <span className="font-title text-3xl font-bold sm:text-6xl">
+            <span className="font-title text-3xl font-bold md:text-4xl lg:text-5xl">
               Features
             </span>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-8">
             <CardScroll data={cards} textSectionDirection="left" />
           </div>
         </div>

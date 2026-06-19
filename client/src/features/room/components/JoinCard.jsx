@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
-import { Admin, Clock, Copy, Leave, Logout, People } from "@/assets/icons";
+import { Admin, Clock, Copy, Leave, People } from "@/assets/icons";
 
 const JoinCard = forwardRef(
   ({ room, userId, handleJoinRoomClick, timeAgo, handleLeaveRoom }, ref) => {

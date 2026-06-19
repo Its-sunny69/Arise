@@ -105,8 +105,6 @@ function SignUp() {
 
     dispatch(register(userData)).then(async (response) => {
       if (response.payload.token) {
-        // dispatch(setToken(response.payload.token));
-
         toast.success(`Registered Successfully`, {
           position: "top-center",
           duration: 3000,
@@ -171,7 +169,7 @@ function SignUp() {
               </div>
 
               {inputErrors.username && (
-                <div className="mt-1 ml-5 text-sm text-red-500">
+                <div className="ml-5 mt-1 text-sm text-red-500">
                   {inputErrors.username}
                 </div>
               )}
@@ -192,7 +190,7 @@ function SignUp() {
                 />
               </div>
               {inputErrors.email && (
-                <div className="mt-1 ml-5 text-sm text-red-500">
+                <div className="ml-5 mt-1 text-sm text-red-500">
                   {inputErrors.email}
                 </div>
               )}
@@ -225,7 +223,7 @@ function SignUp() {
                 </button>
               </div>
 
-              <div className="mt-2 ml-5 w-full">
+              <div className="ml-5 mt-2 w-full">
                 <ul className="space-y-1 text-sm">
                   <li
                     className={

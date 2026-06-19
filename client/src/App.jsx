@@ -28,7 +28,6 @@ function App() {
     if (token && !user && loading !== "pending") {
       dispatch(fetchUser(token));
     }
-    // console.log("App - user:", user);
   }, [dispatch, token, user, loading]);
 
   return (

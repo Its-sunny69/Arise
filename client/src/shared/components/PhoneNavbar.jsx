@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/auth/authSlice";
 
 export default function PhoneNavbar() {
-  const [isNavVisibe, setIsNavVisible] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(false);
 
   const location = useLocation();
   const currentPath = location.pathname.slice(1);
@@ -34,7 +34,7 @@ export default function PhoneNavbar() {
     <div className="w-full">
       <motion.div
         layout
-        className="mb-2 flex items-center justify-between border border-black bg-transparent p-2"
+        className="flex items-center justify-between p-2"
       >
         <div className="flex items-center justify-start space-x-2">
           <Logo className="w-10" />
@@ -45,14 +45,14 @@ export default function PhoneNavbar() {
         <div className="flex items-center justify-end transition-all duration-300">
           <button
             className="flex h-12 w-12 items-center justify-center rounded-full transition-all hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95"
-            onClick={() => setIsNavVisible(!isNavVisibe)}
+            onClick={() => setIsNavVisible(!isNavVisible)}
           >
             <motion.img
               src={SideBar}
               alt="sidebar-menu-icon"
               className="h-6 w-6 shrink-0"
               initial={{ rotate: 180 }}
-              animate={{ rotate: isNavVisibe ? 180 : 0 }}
+              animate={{ rotate: isNavVisible ? 180 : 0 }}
               transition={{ duration: 0.3 }}
             />
           </button>
@@ -60,7 +60,7 @@ export default function PhoneNavbar() {
       </motion.div>
 
       <AnimatePresence>
-        {isNavVisibe ? (
+        {isNavVisible && (
           <motion.div
             className="absolute right-3 top-20 z-50 w-[min(18rem,calc(100vw-1.5rem))] overflow-hidden rounded-3xl border border-neutral-200 bg-white p-3 shadow-lg"
             initial={{ opacity: 0, x: 12 }}
@@ -179,7 +179,7 @@ export default function PhoneNavbar() {
               <span>Logout</span>
             </button>
           </motion.div>
-        ) : null}{" "}
+        )}
       </AnimatePresence>
     </div>
   );

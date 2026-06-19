@@ -20,6 +20,11 @@ import Sunny from "./sunny.webp";
 import Inzamam from "./inzamam.webp";
 import GirlOnCall from "./girl-on-call.webp";
 import GradientBackground from "./gradient-background.webp";
+import FeatureTask from "./feature-task.webp";
+import FeatureRoom from "./feature-room.webp";
+import FeatureRoomPage from "./feature-room-page.webp";
+import FeatureRoomChat from "./feature-room-chat.webp";
+import FeatureRank from "./feature-rank.webp";
 
 export {
   ComputerBackground,
@@ -44,4 +49,9 @@ export {
   Inzamam,
   GirlOnCall,
   GradientBackground,
+  FeatureTask,
+  FeatureRoom,
+  FeatureRoomPage,
+  FeatureRoomChat,
+  FeatureRank,
 };

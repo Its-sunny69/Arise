@@ -81,8 +81,6 @@ function Login() {
       const token = response.payload?.token;
 
       if (isFulfilled && token) {
-        // dispatch(setToken(token));
-
         toast.success(`Login Successfully`, {
           position: "top-center",
           duration: 3000,

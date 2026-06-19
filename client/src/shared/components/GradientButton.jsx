@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { createAnimatable, spring, utils } from "animejs";
+import { createAnimatable, utils } from "animejs";
 
 const GRADIENT_EASE = "out(2)";
 const MOVE_DURATION = 340;
 const LEAVE_DURATION = 520;
-const EDGE_TRIGGER_PX = 28;
 
 export default function GradientButton({ text, onClick }) {
   const buttonRef = useRef(null);
@@ -42,13 +41,6 @@ export default function GradientButton({ text, onClick }) {
       });
     };
 
-    // cursor.animations.x.onRender = () => {
-    //   console.log("GradientButton cursor (animejs):", {
-    //     x: Number(utils.roundPad(cursor.x(), 2)),
-    //     y: Number(utils.roundPad(cursor.y(), 2)),
-    //   });
-    // };
-
     cursorAnimRef.current = cursor;
     gradientAnimRef.current = gradientUpdate;
 
@@ -66,14 +58,6 @@ export default function GradientButton({ text, onClick }) {
     }
 
     const rect = event.currentTarget.getBoundingClientRect();
-    const localX = event.clientX - rect.left;
-    const activeMinX = EDGE_TRIGGER_PX;
-    const activeMaxX = rect.width - EDGE_TRIGGER_PX;
-
-    // if (localX <= activeMinX || localX >= activeMaxX) {
-    //   handleMouseLeave();
-    //   return;
-    // }
 
     const halfWidth = rect.width / 2;
     const halfHeight = rect.height / 2;
@@ -112,7 +96,7 @@ export default function GradientButton({ text, onClick }) {
   return (
     <button
       ref={buttonRef}
-      className="rounded-full bg-[#000000] font-title font-medium text-white transition-all active:scale-95 tracking-wider"
+      className="rounded-full bg-[#000000] font-title font-medium tracking-wider text-white transition-all active:scale-95"
       onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

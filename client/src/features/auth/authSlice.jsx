@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const API_URL = import.meta.env.VITE_SERVER_URL;
 
-
 // Register user
 export const register = createAsyncThunk(
   "auth/register",
@@ -25,7 +24,6 @@ export const register = createAsyncThunk(
       const data = await response.json();
 
       if (!response.ok) {
-        console.log("Registration error 1:", data);
         return rejectWithValue(
           data || { msg: ["Registration failed. Please try again."] },
         );
@@ -39,14 +37,12 @@ export const register = createAsyncThunk(
 
       return data;
     } catch (error) {
-      console.log("Registration error:", error);
       return rejectWithValue({
         msg: [error.message || "Network error. Please try again."],
       });
     }
   },
 );
-
 
 // Login user
 export const login = createAsyncThunk(
@@ -65,7 +61,6 @@ export const login = createAsyncThunk(
 
       // sync the formate of error message from backend to frontend
       if (!response.ok) {
-        console.log("Login error 1:", data);
         return rejectWithValue(
           data || { msg: ["Login failed. Please check your credentials."] },
         );
@@ -79,14 +74,12 @@ export const login = createAsyncThunk(
 
       return data;
     } catch (error) {
-      console.log("Login error:", error);
       return rejectWithValue({
         msg: [error.message || "Network error. Please try again."],
       });
     }
   },
 );
-
 
 // Fetch current authenticated user
 export const fetchUser = createAsyncThunk(
@@ -142,20 +135,10 @@ const authSlice = createSlice({
       localStorage.removeItem("token");
     },
 
-    
     // Clear error message
     clearError: (state) => {
       state.error = null;
     },
-
-    
-    // Set token manually (e.g., from persistent storage)
-    // setToken: (state, action) => {
-    //   state.token = action.payload;
-    //   if (action.payload) {
-    //     localStorage.setItem("token", action.payload);
-    //   }
-    // },
   },
   extraReducers: (builder) => {
     // Register thunk handlers
@@ -184,7 +167,7 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = "succeeded";
-        console.log("Login fulfilled - payload:", action.payload);
+
         state.user = action.payload?.user || null;
         state.token = action.payload?.token || null;
         state.error = null;

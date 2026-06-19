@@ -223,7 +223,7 @@ const todosSlice = createSlice({
       })
       .addCase(updateTodo.fulfilled, (state, action) => {
         state.loading = "succeeded";
-        console.log("updateTodo.fulfilled - payload:", action.payload);
+
         const updatedTodo = action.payload?.data;
         if (updatedTodo && Array.isArray(state.todos)) {
           const index = state.todos.findIndex(
@@ -252,7 +252,7 @@ const todosSlice = createSlice({
       })
       .addCase(checkBoxUpdate.fulfilled, (state, action) => {
         state.loading = "succeeded";
-        console.log("checkBoxUpdate.fulfilled - payload:", action.payload);
+      
         const updatedCheckBox = action.payload?.data;
         if (updatedCheckBox && Array.isArray(state.todos)) {
           const index = state.todos.findIndex(

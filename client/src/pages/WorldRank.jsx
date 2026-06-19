@@ -1,17 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useSocket } from "../context/Socket";
-import { TypeAnimation } from "react-type-animation";
-import { Fade } from "react-awesome-reveal";
 import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
-import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
-import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import ShinyText from "../shared/components/ShinyText";
 import CardScroll from "@/shared/components/CardScroll";
 import {
-  ComputerBackground,
-  GirlInChatRoom,
   RankFeature1,
   RankFeature2,
   RankFeature3,
@@ -21,7 +14,6 @@ import GradientButton from "@/shared/components/GradientButton";
 
 function WorldRank() {
   const [ranking, setRanking] = useState([]);
-  const [showText, setShowText] = useState(false);
   const [phoneView, setPhoneView] = useState(window.innerWidth < 1100);
   const currentUser = useSelector((state) => state.auth.user);
   const socket = useSocket();
@@ -34,13 +26,6 @@ function WorldRank() {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowText(true);
-    }, 1400);
-    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -84,26 +69,21 @@ function WorldRank() {
   ];
 
   return (
-    <div className="gradient-bg  relative h-full overflow-y-auto rounded-xl border-2 border-white px-6">
-      <div className="my-20 sm:my-10">
+    <div className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white px-3 md:px-6">
+      <div className="my-10 mt-8">
         <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
-          <ShinyText
-            text="🏆 | Arise Leaderboard"
-            disabled={false}
-            speed={3}
-            className=""
-          />
+          <ShinyText text="🏆 | Arise Leaderboard" disabled={false} speed={3} />
         </div>
       </div>
 
-      <div className="my-20 grid grid-cols-8 gap-4 sm:my-10">
-        <div className="col-span-5 flex flex-col items-start justify-center">
-          <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
+      <div className="my-10 grid grid-cols-1 gap-y-4 lg:grid-cols-8 lg:gap-4">
+        <div className="col-span-1 flex flex-col items-start justify-center lg:col-span-5">
+          <p className="font-title text-3xl font-bold md:text-4xl lg:text-6xl">
             Explore,
             <br />
             <span className="gradient-animated-text">Global</span> Leaderboard
           </p>
-          <div className="text-cente mt-6">
+          <div className="mt-6">
             <p>Welcome to the ARISE Global Leaderboard,</p>
             <p>
               Where discipline meets consistency and progress becomes visible.
@@ -131,14 +111,14 @@ function WorldRank() {
           </div>
         </div>
 
-        <div className="pointer-events-none col-span-3 flex items-center justify-end">
-          <img src={RankPhone} alt="Rank Phone" className="w-[85%]" />
+        <div className="pointer-events-none col-span-1 flex items-center justify-center lg:col-span-3 lg:justify-end">
+          <img src={RankPhone} alt="Rank Phone" className="h-auto w-72" />
         </div>
       </div>
 
-      <div className="my-20 scroll-m-10 sm:my-10" id="rank">
-        <div className="my-5 text-center">
-          <span className="font-title text-3xl font-bold sm:text-6xl">
+      <div className="my-20 scroll-m-10" id="rank">
+        <div className="my-8 text-center">
+          <span className="font-title text-3xl font-bold md:text-4xl lg:text-5xl">
             Rank
           </span>
         </div>
@@ -204,7 +184,7 @@ function WorldRank() {
 
             <div className="relative z-10 w-full rounded-xl backdrop-blur-xl">
               <li className="grid w-full grid-flow-row gap-4 rounded-t-xl border-b-2 border-white">
-                <div className="my-4 grid grid-cols-7">
+                <div className="mx-2 my-4 grid grid-cols-7">
                   <div className="col-span-1 flex items-center justify-center font-bold">
                     Rank
                   </div>
@@ -217,7 +197,6 @@ function WorldRank() {
                 </div>
               </li>
 
-              {/* //work below and make it like the room rank table... */}
               {ranking.map((user, index) => {
                 if (index < 20)
                   return (
@@ -297,9 +276,9 @@ function WorldRank() {
         </div>
       </div>
 
-      <div className="my-20 sm:my-10">
-        <div className="my-5 text-center">
-          <span className="font-title text-3xl font-bold sm:text-6xl">
+      <div className="my-20">
+        <div className="my-8 text-center">
+          <span className="font-title text-3xl font-bold md:text-4xl lg:text-5xl">
             What you get?
           </span>
         </div>

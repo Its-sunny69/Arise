@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import ProgressBar from "../../../shared/components/ProgressBar";
-import AddSvg from "../../../assets/add-svg.svg";
 import {
   getRoomTodos,
   addRoomTodo,
@@ -14,10 +13,6 @@ import {
 
 import { useSocket } from "../../../context/Socket";
 import Checkbox from "@mui/material/Checkbox";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
 import { Switch } from "@mui/material";
 import { Cancel, Correct, Delete, Edit } from "@/assets/icons";
@@ -32,7 +27,6 @@ function RoomTodo({ roomData }) {
   const [roomProgress, setRoomProgress] = useState();
   const [todoLength, setTodoLength] = useState();
   const [ranking, setRanking] = useState({});
-  const [phoneView, setPhoneView] = useState(window.innerWidth < 1100);
 
   const dispatch = useDispatch();
   const username = useSelector((state) => state.auth.user.username);
@@ -41,16 +35,6 @@ function RoomTodo({ roomData }) {
   const todosRoomId = useSelector((state) => state.roomTodos.roomId);
 
   const socket = useSocket();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setPhoneView(window.innerWidth < 1100);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     if (newTodoAdded || roomData.roomId) {
@@ -240,24 +224,16 @@ function RoomTodo({ roomData }) {
   const rankingEntries = Object.entries(ranking);
 
   return (
-    <div className="my-10 sm:my-14">
+    <div className="my-20">
       <div className="my-8 text-center">
-        <span className="font-title text-5xl">Task List</span>
+        <span className="font-title text-3xl md:text-4xl lg:text-5xl">
+          Task List
+        </span>
       </div>
 
       {userId === roomData.createdBy && (
         <div className="my-5 flex items-center justify-center">
-          <div className="flex w-full sm:w-[30%]">
-            {/* <div className="w-5/6 py-1">
-                <input
-                  type="text"
-                  className="w-full rounded-tl-lg border-black bg-slate-50 px-4 py-1 text-gray-800 shadow-sm focus:bg-slate-100 focus:outline-dotted"
-                  value={newTodo}
-                  onChange={(e) => setNewTodo(e.target.value)}
-                  placeholder="Add New Task"
-                  required
-                />
-              </div> */}
+          <div className="flex w-full md:w-[50%] lg:w-[30%]">
             <div className="my-1 flex w-full rounded-full">
               <div className="flex w-full gap-2 rounded-full border-2 border-white bg-white/40 py-2 pl-4 pr-2 shadow-[0px_0px_14px_6px_#ffffff1f] transition-all focus-within:outline-dotted focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-gray-400">
                 <input
@@ -278,44 +254,32 @@ function RoomTodo({ roomData }) {
                 </button>
               </div>
             </div>
-
-            {/* <div className="group flex w-1/6 items-center justify-center">
-                <button
-                  className="flex w-full items-center justify-center rounded-tr-lg bg-black py-[5.6px] text-sm font-medium text-white shadow-sm transition-all hover:opacity-70 active:scale-95"
-                  type="submit"
-                  onClick={newTodo.trim().length > 0 ? handleAddTodo : () => {}}
-                >
-                  <img src={AddSvg} className="py-1 transition-all" />
-                </button>
-              </div> */}
           </div>
         </div>
       )}
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center text-sm md:text-base">
         <ul className="flex w-full flex-col items-center justify-center rounded-xl border-2 border-white shadow-[0px_0px_14px_6px_#ffffff1f] transition-all lg:w-[80%]">
           <li className="grid w-full grid-flow-row gap-4 rounded-t-xl border-b-2 border-white bg-[#cce4f1]">
             <div className="grid grid-cols-5 sm:grid-cols-8">
-              <div className="flex items-center justify-center p-2 font-bold sm:col-span-1">
+              <div className="flex items-center justify-center p-1 font-bold sm:col-span-1 md:p-2">
                 Status
               </div>
               <div
-                className={`col-span-2 ${userId === roomData.createdBy ? "border-x-2 sm:col-span-5" : "border-l-2 sm:col-span-7"} flex items-center justify-start border-white p-2 px-4 font-bold`}
+                className={`col-span-2 ${userId === roomData.createdBy ? "border-x-2 sm:col-span-5" : "border-l-2 sm:col-span-7"} flex items-center justify-start border-white p-1 font-bold md:p-2 md:px-4`}
               >
                 Task
               </div>
 
-              {userId == roomData.createdBy ? (
+              {userId == roomData.createdBy && (
                 <>
-                  <div className="flex items-center justify-center border-r-2 border-white p-2 font-bold sm:col-span-1">
+                  <div className="flex items-center justify-center border-r-2 border-white p-1 font-bold sm:col-span-1 md:p-2">
                     Edit
                   </div>
-                  <div className="flex items-center justify-center p-2 font-bold sm:col-span-1">
+                  <div className="flex items-center justify-center p-1 font-bold sm:col-span-1 md:p-2">
                     Delete
                   </div>
                 </>
-              ) : (
-                ""
               )}
             </div>
           </li>
@@ -366,7 +330,7 @@ function RoomTodo({ roomData }) {
                         >
                           {todo.title}
                           <span
-                            className={`absolute bottom-[45%] left-0 h-[2px] w-full bg-black transition-transform duration-500 ${
+                            className={`absolute bottom-[45%] left-0 w-full bg-black transition-transform duration-500 md:h-[2px] ${
                               todo.checked?.includes(userId)
                                 ? "scale-x-100 bg-gray-500"
                                 : "scale-x-0"
@@ -435,7 +399,7 @@ function RoomTodo({ roomData }) {
                               />
                             </button>
                           )}
-                        </div>{" "}
+                        </div>
                       </>
                     )}
                   </div>
@@ -443,7 +407,7 @@ function RoomTodo({ roomData }) {
               ))
             ) : (
               <li className="w-full rounded-b-xl bg-white/50 text-center backdrop-blur-md">
-                <div className="rounded-b-xl p-4 text-center">
+                <div className="rounded-b-xl p-2 text-center md:p-4">
                   No Task Added
                 </div>
               </li>
@@ -452,10 +416,12 @@ function RoomTodo({ roomData }) {
         </ul>
       </div>
 
-      <div className="my-10 flex flex-col-reverse sm:my-14 sm:flex-row sm:p-2">
-        <div className="w-full sm:w-1/2">
-          <div className="my-5 text-center sm:mb-8">
-            <span className="font-title text-4xl sm:text-5xl">Rank</span>
+      <div className="my-20 flex flex-col-reverse sm:p-2 lg:flex-row">
+        <div className="w-full lg:w-1/2">
+          <div className="my-8 text-center">
+            <span className="font-title text-3xl md:text-4xl lg:text-5xl">
+              Rank
+            </span>
           </div>
 
           <div className="flex items-center justify-center">
@@ -489,49 +455,25 @@ function RoomTodo({ roomData }) {
                 >
                   <div className="grid grid-cols-8">
                     <div className="relative col-span-2 flex items-center justify-center">
-                      {phoneView ? (
-                        <>
-                          {index === 0 && <EmojiEventsTwoToneIcon />}
-                          {index !== 0 && (
-                            <span className="px-1">{index + 1}</span>
-                          )}
-                        </>
+                      {index === 0 ? (
+                        <EmojiEventsTwoToneIcon />
                       ) : (
-                        <>
-                          {index === 0 ? (
-                            <EmojiEventsTwoToneIcon />
-                          ) : (
-                            <span className="px-1">{index + 1}</span>
-                          )}
-                        </>
+                        <span className="px-1">{index + 1}</span>
                       )}
                     </div>
                     <div className="bg-green relative col-span-3 flex items-center justify-center">
-                      {phoneView ? (
-                        <>
-                          {val[1] === username && (
-                            <p className="rounded-full border border-blue-700 bg-blue-50 px-2 text-xs">
-                              You
-                            </p>
-                          )}
-                          {val[1] !== username && val[1]}
-                        </>
+                      {val[1] === username ? (
+                        <p
+                          className={`rounded-full px-3 text-sm ${
+                            index === 0
+                              ? "border border-yellow-600 bg-yellow-100 font-bold text-yellow-600"
+                              : "border border-blue-600 bg-blue-50 font-bold text-blue-600"
+                          }`}
+                        >
+                          You
+                        </p>
                       ) : (
-                        <>
-                          {val[1] === username ? (
-                            <p
-                              className={`rounded-full px-3 text-sm ${
-                                index === 0
-                                  ? "border border-yellow-600 bg-yellow-100 font-bold text-yellow-600"
-                                  : "border border-blue-600 bg-blue-50 font-bold text-blue-600"
-                              }`}
-                            >
-                              You
-                            </p>
-                          ) : (
-                            val[1]
-                          )}
-                        </>
+                        val[1]
                       )}
                     </div>
                     <div className="col-span-3 flex items-center justify-center">
@@ -544,9 +486,11 @@ function RoomTodo({ roomData }) {
           </div>
         </div>
 
-        <div className="w-full sm:w-1/2">
-          <div className="my-5 text-center sm:mb-8">
-            <span className="font-title text-4xl sm:text-5xl">Progress</span>
+        <div className="w-full lg:w-1/2">
+          <div className="my-8 text-center">
+            <span className="font-title text-3xl md:text-4xl lg:text-5xl">
+              Progress
+            </span>
           </div>
 
           <div className="flex items-center justify-center">

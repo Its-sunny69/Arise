@@ -28,9 +28,9 @@ function CardScroll({ data, textSectionDirection = "left" }) {
   });
 
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
       <div
-        className="flex h-80 items-center justify-center p-6"
+        className="flex h-80 items-center justify-center p-2 md:p-6"
         style={{
           order: textSectionDirection === "right" ? -1 : 1,
         }}
@@ -39,7 +39,7 @@ function CardScroll({ data, textSectionDirection = "left" }) {
           key={activeCardIndex}
           src={data[activeCardIndex].image}
           alt={data[activeCardIndex].title}
-          className="h-full rounded-lg"
+          className="h-full w-full rounded-lg object-cover object-left-top shadow-lg"
           initial={{ opacity: 0.35, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
@@ -48,7 +48,7 @@ function CardScroll({ data, textSectionDirection = "left" }) {
 
       <div
         ref={cardSectionRef}
-        className="relative h-80 space-y-8 overflow-y-auto p-6"
+        className="relative h-[24rem] space-y-8 overflow-y-auto p-2 md:h-80 md:p-6"
         style={{
           direction: textSectionDirection === "right" ? "ltr" : "rtl",
           order: textSectionDirection === "right" ? 1 : -1,
@@ -57,14 +57,14 @@ function CardScroll({ data, textSectionDirection = "left" }) {
         {data.map((card, index) => (
           <div
             key={card.title}
-            className="sticky top-0 h-full rounded-2xl border border-white/30 bg-white/40 p-8 shadow-[0px_0px_14px_6px_#ffffff1f] backdrop-blur-xl"
+            className="sticky top-0 h-full overflow-hidden rounded-2xl border border-white/30 bg-white/40 p-6 shadow-[0px_0px_14px_6px_#ffffff1f] backdrop-blur-xl md:p-8"
             style={{ zIndex: index + 1, direction: "ltr" }}
           >
             <div className="relative z-[5]">
               <p className="font-title text-2xl">{card.title}</p>
               <p className="mt-4 inline-block">{card.body}</p>
             </div>
-            <span className="absolute z-0 -bottom-10 right-4 font-title text-[10rem] text-gray-300">
+            <span className="absolute -bottom-0 right-4 z-0 font-title text-[8rem] text-gray-300 md:-bottom-10 md:text-[10rem]">
               {index + 1}
             </span>
           </div>

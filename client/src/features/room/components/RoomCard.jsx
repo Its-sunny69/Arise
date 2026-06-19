@@ -2,9 +2,6 @@ import { forwardRef, useState } from "react";
 import { useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
-import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
-import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
-import CopySvg from "../../../assets/copy-svg.svg";
 import { Clock, Copy, Delete, People } from "@/assets/icons";
 
 const RoomCard = forwardRef(

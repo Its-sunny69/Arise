@@ -1,12 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { TypeAnimation } from "react-type-animation";
-import { Fade } from "react-awesome-reveal";
-import ArrowSvg from "../assets/arrow-svg.svg";
-import SquaresBackground from "../shared/components/SquaresBackground";
 import ShinyText from "../shared/components/ShinyText";
-import profileLottie from "../assets/profile.lottie";
-import crownLottie from "../assets/crown.lottie";
 import { useSelector } from "react-redux";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
@@ -16,25 +10,15 @@ import {
   HomeFeature3,
   Phone2,
 } from "../assets/images";
-import {
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-} from "motion/react";
-import Test2 from "../assets/sunny-pic2.png";
-import Test3 from "../assets/inzamam-pic.jpg";
-import Test4 from "../assets/sunny-pic2.png";
+import { motion, useScroll, useTransform } from "motion/react";
 import GradientButton from "../shared/components/GradientButton";
 import CardScroll from "@/shared/components/CardScroll";
+import { ProfileLottie, CrownLottie } from "../assets/icons";
 
 function Home() {
-  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
-  const [activeCardIndex, setActiveCardIndex] = useState(0);
   const navigate = useNavigate();
   const containerRef = useRef(null);
   const imageSectionRef = useRef(null);
-  const cardSectionRef = useRef(null);
 
   const user = useSelector((state) => state.auth.user);
 
@@ -42,10 +26,6 @@ function Home() {
     container: containerRef,
     target: imageSectionRef,
     offset: ["start end", "end start"],
-  });
-
-  const { scrollY: cardScrollY } = useScroll({
-    container: cardSectionRef,
   });
 
   const imageScale = useTransform(imageScrollYProgress, [0, 0.6], [0.85, 1]);
@@ -73,82 +53,52 @@ function Home() {
     },
   ];
 
-  useMotionValueEvent(cardScrollY, "change", (latest) => {
-    const el = cardSectionRef.current;
-    if (!el) return;
-
-    const maxScroll = el.scrollHeight - el.clientHeight;
-    if (maxScroll <= 0) {
-      setActiveCardIndex(0);
-      return;
-    }
-
-    const progress = latest / maxScroll;
-    const nextIndex = Math.round(progress * (cards.length - 1));
-    const clampedIndex = Math.max(0, Math.min(cards.length - 1, nextIndex));
-    setActiveCardIndex(clampedIndex);
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setPhoneView(window.innerWidth < 640);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  console.log(user);
-  // test all features and see is their any bug in feature...work here
   return (
     <div
       className="gradient-bg relative h-full overflow-y-auto rounded-xl border-2 border-white"
       ref={containerRef}
     >
-      <div className="sticky top-0 z-10 flex items-center justify-between border-b-2 border-white px-6 py-3 backdrop-blur-xl">
+      <div className="top-0 z-10 flex items-center justify-between border-b-2 border-white px-3 py-2 backdrop-blur-xl md:sticky md:px-6 md:py-3">
         <div className="flex items-center justify-center font-semibold tracking-wider">
           <div>
             <DotLottieReact
-              src={profileLottie}
+              src={ProfileLottie}
               loop
               autoplay
               style={{ width: 70, height: 70 }}
             />
           </div>
-          <span className="text-xl font-bold capitalize">{user.username}</span>
+          <span className="text-lg font-bold capitalize md:text-xl">
+            {user.username}
+          </span>
         </div>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center">
             <DotLottieReact
-              src={crownLottie}
+              src={CrownLottie}
               loop
               autoplay
               style={{ width: 50, height: 50 }}
             />
-            <span className="text-xl font-bold">{user.points}</span>
+            <span className="text-lg font-bold md:text-xl">{user.points}</span>
           </div>
         </div>
       </div>
 
-      <div className="px-6">
-        <div className="my-20 sm:my-10">
+      <div className="px-3 md:px-6">
+        <div className="mt-8">
           <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
-            <ShinyText
-              text="🎉 | Introduction"
-              disabled={false}
-              speed={3}
-              className=""
-            />
+            <ShinyText text="🎉 | Introduction" disabled={false} speed={3} />
           </div>
         </div>
 
-        <div className="my-20 sm:my-10">
-          <div className="relative flex flex-col items-start justify-center">
-
-            <p className="font-title text-3xl font-bold sm:text-6xl">
-              Above <span className="gradient-animated-text">Procrastination</span>, <br /> One Task at a Time!
+        <div className="my-10 grid grid-cols-1 gap-y-4 lg:grid-cols-3 lg:gap-4">
+          <div className="flex flex-col items-start justify-center lg:col-span-2">
+            <p className="font-title text-3xl font-bold md:text-4xl lg:text-6xl">
+              Above{" "}
+              <span className="gradient-animated-text">Procrastination</span>,{" "}
+              <br /> One Task at a Time!
             </p>
 
             <span className="mt-6">
@@ -156,65 +106,58 @@ function Home() {
               – <br /> your ultimate companion to beat procrastination and
               achieve more.
             </span>
+
+            <div className="mt-20 flex items-center justify-start sm:mt-24">
+              <GradientButton
+                text="Create Task Now"
+                onClick={() => navigate("/task-list")}
+              />
+            </div>
           </div>
 
-          <div className="z-10 mt-20 flex items-center justify-start sm:mt-24">
-            <GradientButton
-              text="Create Task Now"
-              onClick={() => navigate("/task-list")}
-            />
-          </div>
-
-          <div className="pointer-events-none absolute right-0 top-20 z-0 flex w-[40%] items-center justify-end">
-            <img src={Phone2} alt="" className="w-[75%]" />
+          <div className="pointer-events-none z-0 col-span-1 flex items-center justify-center lg:justify-end">
+            <img src={Phone2} alt="" className="h-auto w-72" />
           </div>
         </div>
 
         <div
-          className="my-20 flex items-center justify-center sm:my-10"
+          className="my-20 flex items-center justify-center"
           ref={imageSectionRef}
         >
           <motion.div
-            className="relative w-[70%] rounded-lg border border-gray-300 p-2"
+            className="relative w-full rounded-lg border border-gray-300 p-1 md:p-2 lg:w-[70%]"
             style={{
               scale: imageScale,
               y: imageY,
               opacity: imageOpacity,
             }}
           >
-            <figure>
-              {/* <figcaption className="mt-2 text-center text-xs text-gray-500">
-                  Generated with Gemini AI
-                </figcaption> */}
-
-              <img
-                src={ComputerBackground}
-                alt="Home Page"
-                className="rounded-lg"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, black 45%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to bottom, black 45%, transparent 100%)",
-                }}
-              />
-            </figure>
+            <img
+              src={ComputerBackground}
+              alt="Home Page"
+              className="rounded-lg"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, black 45%, transparent 100%)",
+                maskImage:
+                  "linear-gradient(to bottom, black 45%, transparent 100%)",
+              }}
+            />
 
             <div className="absolute bottom-0 left-0 right-0 p-4 text-center text-black">
-              <p className="font-title font-medium text-gray-600">
+              <p className="font-title text-xs font-medium text-gray-600 md:text-base">
                 Collaborate with team and increase productivity!
               </p>
             </div>
           </motion.div>
         </div>
 
-        <div className="my-20 sm:my-10">
+        <div className="my-20">
           <div className="my-5 text-center">
-            <span className="font-title text-3xl font-bold sm:text-6xl">
+            <span className="font-title text-3xl font-bold md:text-4xl lg:text-5xl">
               What We Offer?
             </span>
           </div>
-
           <div className="my-6">
             <CardScroll data={cards} />
           </div>{" "}

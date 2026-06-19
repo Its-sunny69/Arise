@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 const SquaresBackground = ({
   direction = "right",
@@ -59,7 +60,7 @@ const SquaresBackground = ({
         0,
         canvas.width / 2,
         canvas.height / 2,
-        Math.sqrt(Math.pow(canvas.width, 2) + Math.pow(canvas.height, 2)) / 3
+        Math.sqrt(Math.pow(canvas.width, 2) + Math.pow(canvas.height, 2)) / 3,
       );
       gradient.addColorStop(0, "rgba(255, 255, 255, 0)");
       gradient.addColorStop(1, "#ffffff");
@@ -111,10 +112,10 @@ const SquaresBackground = ({
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
 
       const hoveredSquareX = Math.floor(
-        (mouseX + gridOffset.current.x - startX) / squareSize
+        (mouseX + gridOffset.current.x - startX) / squareSize,
       );
       const hoveredSquareY = Math.floor(
-        (mouseY + gridOffset.current.y - startY) / squareSize
+        (mouseY + gridOffset.current.y - startY) / squareSize,
       );
 
       setHoveredSquare({ x: hoveredSquareX, y: hoveredSquareY });
@@ -147,9 +148,17 @@ const SquaresBackground = ({
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full border-none block"
+      className="block h-full w-full border-none"
     ></canvas>
   );
 };
 
 export default SquaresBackground;
+
+SquaresBackground.propTypes = {
+  direction: PropTypes.oneOf(["right", "left", "up", "down", "diagonal"]),
+  speed: PropTypes.number,
+  borderColor: PropTypes.string,
+  squareSize: PropTypes.number,
+  hoverFillColor: PropTypes.string,
+};

@@ -3,11 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../../context/Socket";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { TypeAnimation } from "react-type-animation";
-import { Fade } from "react-awesome-reveal";
-import RemoteMeetingSvg from "../../../assets/remote-meeting.svg";
-import MeetTheTeam from "../../../assets/meet-the-team.svg";
-import ShinyText from "../../../shared/components/ShinyText";
 import GradientButton from "@/shared/components/GradientButton";
 import { GirlInChatRoom, GirlJoiningChat } from "@/assets/images";
 
@@ -70,23 +65,12 @@ const CreateJoinRoom = () => {
     e.preventDefault();
     socket.emit("join-room", profile, input.joinRoom);
   };
-  // work here.........
+
   return (
     <div className="relative">
-      {/* <div className="my-20 sm:my-10">
-        <div className="w-fit rounded-full border border-gray-400 px-5 py-1 text-sm">
-          <ShinyText
-            text=" 👥 | Create Or Join Room"
-            disabled={false}
-            speed={3}
-            className=""
-          />
-        </div>
-      </div> */}
-
-      <div className="my-20 grid grid-cols-7 gap-4 sm:my-10">
-        <div className="col-span-4 flex flex-col items-start justify-center">
-          <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
+      <div className="my-10 grid grid-cols-1 gap-y-4 lg:grid-cols-7 lg:gap-4">
+        <div className="col-span-1 flex flex-col items-start justify-center lg:col-span-4">
+          <p className="text-cente font-title text-3xl font-bold md:text-4xl lg:text-6xl">
             Create,
             <br />A <span className="gradient-animated-text">New</span> Room
           </p>
@@ -100,31 +84,31 @@ const CreateJoinRoom = () => {
           </div>
         </div>
 
-        <div className="pointer-events-none col-span-3">
+        <div className="pointer-events-none col-span-1 flex items-center justify-center lg:col-span-3 lg:justify-end">
           <img
             src={GirlInChatRoom}
             alt="Girl in Chat Room"
-            className="h-full w-full"
+            className="h-auto w-72"
           />
         </div>
       </div>
 
-      <div className="my-20 grid grid-cols-7 gap-4 sm:my-10">
-        <div className="pointer-events-none col-span-3">
+      <div className="my-20 grid grid-cols-1 gap-y-4 lg:grid-cols-7 lg:gap-4">
+        <div className="pointer-events-none order-1 col-span-1 flex items-center justify-center lg:col-span-3 lg:justify-start">
           <img
             src={GirlJoiningChat}
             alt="Girl Joining Chat"
-            className="h-full w-full"
+            className="h-auto w-72"
           />
         </div>
 
-        <div className="col-span-4 flex flex-col items-start justify-center">
-          <p className="text-cente font-title text-3xl font-bold sm:text-6xl">
+        <div className="col-span-1 flex flex-col items-start justify-center lg:order-1 lg:col-span-4">
+          <p className="font-title text-3xl font-bold md:text-4xl lg:text-6xl">
             Join,
             <br />
             An <span className="gradient-animated-text">Existing</span> Room
           </p>
-          <p className="text-cente mt-6">
+          <p className="mt-6">
             Already have a room code?
             <br />
             Enter it below to collaborate with your team.

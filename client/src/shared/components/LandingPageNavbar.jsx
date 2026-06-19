@@ -8,10 +8,10 @@ import { useNavigate } from "react-router-dom";
 export default function LandingPageNavbar({ yProgress }) {
   const [isCompact, setIsCompact] = useState(() => yProgress.get() >= 0.1);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useMotionValueEvent(yProgress, "change", (latest) => {
-    const nextIsCompact = latest >= 0.1;
+    const nextIsCompact = latest >= 0.03;
     setIsCompact((prev) => (prev === nextIsCompact ? prev : nextIsCompact));
   });
 
@@ -20,7 +20,7 @@ export default function LandingPageNavbar({ yProgress }) {
       {!isCompact ? (
         <motion.div
           layout
-          className="borde grid w-full grid-cols-8 border-black bg-transparent px-8 py-4"
+          className="grid w-full grid-cols-8 bg-transparent px-8 py-4"
         >
           <div className="col-span-2 flex items-center justify-start space-x-2">
             <Logo className="w-10" />
@@ -30,7 +30,7 @@ export default function LandingPageNavbar({ yProgress }) {
 
           <ul className="col-span-4 flex items-center justify-center space-x-8 text-sm font-semibold tracking-wider">
             <li className="transition-all duration-300 hover:opacity-50">
-              <a href="#research">RESEARCH</a>
+              <a href="#features">FEATURES</a>
             </li>
             <li className="transition-all duration-300 hover:opacity-50">
               <a href="#about">ABOUT</a>
@@ -41,16 +41,13 @@ export default function LandingPageNavbar({ yProgress }) {
           </ul>
 
           <div className="col-span-2 flex items-center justify-end">
-            <GradientButton
-              text="Get Started"
-              onClick={() => console.log("Clicked")}
-            />
+            <GradientButton text="Login" onClick={() => navigate("/login")} />
           </div>
         </motion.div>
       ) : (
         <motion.div
           layout
-          className="inner-shadow-title mt-4 grid w-[85%] grid-cols-8 rounded-full border border-[#c8eeff] bg-[#e7f3ff]/50 px-4 py-2 backdrop-blur-md"
+          className="inner-shadow-title mt-4 grid w-[85%] grid-cols-8 rounded-full border border-[#dadaeb] bg-[#efedf5]/50 px-4 py-2 backdrop-blur-md"
         >
           <div className="col-span-2 flex items-center justify-start space-x-2">
             <Logo className="w-10" />
@@ -60,7 +57,7 @@ export default function LandingPageNavbar({ yProgress }) {
 
           <ul className="col-span-4 flex items-center justify-center space-x-8 text-sm font-semibold tracking-wider">
             <li className="transition-all duration-300 hover:opacity-50">
-              <a href="#research">RESEARCH</a>
+              <a href="#features">FEATURES</a>
             </li>
             <li className="transition-all duration-300 hover:opacity-50">
               <a href="#about">ABOUT</a>

@@ -1,4 +1,5 @@
-import GradientBackground from "../../assets/images/gradient-background.webp";
+import { GradientBackground } from "@/assets/images";
+import PropTypes from "prop-types";
 
 export default function Logo({ className = "", alt = "arise" }) {
   return (
@@ -27,3 +28,8 @@ export default function Logo({ className = "", alt = "arise" }) {
     </svg>
   );
 }
+
+Logo.propTypes = {
+  className: PropTypes.string,
+  alt: PropTypes.string,
+};

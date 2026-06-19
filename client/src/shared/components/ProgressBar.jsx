@@ -1,34 +1,34 @@
-import React from "react";
 import "../../App.css";
+import PropTypes from "prop-types";
 
 function ProgressBar({ label, currentValue, maxValue }) {
-
   let percentage = ((currentValue / maxValue) * 100).toFixed(1);
-  percentage = percentage == "NaN" ? 0 : percentage
+  percentage = percentage == "NaN" ? 0 : percentage;
 
   return (
-    <div className=" flex justify-between items-stretch ">
+    <div className="flex items-stretch justify-between">
       <div className="w-[10%]">
-      <label htmlFor="progress-bar" className="font-bold ">
-        {label}
-      </label></div>
+        <label htmlFor="progress-bar" className="font-bold">
+          {label}
+        </label>
+      </div>
 
-      <div className="w-[90%] ml-[4rem] mr-[1.5rem]">
+      <div className="ml-[4rem] mr-[1.5rem] w-[90%]">
         <div
-          className="inline-block mb-2 py-0.5 px-1.5 bg-slate-50 border border-slate-200 text-xs font-medium text-slate-600 rounded-lg transition-all duration-500 shadow-sm"
-          style={{ marginInlineStart: `calc(${percentage}% - 1.25rem)` }} 
+          className="mb-2 inline-block rounded-lg border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-xs font-medium text-slate-600 shadow-sm transition-all duration-500"
+          style={{ marginInlineStart: `calc(${percentage}% - 1.25rem)` }}
         >
           {percentage}%
         </div>
         <div
-          className="flex w-full h-2 bg-white rounded-full overflow-hidden transition-all duration-500"
+          className="flex h-2 w-full overflow-hidden rounded-full bg-white transition-all duration-500"
           role="progressbar"
           aria-valuenow={percentage}
           aria-valuemin="0"
           aria-valuemax="100"
         >
           <div
-            className="flex flex-col justify-center rounded-full overflow-hidden bg-black text-xs text-white text-center whitespace-nowrap transition-all duration-500"
+            className="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-black text-center text-xs text-white transition-all duration-500"
             style={{ width: `${percentage}%` }}
           ></div>
         </div>
@@ -38,3 +38,13 @@ function ProgressBar({ label, currentValue, maxValue }) {
 }
 
 export default ProgressBar;
+
+ProgressBar.propTypes = {
+  label: PropTypes.string,
+  currentValue: PropTypes.number.isRequired,
+  maxValue: PropTypes.number.isRequired,
+};
+
+ProgressBar.defaultProps = {
+  label: "",
+};
