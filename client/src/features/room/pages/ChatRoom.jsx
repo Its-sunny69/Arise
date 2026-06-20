@@ -73,7 +73,7 @@ const ChatRoom = () => {
     });
 
     socket.on("delete", () => {
-      navigate("/join-room");
+      navigate("/room/create-join");
     });
 
     socket.emit("rejoin-room", profile, roomId);
@@ -121,7 +121,7 @@ const ChatRoom = () => {
 
   const handleLeaveRoom = () => {
     socket.emit("leave-room", profile, roomId);
-    navigate("/join-room");
+    navigate("/room/create-join");
   };
 
   const handleCopy = () => {
