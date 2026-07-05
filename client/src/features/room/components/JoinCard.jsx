@@ -2,6 +2,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 import { Admin, Clock, Copy, Leave, People } from "@/assets/icons";
+import { copyTextToClipboard } from "@/lib/utils";
 
 const JoinCard = forwardRef(
   ({ room, userId, handleJoinRoomClick, timeAgo, handleLeaveRoom }, ref) => {
@@ -15,17 +16,18 @@ const JoinCard = forwardRef(
       },
     }));
 
-    const handleCopy = () => {
-      navigator.clipboard
-        .writeText(room.roomId)
-        .then(() => {
-          toast.success("ID copied to clipboard!", {
-            position: "top-center",
-          });
-        })
-        .catch((error) => {
-          console.error("Failed to copy text: ", error);
+    const handleCopy = async () => {
+      try {
+        await copyTextToClipboard(room.roomId);
+        toast.success("ID copied to clipboard!", {
+          position: "top-center",
         });
+      } catch (error) {
+        console.error("Failed to copy text: ", error);
+        toast.error("Copy failed on this device.", {
+          position: "top-center",
+        });
+      }
     };
 
     if (userId === room.createdBy) {

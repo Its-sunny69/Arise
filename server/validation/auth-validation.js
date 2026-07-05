@@ -5,7 +5,7 @@ const signupSchema = z.object({
     .string({ required_error: "Username is required." })
     .trim()
     .min(4, { message: "Username must be atleast of 4 char." })
-    .max(20, { message: "Username must be 20 char or less." }),
+    .max(10, { message: "Username must be 10 char or less." }),
 
   email: z
     .string({ required_error: "Email is required." })

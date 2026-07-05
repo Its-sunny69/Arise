@@ -216,3 +216,24 @@ progress {
     background-position: 0% 50%;
   }
 }
+
+.swiper-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.swiper-pagination-bullet-custom {
+  background-color: #bcbddc;
+  width: 24px;
+  height: 12px;
+  border-radius: 10px;
+}
+
+.swiper-pagination-bullet-active-custom {
+  background-color: #6a51a3;
+  width: 24px;
+  height: 12px;
+  border-radius: 10px;
+}

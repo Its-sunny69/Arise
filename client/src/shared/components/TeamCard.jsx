@@ -19,7 +19,7 @@ export default function TeamCard({
       >
         <img
           src={image}
-          alt="Image"
+          alt="Profile Image"
           className="h-96 w-full rounded-lg object-cover object-center shadow-xl"
         />
       </div>
@@ -43,22 +43,25 @@ export default function TeamCard({
                 href={linkedin}
                 className="mr-1 transition-all hover:opacity-50 active:scale-95"
                 target="_blank"
+                aria-label="LinkedIn profile"
               >
-                <img src={LinkedInSvg} />
+                <img src={LinkedInSvg} alt="LinkedIn" loading="lazy" className="w-6" />
               </a>
               <a
                 href={github}
                 className="transition-all hover:opacity-50 active:scale-95"
                 target="_blank"
+                aria-label="GitHub profile"
               >
-                <img src={GitHubSvg} />
+                <img src={GitHubSvg} alt="GitHub" loading="lazy" className="w-6" />
               </a>
               <a
                 href={portfolio}
                 className="transition-all hover:opacity-50 active:scale-95"
                 target="_blank"
+                aria-label="Portfolio website"
               >
-                <img src={LinkSvg} className="" />
+                <img src={LinkSvg} alt="Portfolio" loading="lazy" className="w-6" />
               </a>
             </div>
           </div>

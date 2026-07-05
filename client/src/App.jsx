@@ -19,6 +19,7 @@ import Layout from "./shared/components/Layout";
 import Landing from "./pages/Landing";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 import { fetchUser } from "./features/auth/authSlice";
+import SEO from "./shared/components/SEO";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function App() {
     <>
       <Toaster />
       <BrowserRouter>
+        <SEO />
         <SocketProvider>
           <Routes>
             <Route path="/" element={<Landing />} />

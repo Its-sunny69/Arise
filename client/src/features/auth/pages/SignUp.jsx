@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import Logo from "../../../shared/components/Logo";
 import { Hide, See } from "@/assets/icons";
@@ -22,6 +22,8 @@ function SignUp() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false);
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
+  const [isLoading, setIsLoading] = useState(false);
+  const isLoadingRef = useRef(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,8 +69,8 @@ function SignUp() {
       errors.username = "Username is required";
     } else if (username.length < 4) {
       errors.username = "Username must be at least 4 characters";
-    } else if (username.length > 20) {
-      errors.username = "Username must be 20 characters or less";
+    } else if (username.length > 10) {
+      errors.username = "Username must be 10 characters or less";
     }
 
     if (!email) {
@@ -94,8 +96,9 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setAttemptedSubmit(true);
+
+    if (isLoadingRef.current || isLoading) return;
 
     const errors = validateInputfields();
     if (Object.keys(errors).length > 0) {
@@ -103,27 +106,37 @@ function SignUp() {
       return;
     }
 
-    dispatch(register(userData)).then(async (response) => {
-      if (response.payload.token) {
-        toast.success(`Registered Successfully`, {
-          position: "top-center",
-          duration: 3000,
-        });
+    try {
+      isLoadingRef.current = true;
+      setIsLoading(true);
 
-        navigate("/home");
-      } else {
-        const backendError = response.payload.msg;
-
-        if (Array.isArray(backendError)) {
-          setError(backendError);
-        } else {
-          toast.error(backendError || "Registration failed.", {
+      await dispatch(register(userData)).then(async (response) => {
+        if (response.payload.token) {
+          toast.success(`Registered Successfully`, {
             position: "top-center",
             duration: 3000,
           });
+
+          navigate("/home");
+        } else {
+          const backendError = response.payload.msg;
+
+          if (Array.isArray(backendError)) {
+            setError(backendError);
+          } else {
+            toast.error(backendError || "Registration failed.", {
+              position: "top-center",
+              duration: 3000,
+            });
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      console.error("Registration error:", error);
+    } finally {
+      isLoadingRef.current = false;
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -305,18 +318,19 @@ function SignUp() {
             <div className="mt-10 flex items-center justify-between">
               <div className="flex flex-col items-start text-sm lg:flex-row lg:items-center">
                 Already an User?
-                <a
-                  onClick={() => navigate("/login")}
+                <Link
+                  to="/login"
                   className="group cursor-pointer text-gray-600 hover:text-gray-400 lg:mx-2"
                 >
                   Login Here!
                   <hr className="h-0.5 w-0 bg-black transition-all duration-500 group-hover:w-full" />
-                </a>
+                </Link>
               </div>
 
               <button
                 className="rounded-xl bg-black px-9 py-3 text-sm font-bold text-white shadow-[0px_0px_14px_6px_#ffffff1f] transition-all hover:opacity-70 active:scale-95"
                 type="submit"
+                disabled={isLoading}
               >
                 SignUP
               </button>

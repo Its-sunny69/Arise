@@ -112,7 +112,15 @@ function WorldRank() {
         </div>
 
         <div className="pointer-events-none col-span-1 flex items-center justify-center lg:col-span-3 lg:justify-end">
-          <img src={RankPhone} alt="Rank Phone" className="h-auto w-72" />
+          <img
+            src={RankPhone}
+            alt="Rank Phone"
+            width={288}
+            height={576}
+            loading="lazy"
+            decoding="async"
+            className="h-auto w-72"
+          />
         </div>
       </div>
 

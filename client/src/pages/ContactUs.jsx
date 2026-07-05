@@ -33,7 +33,15 @@ function ContactUs() {
 
       <div className="my-20 grid grid-cols-1 gap-y-4 lg:grid-cols-2 lg:gap-4">
         <div className="pointer-events-none col-span-1 flex items-center justify-center">
-          <img src={GirlOnCall} alt="" className="h-auto w-96" />
+          <img
+            src={GirlOnCall}
+            alt=""
+            width={384}
+            height={480}
+            loading="lazy"
+            decoding="async"
+            className="h-auto w-96"
+          />
         </div>
 
         <div className="col-span-1 flex flex-col items-start justify-between overflow-hidden rounded-xl border-2 border-white bg-white/50 shadow-[0px_0px_14px_6px_#ffffff3b] backdrop-blur-lg">
@@ -49,6 +57,7 @@ function ContactUs() {
               <a
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=dynamosdev0@gmail.com"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="group flex min-w-0 items-center justify-start break-words underline-offset-2 hover:underline"
               >
                 <img src={EmailSvg} alt="" className="mr-6 w-5" />
@@ -61,6 +70,7 @@ function ContactUs() {
               <a
                 href="https://x.com/dynamos_dev"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="group flex min-w-0 items-center justify-start break-words underline-offset-2 hover:underline"
               >
                 <img src={TwitterSvg} alt="" className="mr-4 w-7" />

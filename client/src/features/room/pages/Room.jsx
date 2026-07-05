@@ -5,14 +5,8 @@ import { useSocket } from "../../../context/Socket";
 import RoomCard from "../components/RoomCard";
 import JoinCard from "../components/JoinCard";
 import { useRef } from "react";
-import { TypeAnimation } from "react-type-animation";
 import { Fade } from "react-awesome-reveal";
-import SyncRoundedIcon from "@mui/icons-material/SyncRounded";
-import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
-import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import { Skeleton } from "@mui/material";
-import ShinyText from "../../../shared/components/ShinyText";
 import { timeAgo } from "../../../shared/utils/timeAgo";
 import {
   getCreatedRooms,
@@ -23,17 +17,12 @@ import {
 } from "../roomSlice";
 import GradientButton from "@/shared/components/GradientButton";
 import {
-  ComputerBackground,
   GirlJoiningHands,
-  RankFeature1,
-  RankFeature2,
-  RankFeature3,
   RoomFeature1,
   RoomFeature2,
   RoomFeature3,
   RoomFeature4,
 } from "@/assets/images";
-import { compute } from "three/src/nodes/gpgpu/ComputeNode";
 import CardScroll from "@/shared/components/CardScroll";
 
 function Room() {

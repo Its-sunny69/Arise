@@ -116,7 +116,15 @@ function Home() {
           </div>
 
           <div className="pointer-events-none z-0 col-span-1 flex items-center justify-center lg:justify-end">
-            <img src={Phone2} alt="" className="h-auto w-72" />
+            <img
+              src={Phone2}
+              alt=""
+              width={288}
+              height={576}
+              loading="eager"
+              decoding="async"
+              className="h-auto w-72"
+            />
           </div>
         </div>
 
@@ -135,6 +143,10 @@ function Home() {
             <img
               src={ComputerBackground}
               alt="Home Page"
+              width={1200}
+              height={800}
+              loading="lazy"
+              decoding="async"
               className="rounded-lg"
               style={{
                 WebkitMaskImage:

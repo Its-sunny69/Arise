@@ -52,16 +52,16 @@ function Landing() {
     <div ref={ref} className="relative min-h-screen w-full">
       <div className="bg-gradient inner-shadow-bg absolute z-[-1] flex h-screen w-full items-center justify-center"></div>
 
-      <div className="sticky top-0 z-10 flex items-center justify-center">
+      <nav className="sticky top-0 z-10 flex items-center justify-center">
         {phoneView ? (
           <LandingPagePhoneNavbar yProgress={yProgress} />
         ) : (
           <LandingPageNavbar yProgress={yProgress} />
         )}
-      </div>
+      </nav>
 
-      <div className="hero mx-auto px-3 py-14 font-body text-lg lg:w-[85%] lg:px-20">
-        <div>
+      <main className="hero mx-auto px-3 py-14 font-body text-lg lg:w-[85%] lg:px-20">
+        <section>
           <div className="flex flex-col items-center justify-center">
             <div className="mx-auto">
               <AnimatedLogoSvg />
@@ -92,9 +92,9 @@ function Landing() {
               onClick={() => navigate("/login")}
             />
           </div>
-        </div>
+        </section>
 
-        <div className="my-32 scroll-m-20" id="features">
+        <section className="my-32 scroll-m-20" id="features">
           <h2 className="text-center font-title text-3xl font-bold md:text-4xl lg:text-5xl">
             Features
           </h2>
@@ -117,6 +117,11 @@ function Landing() {
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
                   src={FeatureTask}
+                  alt="Arise task management feature preview"
+                  loading="lazy"
+                  decoding="async"
+                  width="1200"
+                  height="800"
                   className="h-full w-full object-cover object-left lg:object-center"
                   style={{
                     WebkitMaskImage:
@@ -136,6 +141,11 @@ function Landing() {
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
                   src={FeatureRoom}
+                  alt="Arise room collaboration feature preview"
+                  loading="lazy"
+                  decoding="async"
+                  width="1000"
+                  height="800"
                   className="h-full w-full object-cover object-left lg:object-top"
                   style={{
                     WebkitMaskImage:
@@ -170,6 +180,11 @@ function Landing() {
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
                   src={FeatureRoomPage}
+                  alt="Arise shared room workspace preview"
+                  loading="lazy"
+                  decoding="async"
+                  width="1400"
+                  height="800"
                   className="h-full w-full object-cover object-left-top"
                   style={{
                     WebkitMaskImage:
@@ -214,6 +229,11 @@ function Landing() {
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
                   src={FeatureRoomChat}
+                  alt="Arise team chat feature preview"
+                  loading="lazy"
+                  decoding="async"
+                  width="1000"
+                  height="800"
                   className="h-full w-full object-cover object-left lg:object-top"
                   style={{
                     WebkitMaskImage:
@@ -259,7 +279,12 @@ function Landing() {
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
                   src={FeatureRank}
+                  loading="lazy"
+                  decoding="async"
+                  width="1200"
+                  height="800"
                   className="h-full w-full object-cover object-left-top"
+                  alt="Arise leaderboard feature preview"
                   style={{
                     WebkitMaskImage:
                       "linear-gradient(to bottom, black 0%, transparent 60%)",
@@ -274,9 +299,9 @@ function Landing() {
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="my-32 scroll-m-20" id="about">
+        <section className="my-32 scroll-m-20" id="about">
           <h2 className="text-center font-title text-3xl font-bold md:text-4xl lg:text-5xl">
             About Us
           </h2>
@@ -302,7 +327,10 @@ function Landing() {
                   delay: 2500,
                   disableOnInteraction: true,
                 }}
-                pagination={{ clickable: true }}
+                pagination={{
+                  clickable: true,
+                  bulletClass: "swiper-pagination-bullet-custom",
+                  bulletActiveClass: "swiper-pagination-bullet-active-custom",}}
                 className="h-full w-full"
               >
                 <SwiperSlide>
@@ -324,7 +352,7 @@ function Landing() {
                     image={Inzamam}
                     linkedin="https://www.linkedin.com/in/inzamam-shaikh-189678284/"
                     github="https://github.com/Inzamamdev"
-                    portfolio="#"
+                    portfolio="https://github.com/Inzamamdev"
                     direction="col"
                   />
                 </SwiperSlide>
@@ -364,9 +392,9 @@ function Landing() {
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="my-32 scroll-m-20" id="contact">
+        <section className="my-32 scroll-m-20" id="contact">
           <h2 className="text-center font-title text-3xl font-bold md:text-4xl lg:text-5xl">
             Contact Us
           </h2>
@@ -395,9 +423,10 @@ function Landing() {
                   <a
                     href="https://mail.google.com/mail/?view=cm&fs=1&to=dynamosdev0@gmail.com"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="group flex min-w-0 items-center justify-start break-words underline-offset-2 hover:underline"
                   >
-                    <img src={EmailSvg} alt="" className="mr-6 w-4" />
+                    <img src={EmailSvg} alt="Email" loading="lazy" className="mr-6 w-6" />
                     <span className="min-w-0 transition-all group-hover:opacity-50 group-active:scale-95">
                       dynamosdev0@gmail.com
                     </span>
@@ -408,9 +437,10 @@ function Landing() {
                   <a
                     href="https://x.com/dynamos_dev"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="group flex min-w-0 items-center justify-start break-words underline-offset-2 hover:underline"
                   >
-                    <img src={TwitterSvg} alt="" className="mr-4 w-6" />
+                    <img src={TwitterSvg} alt="Twitter" loading="lazy" className="mr-4 w-8" />
                     <span className="min-w-0 transition-all group-hover:opacity-50 group-active:scale-95">
                       https://x.com/dynamos_dev
                     </span>
@@ -419,12 +449,12 @@ function Landing() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
 
-      <div className="relative m-3 flex min-h-[14rem] flex-col items-center justify-between overflow-hidden rounded-xl border-2 border-white bg-[#dadaeb]/50 p-4 text-xs text-subtext shadow-[0px_0px_14px_6px_#dadaeb69] backdrop-blur-lg md:text-sm lg:m-4">
+      <footer className="relative m-3 flex min-h-[14rem] flex-col items-center justify-between overflow-hidden rounded-xl border-2 border-white bg-[#dadaeb]/50 p-4 text-xs text-subtext shadow-[0px_0px_14px_6px_#dadaeb69] backdrop-blur-lg md:text-sm lg:m-4">
         <div
-          className="flex items-center justify-center font-title text-[8rem] font-bold leading-none text-[#9e9ac8] md:text-[10rem] lg:text-[14rem]"
+          className="flex items-center justify-center font-title text-[8rem] font-bold leading-none text-[#54278f] md:text-[10rem] lg:text-[14rem]"
           style={{
             WebkitMaskImage:
               "linear-gradient(to bottom, black 0%, transparent 70%)",
@@ -447,7 +477,7 @@ function Landing() {
             Made with ❤️ by Dev Dynamos
           </a>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }

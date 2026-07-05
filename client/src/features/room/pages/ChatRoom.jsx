@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { format, isToday, isThisWeek, isYesterday } from "date-fns";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import toast from "react-hot-toast";
+import { copyTextToClipboard } from "@/lib/utils";
 import RoomTodo from "../components/RoomTodo";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import { Skeleton, Stack } from "@mui/material";
@@ -124,17 +125,18 @@ const ChatRoom = () => {
     navigate("/room/create-join");
   };
 
-  const handleCopy = () => {
-    navigator.clipboard
-      .writeText(roomId)
-      .then(() => {
-        toast.success("ID copied to clipboard!", {
-          position: "top-center",
-        });
-      })
-      .catch((error) => {
-        console.error("Failed to copy text: ", error);
+  const handleCopy = async () => {
+    try {
+      await copyTextToClipboard(roomId);
+      toast.success("ID copied to clipboard!", {
+        position: "top-center",
       });
+    } catch (error) {
+      console.error("Failed to copy text: ", error);
+      toast.error("Copy failed on this device.", {
+        position: "top-center",
+      });
+    }
   };
 
   const toggleModel = () => {
@@ -223,10 +225,10 @@ const ChatRoom = () => {
       ) : users.some((user) => user._id === profile) ? (
         <div className="relative">
           <div className="my-10 flex items-center justify-between">
-            <div className="rounded-lg bg-neutral-200 px-2 py-1 text-sm font-bold">
+            <div className="rounded-lg bg-neutral-200 px-2 py-1 text-sm font-bold flex items-center gap-2">
               Room ID: {roomData?.roomId}
               <button
-                className="mx-2 transition-all hover:opacity-60 active:scale-95"
+                className="transition-all hover:opacity-60 active:scale-95"
                 onClick={handleCopy}
               >
                 <img src={CopySvg} className="w-4" />
@@ -263,7 +265,7 @@ const ChatRoom = () => {
                       <ul className="flex flex-col items-center md:flex-row">
                         {users.length ? (
                           <>
-                            {users.length > 1 && <li>{users[1]?.username}</li>}
+                            {users.length > 1 ? <li>{users[1]?.username}</li> : <li>No one yet</li>}
 
                             {users.length > 2 && (
                               <>

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../features/auth/authSlice";
 import "@material/web/textfield/filled-text-field";
 import { toast } from "react-hot-toast";
@@ -20,6 +20,8 @@ function Login() {
   });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
+  const [isLoading, setIsLoading] = useState(false);
+  const isLoadingRef = useRef(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -70,36 +72,50 @@ function Login() {
     e.preventDefault();
     setError(null);
 
+    if (isLoadingRef.current || isLoading) return;
+
+    console.log("login button clicked");
+
     const errors = validateInputfields();
     if (Object.keys(errors).length > 0) {
       setInputErrors(errors);
       return;
     }
 
-    dispatch(login(userData)).then((response) => {
-      const isFulfilled = response.meta?.requestStatus === "fulfilled";
-      const token = response.payload?.token;
+    try {
+      isLoadingRef.current = true;
+      setIsLoading(true);
 
-      if (isFulfilled && token) {
-        toast.success(`Login Successfully`, {
-          position: "top-center",
-          duration: 3000,
-        });
+      await dispatch(login(userData)).then((response) => {
+        const isFulfilled = response.meta?.requestStatus === "fulfilled";
+        const token = response.payload?.token;
 
-        navigate("/home");
-      } else {
-        const backendError = response.payload?.msg;
-
-        if (Array.isArray(backendError)) {
-          setError(backendError);
-        } else {
-          toast.error(backendError || "Login failed", {
+        if (isFulfilled && token) {
+          toast.success(`Login Successfully`, {
             position: "top-center",
             duration: 3000,
           });
+
+          navigate("/home");
+        } else {
+          const backendError = response.payload?.msg;
+
+          if (Array.isArray(backendError)) {
+            setError(backendError);
+          } else {
+            toast.error(backendError || "Login failed", {
+              position: "top-center",
+              duration: 3000,
+            });
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      console.error("Login error:", error);
+    } finally {
+      isLoadingRef.current = false;
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -196,18 +212,19 @@ function Login() {
             <div className="mt-10 flex items-center justify-between">
               <div className="flex flex-col items-start text-sm lg:flex-row lg:items-center">
                 New User?
-                <a
-                  onClick={() => navigate("/signup")}
+                <Link
+                  to="/signup"
                   className="group cursor-pointer text-gray-600 hover:text-gray-400 lg:mx-2"
                 >
                   Register Here!
                   <hr className="h-0.5 w-0 bg-black transition-all duration-500 group-hover:w-full" />
-                </a>
+                </Link>
               </div>
 
               <button
                 className="rounded-xl bg-black px-9 py-3 text-sm font-bold text-white shadow-[0px_0px_14px_6px_#ffffff1f] transition-all hover:opacity-70 active:scale-95"
                 type="submit"
+                disabled={isLoading}
               >
                 Login
               </button>

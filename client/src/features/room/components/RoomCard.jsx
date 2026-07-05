@@ -3,6 +3,7 @@ import { useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 import { Clock, Copy, Delete, People } from "@/assets/icons";
+import { copyTextToClipboard } from "@/lib/utils";
 
 const RoomCard = forwardRef(
   ({ room, timeAgo, handleCreatedRoomClick, handleRoomDelete }, ref) => {
@@ -16,17 +17,18 @@ const RoomCard = forwardRef(
       },
     }));
 
-    const handleCopy = () => {
-      navigator.clipboard
-        .writeText(room.roomId)
-        .then(() => {
-          toast.success("ID copied to clipboard!", {
-            position: "top-center",
-          });
-        })
-        .catch((error) => {
-          console.error("Failed to copy text: ", error);
+    const handleCopy = async () => {
+      try {
+        await copyTextToClipboard(room.roomId);
+        toast.success("ID copied to clipboard!", {
+          position: "top-center",
         });
+      } catch (error) {
+        console.error("Failed to copy text: ", error);
+        toast.error("Copy failed on this device.", {
+          position: "top-center",
+        });
+      }
     };
 
     return (
