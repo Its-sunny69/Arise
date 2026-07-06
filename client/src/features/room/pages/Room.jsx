@@ -24,6 +24,8 @@ import {
   RoomFeature4,
 } from "@/assets/images";
 import CardScroll from "@/shared/components/CardScroll";
+import "@/shared/styles/CSS/room/room.css";
+import "@/shared/styles/CSS/common.css";
 
 function Room() {
   const dispatch = useDispatch();

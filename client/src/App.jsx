@@ -1,25 +1,30 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import "./App.css";
-import Home from "./pages/Home";
 import { useDispatch, useSelector } from "react-redux";
-import CreateJoinRoom from "./features/room/pages/CreateJoinRoom";
-import ChatRoom from "./features/room/pages/ChatRoom";
 import { SocketProvider } from "./context/Socket";
-import Login from "./features/auth/pages/Login";
-import SignUp from "./features/auth/pages/SignUp";
 import { Toaster } from "react-hot-toast";
-import TaskList from "./features/todo/pages/TaskList";
-import Room from "./features/room/pages/Room";
-import RoomLayout from "./features/room/Layout/RoomLayout";
-import WorldRank from "./pages/WorldRank";
-import AboutUs from "./pages/AboutUs";
-import ContactUs from "./pages/ContactUs";
-import Layout from "./shared/components/Layout";
+import "./App.css";
 import Landing from "./pages/Landing";
-import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 import { fetchUser } from "./features/auth/authSlice";
 import SEO from "./shared/components/SEO";
+
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./features/auth/pages/Login"));
+const SignUp = lazy(() => import("./features/auth/pages/SignUp"));
+const CreateJoinRoom = lazy(() =>
+  import("./features/room/pages/CreateJoinRoom"),
+);
+const ChatRoom = lazy(() => import("./features/room/pages/ChatRoom"));
+const TaskList = lazy(() => import("./features/todo/pages/TaskList"));
+const Room = lazy(() => import("./features/room/pages/Room"));
+const RoomLayout = lazy(() => import("./features/room/Layout/RoomLayout"));
+const WorldRank = lazy(() => import("./pages/WorldRank"));
+const AboutUs = lazy(() => import("./pages/AboutUs"));
+const ContactUs = lazy(() => import("./pages/ContactUs"));
+const Layout = lazy(() => import("./shared/components/Layout"));
+const ProtectedRoute = lazy(() =>
+  import("./features/auth/components/ProtectedRoute"),
+);
 
 function App() {
   const dispatch = useDispatch();
@@ -37,26 +42,28 @@ function App() {
       <BrowserRouter>
         <SEO />
         <SocketProvider>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+          <Suspense fallback={null}>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
 
-            <Route element={<ProtectedRoute />}>
-              <Route element={<Layout />}>
-                <Route path="/home" element={<Home />} />
-                <Route path="/task-list" element={<TaskList />} />
-                <Route path="/room" element={<RoomLayout />}>
-                  <Route index element={<Room />} />
-                  <Route path="create-join" element={<CreateJoinRoom />} />
-                  <Route path="chat/:roomId" element={<ChatRoom />} />
+              <Route element={<ProtectedRoute />}>
+                <Route element={<Layout />}>
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/task-list" element={<TaskList />} />
+                  <Route path="/room" element={<RoomLayout />}>
+                    <Route index element={<Room />} />
+                    <Route path="create-join" element={<CreateJoinRoom />} />
+                    <Route path="chat/:roomId" element={<ChatRoom />} />
+                  </Route>
+                  <Route path="/world-rank" element={<WorldRank />} />
+                  <Route path="/aboutus" element={<AboutUs />} />
+                  <Route path="/contactus" element={<ContactUs />} />
                 </Route>
-                <Route path="/world-rank" element={<WorldRank />} />
-                <Route path="/aboutus" element={<AboutUs />} />
-                <Route path="/contactus" element={<ContactUs />} />
               </Route>
-            </Route>
-          </Routes>
+            </Routes>
+          </Suspense>
         </SocketProvider>
       </BrowserRouter>
     </>

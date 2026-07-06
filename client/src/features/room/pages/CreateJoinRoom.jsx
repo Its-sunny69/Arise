@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import GradientButton from "@/shared/components/GradientButton";
 import { GirlInChatRoom, GirlJoiningChat } from "@/assets/images";
+import "@/shared/styles/CSS/common.css";
 
 const CreateJoinRoom = () => {
   const socket = useSocket();

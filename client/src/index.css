@@ -1,13 +1,13 @@
-@import "./shared/styles/fonts/clash-display.css";
-@import "./shared/styles/fonts/merriweather-sans.css";
-@import "./shared/styles/fonts/clinton.css";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: "Clinton", sans-serif;
+}
 
 /* @layer base {
   :root {

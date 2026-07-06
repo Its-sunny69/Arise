@@ -1,6 +1,7 @@
 import ShinyText from "../shared/components/ShinyText";
 import { EmailSvg, TwitterSvg } from "@/assets/icons";
 import { GirlOnCall } from "@/assets/images";
+import "@/shared/styles/CSS/common.css";
 
 function ContactUs() {
   return (

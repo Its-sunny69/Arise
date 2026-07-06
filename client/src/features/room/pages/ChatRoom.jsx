@@ -12,6 +12,8 @@ import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoub
 import { Skeleton, Stack } from "@mui/material";
 import { Admin, Cancel, Logout, People, Send, CopySvg, Chat } from "@/assets/icons";
 import GradientButton from "@/shared/components/GradientButton";
+import "@/shared/styles/CSS/room/chatRoom.css";
+import "@/shared/styles/CSS/common.css";
 
 const ChatRoom = () => {
   const socket = useSocket();

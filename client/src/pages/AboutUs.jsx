@@ -13,6 +13,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Inzamam, Sunny } from "@/assets/images";
 import TeamCard from "@/shared/components/TeamCard";
+import "@/shared/styles/CSS/common.css";
 
 function AboutUs() {
   return (

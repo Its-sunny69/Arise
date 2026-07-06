@@ -11,6 +11,8 @@ import {
   RankPhone,
 } from "@/assets/images";
 import GradientButton from "@/shared/components/GradientButton";
+import "@/shared/styles/CSS/worldRank.css";
+import "@/shared/styles/CSS/common.css";
 
 function WorldRank() {
   const [ranking, setRanking] = useState([]);

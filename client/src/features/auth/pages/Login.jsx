@@ -6,6 +6,7 @@ import "@material/web/textfield/filled-text-field";
 import { toast } from "react-hot-toast";
 import Logo from "../../../shared/components/Logo";
 import { Hide, See } from "@/assets/icons";
+import "@/shared/styles/CSS/common.css";
 
 function Login() {
   const [userData, setUserData] = useState({

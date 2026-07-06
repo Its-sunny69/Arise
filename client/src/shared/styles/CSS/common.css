@@ -1,0 +1,85 @@
+.gradient-bg {
+  background:
+    radial-gradient(at 20% 30%, #e6edf6 0%, transparent 60%),
+    radial-gradient(at 80% 20%, #f2e7e2 0%, transparent 60%),
+    radial-gradient(at 70% 80%, #c7d4ea 0%, transparent 65%),
+    radial-gradient(at 30% 70%, #d9e3f2 0%, transparent 65%),
+    linear-gradient(135deg, #f4f7fb, #dde6f3);
+}
+
+.gradient-animated-text {
+  background: linear-gradient(
+    270deg,
+    #c7d2fe,
+    #818cf8,
+    #6366f1,
+    #7c3aed,
+    #a5b4fc
+  );
+  background-size: 400% 400%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: ariseGradientMove 10s ease infinite;
+}
+
+.gradient-animated-text-wrong {
+  background: linear-gradient(
+    270deg,
+    #fee2e2,
+    #fca5a5,
+    #f87171,
+    #ef4444,
+    #fecaca
+  );
+  background-size: 400% 400%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: ariseGradientMove 10s ease infinite;
+}
+
+@keyframes ariseGradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-animated-arise {
+  background: linear-gradient(
+    270deg,
+    #c8eeff,
+    /* soft cyan glow */ #bae6fd,
+    #7dd3fc,
+    #818cf8,
+    /* indigo core */ #6366f1,
+    #8b5cf6,
+    /* violet touch */ #c4b5fd
+  );
+  background-size: 400% 400%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: ariseGradientMoveV2 10s ease infinite;
+}
+
+@keyframes ariseGradientMoveV2 {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

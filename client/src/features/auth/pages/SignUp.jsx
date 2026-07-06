@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import Logo from "../../../shared/components/Logo";
 import { Hide, See } from "@/assets/icons";
+import "@/shared/styles/CSS/common.css";
 
 function SignUp() {
   const [userData, setUserData] = useState({

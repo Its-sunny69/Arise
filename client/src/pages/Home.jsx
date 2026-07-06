@@ -14,6 +14,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import GradientButton from "../shared/components/GradientButton";
 import CardScroll from "@/shared/components/CardScroll";
 import { ProfileLottie, CrownLottie } from "../assets/icons";
+import "@/shared/styles/CSS/common.css";
 
 function Home() {
   const navigate = useNavigate();
