@@ -438,6 +438,7 @@ function Landing() {
                     href="https://x.com/dynamos_dev"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Follow us on Twitter"
                     className="group flex min-w-0 items-center justify-start break-words underline-offset-2 hover:underline"
                   >
                     <img src={TwitterSvg} alt="Twitter" loading="lazy" className="mr-4 w-8" />
@@ -471,7 +472,10 @@ function Landing() {
           All rights reserved &copy; 2026&nbsp;
           <span className="hidden lg:inline">|</span>&nbsp;
           <a
-            href="/about"
+            href="https://x.com/dynamos_dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow us on Twitter"
             className="transition-all hover:underline hover:opacity-70"
           >
             Made with ❤️ by Dev Dynamos

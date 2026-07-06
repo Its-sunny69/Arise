@@ -59,9 +59,10 @@ function ContactUs() {
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=dynamosdev0@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Email Us"
                 className="group flex min-w-0 items-center justify-start break-words underline-offset-2 hover:underline"
               >
-                <img src={EmailSvg} alt="" className="mr-6 w-5" />
+                <img src={EmailSvg} alt="Email" className="mr-6 w-5" />
                 <span className="min-w-0 transition-all group-hover:opacity-50 group-active:scale-95">
                   dynamosdev0@gmail.com
                 </span>
@@ -72,9 +73,10 @@ function ContactUs() {
                 href="https://x.com/dynamos_dev"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Follow us on Twitter"
                 className="group flex min-w-0 items-center justify-start break-words underline-offset-2 hover:underline"
               >
-                <img src={TwitterSvg} alt="" className="mr-4 w-7" />
+                <img src={TwitterSvg} alt="Twitter" className="mr-4 w-7" />
                 <span className="min-w-0 transition-all group-hover:opacity-50 group-active:scale-95">
                   https://x.com/dynamos_dev
                 </span>
