@@ -27,7 +27,7 @@ import TwitterSvg from "./twitter-svg.svg";
 import GitHubSvg from "./github-svg.svg";
 import LinkedInSvg from "./linkedin-svg.svg";
 import LinkSvg from "./link.svg";
-import ProfileSvg from "./Profile.svg";
+import ProfileSvg from "./profile.svg";
 import CrownSvg from "./crown.svg";
 import ChatSvg from "./chat.svg";
 
