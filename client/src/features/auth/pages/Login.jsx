@@ -75,8 +75,6 @@ function Login() {
 
     if (isLoadingRef.current || isLoading) return;
 
-    console.log("login button clicked");
-
     const errors = validateInputfields();
     if (Object.keys(errors).length > 0) {
       setInputErrors(errors);
