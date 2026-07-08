@@ -9,6 +9,7 @@ export default function Logo({ className = "", alt = "arise" }) {
       className={className}
       role="img"
       aria-label={alt}
+      loading="eager"
     >
       <defs>
         <clipPath id="logo-clip" clipPathUnits="userSpaceOnUse">

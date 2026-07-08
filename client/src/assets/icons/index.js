@@ -22,14 +22,14 @@ import Hide from "./hide.svg";
 import Loading from "./loading.svg";
 import SendSvg from "./send-svg.svg";
 import CopySvg from "./copy-svg.svg";
-import Chat from "./Chat.lottie"
 import EmailSvg from "./email-svg.svg";
 import TwitterSvg from "./twitter-svg.svg";
-import ProfileLottie from "./profile.lottie";
-import CrownLottie from "./crown.lottie";
 import GitHubSvg from "./github-svg.svg";
 import LinkedInSvg from "./linkedin-svg.svg";
 import LinkSvg from "./link.svg";
+import ProfileSvg from "./Profile.svg";
+import CrownSvg from "./crown.svg";
+import ChatSvg from "./chat.svg";
 
 export {
   Home,
@@ -56,12 +56,12 @@ export {
   Loading,
   SendSvg,
   CopySvg,
-  Chat,
   EmailSvg,
   TwitterSvg,
-  ProfileLottie,
-  CrownLottie,
   GitHubSvg,
   LinkedInSvg,
-  LinkSvg
+  LinkSvg,
+  ProfileSvg,
+  CrownSvg,
+  ChatSvg,
 };

@@ -4,13 +4,12 @@ import { useSocket } from "../../../context/Socket";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { format, isToday, isThisWeek, isYesterday } from "date-fns";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import toast from "react-hot-toast";
 import { copyTextToClipboard } from "@/lib/utils";
 import RoomTodo from "../components/RoomTodo";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import { Skeleton, Stack } from "@mui/material";
-import { Admin, Cancel, Logout, People, Send, CopySvg, Chat } from "@/assets/icons";
+import { Admin, Cancel, Logout, People, Send, CopySvg, ChatSvg } from "@/assets/icons";
 import GradientButton from "@/shared/components/GradientButton";
 import "@/shared/styles/CSS/room/chatRoom.css";
 import "@/shared/styles/CSS/common.css";
@@ -362,12 +361,7 @@ const ChatRoom = () => {
           {/* chat */}
           <div className="fixed bottom-2 right-6 w-fit transition-all hover:scale-105 hover:opacity-70 active:scale-95 sm:bottom-5 sm:right-10">
             <button onClick={toggleChat}>
-              <DotLottieReact
-                src={Chat}
-                loop
-                autoplay
-                style={{ width: 55, height: 55 }}
-              />
+              <img src={ChatSvg} alt="Chat" className="w-14" />
             </button>
           </div>
 

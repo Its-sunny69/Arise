@@ -98,7 +98,10 @@ function AboutUs() {
               delay: 2500,
               disableOnInteraction: true,
             }}
-            pagination={{ clickable: true }}
+            pagination={{
+                  clickable: true,
+                  bulletClass: "swiper-pagination-bullet-custom",
+                  bulletActiveClass: "swiper-pagination-bullet-active-custom",}}
             className="h-full w-full"
           >
             <SwiperSlide>

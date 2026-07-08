@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ShinyText from "../shared/components/ShinyText";
 import { useSelector } from "react-redux";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
   ComputerBackground,
   HomeFeature1,
@@ -13,7 +12,7 @@ import {
 import { motion, useScroll, useTransform } from "motion/react";
 import GradientButton from "../shared/components/GradientButton";
 import CardScroll from "@/shared/components/CardScroll";
-import { ProfileLottie, CrownLottie } from "../assets/icons";
+import { CrownSvg, ProfileSvg } from "../assets/icons";
 import "@/shared/styles/CSS/common.css";
 
 function Home() {
@@ -60,29 +59,18 @@ function Home() {
       ref={containerRef}
     >
       <div className="top-0 z-10 flex items-center justify-between border-b-2 border-white px-3 py-2 backdrop-blur-xl md:sticky md:px-6 md:py-3">
-        <div className="flex items-center justify-center font-semibold tracking-wider">
-          <div>
-            <DotLottieReact
-              src={ProfileLottie}
-              loop
-              autoplay
-              style={{ width: 70, height: 70 }}
-            />
-          </div>
-          <span className="text-lg font-bold capitalize md:text-xl">
+        <div className="flex items-center justify-center gap-2 font-semibold tracking-wider">
+          <img src={ProfileSvg} alt="Profile" className="w-8" />
+
+          <p className="text-lg font-bold capitalize md:text-xl">
             {user.username}
-          </span>
+          </p>
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center justify-center">
-            <DotLottieReact
-              src={CrownLottie}
-              loop
-              autoplay
-              style={{ width: 50, height: 50 }}
-            />
-            <span className="text-lg font-bold md:text-xl">{user.points}</span>
+          <div className="flex items-center justify-center gap-2">
+            <img src={CrownSvg} alt="Crown" className="w-8" />
+            <p className="text-lg font-bold md:text-xl">{user.points}</p>
           </div>
         </div>
       </div>
