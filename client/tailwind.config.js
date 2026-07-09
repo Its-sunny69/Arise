@@ -32,10 +32,7 @@ export default {
       },
       fontFamily: {
         title: ["ClashDisplay-Variable"],
-        body: [
-          // "MerriweatherSans-Variable", 
-          "Clinton"
-        ],
+        body: ["Clinton"],
       },
       colors: {
         text: "#0C0C0C",

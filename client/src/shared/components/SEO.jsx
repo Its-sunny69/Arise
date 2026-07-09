@@ -119,7 +119,7 @@ function SEO() {
       tag: "meta",
       attrName: "property",
       attrValue: "og:image",
-      content: `${siteUrl}/og-image.png`,
+      content: `${siteUrl}/og-image.webp`,
     });
     setMetaTag({
       tag: "meta",
@@ -149,7 +149,7 @@ function SEO() {
       tag: "meta",
       attrName: "name",
       attrValue: "twitter:image",
-      content: `${siteUrl}/og-image.png`,
+      content: `${siteUrl}/og-image.webp`,
     });
     setMetaTag({
       tag: "meta",
