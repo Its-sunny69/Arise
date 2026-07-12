@@ -12,6 +12,7 @@ import Layout from "./shared/components/Layout";
 import PageLoading from "./shared/components/PageLoading";
 import Login from "./features/auth/pages/Login";
 import SignUp from "./features/auth/pages/SignUp";
+import RoomLayout from "./features/room/Layout/RoomLayout";
 
 const Home = lazy(() => import("./pages/Home"));
 const CreateJoinRoom = lazy(
@@ -20,7 +21,6 @@ const CreateJoinRoom = lazy(
 const ChatRoom = lazy(() => import("./features/room/pages/ChatRoom"));
 const TaskList = lazy(() => import("./features/todo/pages/TaskList"));
 const Room = lazy(() => import("./features/room/pages/Room"));
-const RoomLayout = lazy(() => import("./features/room/Layout/RoomLayout"));
 const WorldRank = lazy(() => import("./pages/WorldRank"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));

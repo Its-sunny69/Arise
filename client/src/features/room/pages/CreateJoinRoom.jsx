@@ -10,20 +10,9 @@ import "@/shared/styles/CSS/common.css";
 const CreateJoinRoom = () => {
   const socket = useSocket();
   const [input, setInput] = useState({ joinRoom: "" });
-  const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
   const profile = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setPhoneView(window.innerWidth < 640);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const handleInput = (e) => {
     const { name, value } = e.target;

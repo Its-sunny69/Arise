@@ -1,4 +1,6 @@
+import PageLoading from "@/shared/components/PageLoading";
 import ShinyText from "@/shared/components/ShinyText";
+import { Suspense } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
 export default function RoomLayout() {
@@ -43,7 +45,9 @@ export default function RoomLayout() {
         </div>
       </div>
 
-      <Outlet />
+      <Suspense fallback={<PageLoading />}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 }

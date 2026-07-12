@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 import { motion } from "motion/react";
 import PhoneNavbar from "./PhoneNavbar";
+import PageLoading from "./PageLoading";
 
 function Layout() {
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
@@ -32,7 +33,9 @@ function Layout() {
       )}
 
       <div className="h-full w-full overflow-hidden">
-        <Outlet />
+        <Suspense fallback={<PageLoading />}>
+          <Outlet />
+        </Suspense>
       </div>
     </div>
   );

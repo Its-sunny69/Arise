@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../../context/Socket";
 import RoomCard from "../components/RoomCard";
 import JoinCard from "../components/JoinCard";
@@ -38,7 +38,6 @@ function Room() {
   const createdRoomRef = useRef();
   const joinRoomRef = useRef();
 
-  const [showRoomText, setShowRoomText] = useState(false);
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
   useEffect(() => {
@@ -49,13 +48,6 @@ function Room() {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowRoomText(true);
-    }, 1400);
-    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
