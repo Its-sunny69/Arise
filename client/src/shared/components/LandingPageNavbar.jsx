@@ -41,7 +41,7 @@ export default function LandingPageNavbar({ yProgress }) {
           </ul>
 
           <div className="col-span-2 flex items-center justify-end">
-            <GradientButton text="Login" onClick={() => navigate("/login")} />
+            <GradientButton text="Login" onClick={() => navigate("/login", { viewTransition: "true" })} />
           </div>
         </motion.div>
       ) : (
@@ -70,7 +70,7 @@ export default function LandingPageNavbar({ yProgress }) {
           <div className="col-span-2 flex items-center justify-end">
             <GradientButton
               text="Get Started"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/login", { viewTransition: "true" })}
             />
           </div>
         </motion.div>

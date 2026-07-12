@@ -118,7 +118,7 @@ function SignUp() {
             duration: 3000,
           });
 
-          navigate("/home");
+          navigate("/home", { viewTransition: "true" });
         } else {
           const backendError = response.payload.msg;
 

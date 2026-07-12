@@ -27,7 +27,7 @@ export default function PhoneNavbar() {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/login");
+    navigate("/login", { viewTransition: "true" });
   };
 
   return (

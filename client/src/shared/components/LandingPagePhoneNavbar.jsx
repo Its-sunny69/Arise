@@ -32,7 +32,7 @@ function LandingPagePhoneNavbar({ yProgress }) {
 
           <div className="flex gap-2">
             <div className="col-span-2 flex items-center justify-end">
-              <GradientButton text="Login" onClick={() => navigate("/login")} />
+              <GradientButton text="Login" onClick={() => navigate("/login", { viewTransition: "true" })} />
             </div>
 
             <div className="flex items-center justify-end transition-all duration-300">
@@ -138,7 +138,7 @@ function LandingPagePhoneNavbar({ yProgress }) {
 
           <div className="flex gap-2">
             <div className="col-span-2 flex items-center justify-end">
-              <GradientButton text="Login" onClick={() => navigate("/login")} />
+              <GradientButton text="Login" onClick={() => navigate("/login", { viewTransition: "true" })} />
             </div>
 
             <div className="flex items-center justify-end transition-all duration-300">

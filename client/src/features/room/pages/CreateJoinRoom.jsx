@@ -44,6 +44,7 @@ const CreateJoinRoom = () => {
 
         navigate(`/room/chat/${data.roomId}`, {
           state: { userName: data.userName },
+          viewTransition: "true",
         });
       }
     });
@@ -57,7 +58,7 @@ const CreateJoinRoom = () => {
     e.preventDefault();
     socket.emit("create-room", profile);
     socket.on("msg", (val) => {
-      navigate(`/room/chat/${val.id}`);
+      navigate(`/room/chat/${val.id}`, { viewTransition: "true" });
     });
     setInput({ ...input, userName: "", joinRoom: "" });
   };

@@ -3,6 +3,7 @@ import store from "./store.js";
 import { Provider } from "react-redux";
 import App from "./App.jsx";
 import "./index.css";
+import { BrowserRouter } from "react-router-dom";
 
 const loadDeferredFonts = () => import("./deferred-fonts.css");
 
@@ -11,7 +12,9 @@ const root = document.getElementById("root");
 const renderApp = () => {
   createRoot(root).render(
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>,
   );
 };

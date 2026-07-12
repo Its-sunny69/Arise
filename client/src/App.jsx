@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SocketProvider } from "./context/Socket";
 import { Toaster } from "react-hot-toast";
@@ -7,12 +7,15 @@ import "./App.css";
 import Landing from "./pages/Landing";
 import { fetchUser } from "./features/auth/authSlice";
 import SEO from "./shared/components/SEO";
+import ProtectedRoute from "./features/auth/components/ProtectedRoute";
+import Layout from "./shared/components/Layout";
+import PageLoading from "./shared/components/PageLoading";
+import Login from "./features/auth/pages/Login";
+import SignUp from "./features/auth/pages/SignUp";
 
 const Home = lazy(() => import("./pages/Home"));
-const Login = lazy(() => import("./features/auth/pages/Login"));
-const SignUp = lazy(() => import("./features/auth/pages/SignUp"));
-const CreateJoinRoom = lazy(() =>
-  import("./features/room/pages/CreateJoinRoom"),
+const CreateJoinRoom = lazy(
+  () => import("./features/room/pages/CreateJoinRoom"),
 );
 const ChatRoom = lazy(() => import("./features/room/pages/ChatRoom"));
 const TaskList = lazy(() => import("./features/todo/pages/TaskList"));
@@ -21,10 +24,6 @@ const RoomLayout = lazy(() => import("./features/room/Layout/RoomLayout"));
 const WorldRank = lazy(() => import("./pages/WorldRank"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
-const Layout = lazy(() => import("./shared/components/Layout"));
-const ProtectedRoute = lazy(() =>
-  import("./features/auth/components/ProtectedRoute"),
-);
 
 function App() {
   const dispatch = useDispatch();
@@ -39,33 +38,31 @@ function App() {
   return (
     <>
       <Toaster />
-      <BrowserRouter>
-        <SEO />
-        <SocketProvider>
-          <Suspense fallback={null}>
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
+      <SEO />
+      <SocketProvider>
+        <Suspense fallback={<PageLoading />}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
 
-              <Route element={<ProtectedRoute />}>
-                <Route element={<Layout />}>
-                  <Route path="/home" element={<Home />} />
-                  <Route path="/task-list" element={<TaskList />} />
-                  <Route path="/room" element={<RoomLayout />}>
-                    <Route index element={<Room />} />
-                    <Route path="create-join" element={<CreateJoinRoom />} />
-                    <Route path="chat/:roomId" element={<ChatRoom />} />
-                  </Route>
-                  <Route path="/world-rank" element={<WorldRank />} />
-                  <Route path="/aboutus" element={<AboutUs />} />
-                  <Route path="/contactus" element={<ContactUs />} />
+            <Route element={<ProtectedRoute />}>
+              <Route element={<Layout />}>
+                <Route path="/home" element={<Home />} />
+                <Route path="/task-list" element={<TaskList />} />
+                <Route path="/room" element={<RoomLayout />}>
+                  <Route index element={<Room />} />
+                  <Route path="create-join" element={<CreateJoinRoom />} />
+                  <Route path="chat/:roomId" element={<ChatRoom />} />
                 </Route>
+                <Route path="/world-rank" element={<WorldRank />} />
+                <Route path="/aboutus" element={<AboutUs />} />
+                <Route path="/contactus" element={<ContactUs />} />
               </Route>
-            </Routes>
-          </Suspense>
-        </SocketProvider>
-      </BrowserRouter>
+            </Route>
+          </Routes>
+        </Suspense>
+      </SocketProvider>
     </>
   );
 }

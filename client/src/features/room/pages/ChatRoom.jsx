@@ -28,7 +28,6 @@ const ChatRoom = () => {
   const messagesEndRef = useRef(null);
   const containerRef = useRef(null);
   const [showScrollDownButton, setShowScrollDownButton] = useState(false);
-  // const [isUserJoined, setIsUserJoined] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [phoneView, setPhoneView] = useState(window.innerWidth < 640);
 
@@ -75,7 +74,7 @@ const ChatRoom = () => {
     });
 
     socket.on("delete", () => {
-      navigate("/room/create-join");
+      navigate("/room/create-join", { viewTransition: "true" });
     });
 
     socket.emit("rejoin-room", profile, roomId);
@@ -123,7 +122,7 @@ const ChatRoom = () => {
 
   const handleLeaveRoom = () => {
     socket.emit("leave-room", profile, roomId);
-    navigate("/room/create-join");
+    navigate("/room/create-join", { viewTransition: "true" });
   };
 
   const handleCopy = async () => {

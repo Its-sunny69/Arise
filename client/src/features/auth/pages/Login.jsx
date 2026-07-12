@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../features/auth/authSlice";
-// import "@material/web/textfield/filled-text-field";
 import { toast } from "react-hot-toast";
 import Logo from "../../../shared/components/Logo";
 import { Hide, See } from "@/assets/icons";
@@ -95,7 +94,7 @@ function Login() {
             duration: 3000,
           });
 
-          navigate("/home");
+          navigate("/home", { viewTransition: "true" });
         } else {
           const backendError = response.payload?.msg;
 

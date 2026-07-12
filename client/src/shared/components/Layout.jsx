@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 import { motion } from "motion/react";

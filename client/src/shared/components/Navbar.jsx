@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   About,
   Contact,
@@ -15,6 +15,7 @@ import {
 import Logo from "./Logo";
 import { motion } from "motion/react";
 import { logout } from "@/features/auth/authSlice";
+import TransitionNavLink from "./TransitionNavLink";
 
 function Navbar() {
   const [isOpened, setIsOpened] = useState(true);
@@ -25,7 +26,7 @@ function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/login");
+    navigate("/login", { viewTransition: "true" });
   };
 
   return (
@@ -70,12 +71,11 @@ function Navbar() {
 
         <hr className="h-0.5 bg-neutral-200" />
 
-        <ul
-          className={`flex flex-col items-start justify-center gap-2 py-6`}
-        >
+        <ul className={`flex flex-col items-start justify-center gap-2 py-6`}>
           <li className={`${isOpened ? "w-full" : "w-fit"}`}>
-            <NavLink
+            <TransitionNavLink
               to="/home"
+              viewTransition
               className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
               style={({ isActive }) => ({
                 backgroundColor: isActive ? "#e7f3ff" : "",
@@ -92,12 +92,13 @@ function Navbar() {
                   Home
                 </motion.span>
               )}
-            </NavLink>
+            </TransitionNavLink>
           </li>
 
           <li className={`${isOpened ? "w-full" : "w-fit"}`}>
-            <NavLink
+            <TransitionNavLink
               to="/task-list"
+              viewTransition
               className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
               style={({ isActive }) => ({
                 backgroundColor: isActive ? "#e7f3ff" : "",
@@ -114,12 +115,13 @@ function Navbar() {
                   Task
                 </motion.span>
               )}
-            </NavLink>
+            </TransitionNavLink>
           </li>
 
           <li className={`${isOpened ? "w-full" : "w-fit"}`}>
-            <NavLink
+            <TransitionNavLink
               to="/room"
+              viewTransition
               className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
               style={({ isActive }) => ({
                 backgroundColor: isActive ? "#e7f3ff" : "",
@@ -136,12 +138,13 @@ function Navbar() {
                   Room
                 </motion.span>
               )}
-            </NavLink>
+            </TransitionNavLink>
           </li>
 
           <li className={`${isOpened ? "w-full" : "w-fit"}`}>
-            <NavLink
+            <TransitionNavLink
               to="/world-rank"
+              viewTransition
               className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
               style={({ isActive }) => ({
                 backgroundColor: isActive ? "#e7f3ff" : "",
@@ -158,12 +161,13 @@ function Navbar() {
                   Rank
                 </motion.span>
               )}
-            </NavLink>
+            </TransitionNavLink>
           </li>
 
           <li className={`${isOpened ? "w-full" : "w-fit"}`}>
-            <NavLink
+            <TransitionNavLink
               to="/aboutus"
+              viewTransition
               className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
               style={({ isActive }) => ({
                 backgroundColor: isActive ? "#e7f3ff" : "",
@@ -180,12 +184,13 @@ function Navbar() {
                   About
                 </motion.span>
               )}
-            </NavLink>
+            </TransitionNavLink>
           </li>
 
           <li className={`${isOpened ? "w-full" : "w-fit"}`}>
-            <NavLink
+            <TransitionNavLink
               to="/contactus"
+              viewTransition
               className={`flex items-center rounded-full ${isOpened ? "justify-start space-x-4 px-4 py-3" : "justify-center p-3"} text-sm text-gray-800 transition-all duration-300 hover:bg-[#e7f3ff] hover:opacity-80 active:scale-95`}
               style={({ isActive }) => ({
                 backgroundColor: isActive ? "#e7f3ff" : "",
@@ -202,7 +207,7 @@ function Navbar() {
                   Contact
                 </motion.span>
               )}
-            </NavLink>
+            </TransitionNavLink>
           </li>
         </ul>
 

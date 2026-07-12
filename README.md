@@ -135,6 +135,10 @@ Arise/
 
    ```bash
    npm start
+
+   OR 
+
+   npm start nodemon //to run with nodemon
    ```
 3. **Setup Frontend**
 

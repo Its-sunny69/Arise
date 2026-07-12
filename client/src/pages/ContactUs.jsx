@@ -41,7 +41,7 @@ function ContactUs() {
             height={480}
             loading="lazy"
             decoding="async"
-            className="h-auto w-96"
+            className="h-auto w-[22rem]"
           />
         </div>
 
